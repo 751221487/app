@@ -20,7 +20,6 @@ class SysinfoPlugin{
 				break;
 			default: break;
 		}
-		
 		$tmp = array('memTotal', 'memUsed', 'memFree', 'memPercent','memCached', 'memRealPercent','memCachedPercent','swapTotal', 'swapUsed', 'swapFree', 'swapPercent');
 		foreach ($tmp as $v) $sysInfo[$v] = $sysInfo[$v] ? $sysInfo[$v] : 0;
 		$result = array();

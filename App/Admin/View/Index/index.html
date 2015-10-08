@@ -20,7 +20,6 @@
 		<ul class="nav-right">
 			<li>
                 <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-other-house'" onclick="window.open('<{:U('/index')}>')">访问首页</a>
-                <a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-arrow-arrow_out'" onclick="$(body).requestFullScreen()">全屏</a>
                 <a href="javascript:;" class="easyui-splitbutton" data-options="menu:'#toparea-user-info-box',iconCls:'icons-user-user'"><{$userInfo.rolename}></a>
 				<a href="javascript:;" class="easyui-splitbutton" data-options="menu:'#toparea-help-box',iconCls:'icons-other-help'">帮助</a>
 				
@@ -34,13 +33,11 @@
 				</div>
 				
 				<div id="toparea-help-box">
-					<div onclick="$.messager.alert('问题反馈', '请发邮件到531381545@qq.com提交反馈，谢谢！', 'info');">问题反馈</div>
-					<div class="menu-sep"></div>
 					<div onclick="baseModule.clearCache()">更新缓存</div>
 					<div>
 						<span>切换主题</span>
 						<div id="toparea-help-theme-box">
-							<div onclick="baseModule.theme(this)" theme="default">系统默认</div>
+							<div onclick="baseModule.theme(this)" theme="default">default</div>
 							<div onclick="baseModule.theme(this)" theme="gray">Gray</div>
 							<div onclick="baseModule.theme(this)" theme="bootstrap">Bootstrap</div>
 							<div onclick="baseModule.theme(this)" theme="metro">Metro</div>
@@ -48,9 +45,6 @@
 					</div>
 					<div class="menu-sep"></div>
 					<div onclick="baseModule.systemInfo()">服务器信息</div>
-					<div onclick="$.messager.alert('关于', '版本号：<{:C('SYSTEM_VERSION')}><br /><br />联系QQ：531381545', 'info');">关于</div>
-					<div class="menu-sep"></div>
-					<div onclick="window.open('https://github.com/531381545/app')">Github获取地址</div>
 				</div>
 			</li>
 		</ul>

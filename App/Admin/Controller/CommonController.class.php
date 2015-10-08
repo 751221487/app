@@ -91,7 +91,7 @@ class CommonController extends Controller {
  			if($action == '' || strchr($action,'public') || (CONTROLLER_NAME =='Index' && in_array($action, array('login','code'))) ||  CONTROLLER_NAME =='Upload') {
 				return false;
 			}else {
-				$ip        = get_client_ip(0, true);
+				$ip        = get_client_ip(1, true);
 				$username  = cookie('username');
 				$userid    = session('userid');
 				$time      = date('Y-m-d H-i-s');

@@ -39,7 +39,7 @@ class IndexController extends CommonController {
 			}else{
 				$this->error($admin_db->error, HTTP_REFERER);
 			}
-			
+
 		}else {
 			$this->display();
 		}
@@ -171,16 +171,4 @@ class IndexController extends CommonController {
 		$this->success('正常登录');
 	}
 
-	/**
-	 * 捐赠
-	 */
-	public function public_donate(){
-		$file  = SITE_DIR . DS . 'donate.json';
-		if(file_exists($file)){
-			$content = file_get_contents($file);
-			exit(str_replace(array("\r", "\n", "\t"), '', $content));
-		}else{
-			$this->ajaxReturn(array('total'=>0, 'rows'=>array()));
-		}
-	}
 }
