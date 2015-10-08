@@ -24,27 +24,17 @@ text-shadow: 2px 2px 2px #0D0D0D, 0px 0px 5px #aaa;
 </style>
 </head>
 <body>
-<div class="easyui-dialog" title="用户登录" style="width:380px;height:280px" data-options="closable:false,iconCls:'icons-lock-lock',buttons:[{text:'登录',iconCls:'icons-user-user_go',handler:login}]">
+<div class="easyui-dialog" title="用户登录" style="width:380px;height:240px" data-options="closable:false,iconCls:'icons-lock-lock',buttons:[{text:'登录',iconCls:'icons-user-user_go',handler:login}]">
 	<div class="loginTitle" style="text-align: center; height: 55px; line-height: 55px;  ">业务管理系统</div>
 	<form id='form' method="post" style="margin-top: 20px;">
 		<div class="input">
 			<label for="username">用户名:</label>  
-			<input class="easyui-validatebox" type="text" name="username" value="wangdong" data-options="required:true,validType:{length:[2,20]},tipPosition:'bottom'"  />
+			<input class="easyui-validatebox" type="text" name="username" value="admin" data-options="required:true,validType:{length:[2,20]},tipPosition:'bottom'"  />
 		</div>
 		<div class="input">
 			<label for="password">密&nbsp;&nbsp;码:</label>  
-			<input class="easyui-validatebox" type="password" name="password" value="wangdong" data-options="required:true,validType:{length:[6,20]},tipPosition:'bottom'" />
+			<input class="easyui-validatebox" type="password" name="password" value="admin123" data-options="required:true,validType:{length:[6,20]},tipPosition:'bottom'" />
 		</div>
-		<present name="geetest">
-			<br  />
-			<php>echo $geetest->get_widget("float");</php>
-		<else /> 
-			<div class="input">
-				<label for="code">验证码:</label>  
-				<input class="easyui-validatebox" type="text" name="code" id="code" size="4" data-options="required:true,validType:{length:[4,4]},tipPosition:'bottom'" />
-				<span style="margin-left:10px"><img id="code_img" align="top" onclick="changeCode()" src="<{:U('Index/code?code_len=4&font_size=14&width=100&height=28&code='.time())}>" title="点击切换验证码"></span> 
-			</div>
-		</present>
 	</form> 
 </div>
 
@@ -68,7 +58,6 @@ function login(){
 		$.messager.progress('close');
 		if(!data.status){
 			$.app.method.tip('提示信息', data.info, 'error');
-			<notpresent name="geetest">changeCode();</notpresent>
 		}else{
 			window.location.href = data.url;
 		}

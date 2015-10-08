@@ -27,14 +27,6 @@ class IndexController extends CommonController {
 	 * 用户登录
 	 */
 	public function login(){
-		$geetest = new \Admin\Plugin\GeetestPlugin();
-		if($geetest->check_geetestStatus()){
-			$geetest->set_privatekey(C("GEETESTCODE.key"));
-			$geetest->set_captchaid(C("GEETESTCODE.id"));
-			if ($geetest->register()) {
-				$this->assign("geetest",$geetest);
-			}
-		}
 		
 		if (I('get.dosubmit')){
 			$admin_db = D('Admin');
@@ -42,25 +34,12 @@ class IndexController extends CommonController {
 			$username = I('post.username', '', 'trim') ? I('post.username', '', 'trim') : $this->error('用户名不能为空', HTTP_REFERER);
 			$password = I('post.password', '', 'trim') ? I('post.password', '', 'trim') : $this->error('密码不能为空', HTTP_REFERER);
 			
-			
-			if (isset($_POST['geetest_challenge']) && isset($_POST['geetest_validate']) && isset($_POST['geetest_seccode'])) {
-				$result = $geetest->validate($_POST['geetest_challenge'], $_POST['geetest_validate'], $_POST['geetest_seccode']);
-				if ($result == TRUE) {
-					if($admin_db->login($username, $password)){
-						$this->success('登录成功', U('Index/index'));
-					}else{
-						$this->error($admin_db->error, HTTP_REFERER);
-					}
-				} else if ($result == FALSE) {
-					$this->error('服务器验证错误!',HTTP_REFERER);
-				} else {
-					$this->error('服务器连接错误!',HTTP_REFERER);
-				}
-			} else {
-				//验证码判断
-				$code = I('post.code', '', 'trim') ? I('post.code', '', 'trim') : $this->error('请输入验证码', HTTP_REFERER);
-				if(!check_verify($code, 'admin')) $this->error('验证码错误！', HTTP_REFERER);
+			if($admin_db->login($username, $password)){
+				$this->success('登录成功', U('Index/index'));
+			}else{
+				$this->error($admin_db->error, HTTP_REFERER);
 			}
+			
 		}else {
 			$this->display();
 		}
