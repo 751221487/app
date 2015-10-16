@@ -290,122 +290,8 @@ class AdminController extends CommonController {
 		}
 	}
 	
-	
-	/**
-	 * 角色管理
-	 */
-	public function roleList($page = 1, $rows = 10, $sort = 'listorder', $order = 'asc'){
-		if(IS_POST){
-			$admin_role_db = D('AdminRole');
-			$total = $admin_role_db->count();
-			$order = $sort.' '.$order;
-			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $admin_role_db->field('*,roleid as id')->order($order)->limit($limit)->select();
-			if(!$list) $list = array();
-			$data = array('total'=>$total, 'rows'=>$list);
-			$this->ajaxReturn($data);
-		}else{
-			$menu_db = D('Menu');
-			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
-			$datagrid = array(
-				'options' => array(
-					'title'   => $currentpos,
-					'url'     => U('Admin/roleList', array('grid'=>'datagrid')),
-					'toolbar' => 'adminRoleModule.toolbar',
-				),
-				'fields' => array(
-					'排序'      => array('field'=>'listorder','width'=>5,'align'=>'center','formatter'=>'adminRoleModule.sort'),
-					'ID'     => array('field'=>'roleid','width'=>5,'align'=>'center','sortable'=>true),
-					'角色名称'  => array('field'=>'rolename','width'=>15,'sortable'=>true),
-					'角色描述'  => array('field'=>'description','width'=>25),
-					'状态'      => array('field'=>'disabled','width'=>15,'sortable'=>true,'formatter'=>'adminRoleModule.state'),
-					'管理操作'  => array('field'=>'id','width'=>20,'formatter'=>'adminRoleModule.operate'),
-				)
-			);
-			$this->assign('datagrid', $datagrid);
-			$this->display('role_list');
-		}
-	}
-	
-	/**
-	 * 添加角色
-	 */
-	public function roleAdd(){
-		if(IS_POST){
-			$admin_role_db = D('AdminRole');
-			$data = I('post.info');
-			if($admin_role_db->where(array('rolename'=>$data['rolename']))->field('rolename')->find()){
-				$this->error('角色名称已存在');
-			}
-			$id = $admin_role_db->add($data);
-			if($id){
-				$this->success('添加成功');
-			}else {
-				$this->error('添加失败');
-			}
-		}else{
-			$this->display('role_add');
-		}
-	}
-	
-	/**
-	 * 编辑角色
-	 */
-	public function roleEdit($id){
-		$admin_role_db = D('AdminRole');
-		if(IS_POST){
-			$data = I('post.info');
-			$id = $admin_role_db->where(array('roleid'=>$id))->save($data);
-			if($id){
-				$this->success('修改成功');
-			}else {
-				$this->error('修改失败');
-			}
-		}else{
-			$info = $admin_role_db->where(array('roleid'=>$id))->find();
-			$this->assign('info', $info);
-			$this->display('role_edit');
-		}
-	}
-	
-	/**
-	 * 删除角色
-	 */
-	public function roleDelete($id) {
-		if($id == '1') $this->error('该角色不能被删除');
 
-		$admin_db = D('Admin');
-		$count = $admin_db->where(array('roleid'=>$id))->count();
-		if($count) $this->error("该角色下面仍有 <b>{$count}</b> 个用户");
 
-		$admin_role_db = D('AdminRole');
-		$result = $admin_role_db->where(array('roleid'=>$id))->delete();
-		
-		$category_priv_db = M('category_priv');
-		$category_priv_db->where(array('roleid'=>$id))->delete();
-		
-		if ($result){
-			$this->success('删除成功');
-		}else {
-			$this->error('删除失败');
-		}
-	}
-	
-	/**
-	 * 角色排序
-	 */
-	public function roleOrder(){
-		if(IS_POST) {
-			$admin_role_db = D('AdminRole');
-			foreach(I('post.order') as $roleid=>$listorder) {
-				$admin_role_db->where(array('roleid'=>$roleid))->save(array('listorder'=>$listorder));
-			}
-			$this->success('操作成功');
-		} else {
-			$this->error('操作失败');
-		}
-	}
-	
 	/**
 	 * 权限设置
 	 */
@@ -550,4 +436,228 @@ class AdminController extends CommonController {
 			exit('true');
 		}
 	}
+
+	/**
+	 * 地区列表
+	 */
+	public function areaList(){
+		$area_db = D('Area');
+		$menu_db = D('Menu');
+		if(IS_POST){
+			$data = $area_db->getTree();
+			$this->ajaxReturn($data);
+		}else{
+			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
+			$treegrid = array(
+				'options'       => array(
+					'title'     => $currentpos,
+					'url'       => U('Admin/areaList', array('grid'=>'treegrid')),
+					'idField'   => 'id',
+					'treeField' => 'name',
+					'toolbar'   => 'adminAreaModule.toolbar',
+				),
+				'fields' => array(
+					'地区ID'    => array('field'=>'id','width'=>20,'align'=>'center'),
+					'地区名称' => array('field'=>'name','width'=>200),
+					'管理操作' => array('field'=>'operateid','width'=>80,'align'=>'center','formatter'=>'adminAreaModule.operate'),
+				)
+			);
+			$this->assign('treegrid', $treegrid);
+			$this->display('area_list');
+		}
+	}
+
+	/**
+	 * 添加地区
+	 */
+	public function areaAdd($parentid = 0){
+		if(IS_POST){
+			$area_db = D('Area');
+			$data = I('post.info');
+			$data['display'] = $data['display'] ? '1' : '0';
+			$id = $area_db->add($data);
+			if($id){
+				$area_db->clearCache();
+				$this->success('添加成功');
+			}else {
+				$this->error('添加失败');
+			}
+		}else{
+			$this->assign('parentid', $parentid);
+			$this->display('area_add');
+		}
+	}
+
+	/**
+	 * 验证地区名称是否已存在
+	 */
+	public function public_areaNameCheck($name){
+		if(I('get.default') == $name) {
+			exit('true');
+		}
+		
+		$area_db = D('Area');
+		$exists = $area_db->checkName($name);
+		if ($exists) {
+			exit('false');
+		}else{
+			exit('true');
+		}
+	}
+
+
+	/**
+	 * 地区下拉框
+	 */
+	public function public_areaSelectTree(){
+		$area_db = D('Area');
+		$data = $area_db->getSelectTree();
+		$data = array(0=>array('id'=>0,'text'=>'作为一级菜单','children'=>$data));
+		S('system_public_areaselecttree', $data);
+		$this->ajaxReturn($data);
+	}
+
+	/**
+	 * 编辑地区
+	 */
+	public function areaEdit($id = 0){
+		if(!$id) $this->error('未选择菜单');
+		$area_db = D('Area');
+		if(IS_POST){
+			$data = I('post.info');
+			if(!$area_db->checkParentId($id, $data['parentid'])){
+				$this->error('上级菜单设置失败');
+			}
+
+			$data['display'] = $data['display'] ? '1' : '0';
+			$result = $area_db->where(array('id'=>$id))->save($data);
+			if($result){
+				$area_db->clearCache();
+				$this->success('修改成功');
+			}else {
+				$this->error('修改失败');
+			}
+		}else{
+			$data = $area_db->where(array('id'=>$id))->find();
+			$this->assign('data', $data);
+			$this->display('area_edit');
+		}
+	}
+
+	/**
+	 * 删除地区
+	 */
+	public function areaDelete($id = 0){
+		if($id && IS_POST){
+			$area_db = D('Area');
+			$result = $area_db->where(array('id'=>$id))->delete();
+			if($result){
+				$area_db->clearCache();
+				$this->success('删除成功');
+			}else {
+				$this->error('删除失败');
+			}
+		}else{
+			$this->error('删除失败');
+		}
+	}
+
+	/**
+	* 职位管理
+	*/
+	public function jobList($page = 1, $rows = 10, $sort = 'id', $order = 'asc'){
+		if(IS_POST){
+			$job_db = D('Job');
+			$total = $job_db->count();
+			$order = $sort.' '.$order;
+			$limit = ($page - 1) * $rows . "," . $rows;
+			$list = $job_db->order($order)->limit($limit)->select();
+			if(!$list) $list = array();
+			$data = array('total'=>$total, 'rows'=>$list);
+			$this->ajaxReturn($data);
+		}else{
+			$menu_db = D('Menu');
+			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
+			$datagrid = array(
+				'options' => array(
+					'title'   => $currentpos,
+					'url'     => U('Admin/jobList', array('grid'=>'datagrid')),
+					'toolbar' => 'adminJobModule.toolbar',
+				),
+				'fields' => array(
+					'ID'     => array('field'=>'id','width'=>5,'align'=>'center','sortable'=>true),
+					'职位名称'  => array('field'=>'name','width'=>15,'sortable'=>true),
+					'职位描述'  => array('field'=>'description','width'=>25),
+					'状态'      => array('field'=>'display','width'=>15,'sortable'=>true,'formatter'=>'adminJobModule.state'),
+					'管理操作'  => array('field'=>'operateid','width'=>20,'formatter'=>'adminJobModule.operate'),
+				)
+			);
+			$this->assign('datagrid', $datagrid);
+			$this->display('job_list');
+		}
+		$this->display('job_list');
+	}
+
+
+	/**
+	 * 添加职位
+	 */
+	public function jobAdd(){
+		if(IS_POST){
+			$job_db = D('Job');
+			$data = I('post.info');
+			if($job_db->where(array('name'=>$data['name']))->field('name')->find()){
+				$this->error('职位名称已存在');
+			}
+			$id = $job_db->add($data);
+			if($id){
+				$this->success('添加成功');
+			}else {
+				$this->error('添加失败');
+			}
+		}else{
+			$this->display('job_add');
+		}
+	}
+	
+	/**
+	 * 编辑职位
+	 */
+	public function jobEdit($id){
+		$job_db = D('Job');
+		if(IS_POST){
+			$data = I('post.info');
+			$id = $admin_job_db->where(array('id'=>$id))->save($data);
+			if($id){
+				$this->success('修改成功');
+			}else {
+				$this->error('修改失败');
+			}
+		}else{
+			$info = $admin_job_db->where(array('id'=>$id))->find();
+			$this->assign('info', $info);
+			$this->display('job_edit');
+		}
+	}
+	
+	/**
+	 * 删除职位
+	 */
+	public function jobDelete($id) {
+		if($id == '1') $this->error('该职位不能被删除');
+
+		$admin_db = D('Admin');
+		$count = $admin_db->where(array('roleid'=>$id))->count();
+		if($count) $this->error("该职位下面仍有 <b>{$count}</b> 个用户");
+
+		$job_db = D('Job');
+		$result = $job_db->where(array('id'=>$id))->delete();
+		
+		if ($result){
+			$this->success('删除成功');
+		}else {
+			$this->error('删除失败');
+		}
+	}
+
 }

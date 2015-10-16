@@ -3,15 +3,14 @@
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
 
 <script type="text/javascript">
-var adminRoleModule = {
+var adminJobModule = {
 	dialog:   '#globel-dialog-div',
-	datagrid: '#admin_rolelist_datagrid',
+	datagrid: '#admin_joblist_datagrid',
 	
 	//工具栏
 	toolbar: [
-		{text: '添加角色', iconCls: 'icons-table-table_add', handler: function(){adminRoleModule.add();}},
-		{text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){adminRoleModule.refresh();}},
-		{text: '排序', iconCls: 'icons-table-table_sort', handler: function(){adminRoleModule.order();}}
+		{text: '添加职位', iconCls: 'icons-table-table_add', handler: function(){adminJobModule.add();}},
+		{text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){adminJobModule.refresh();}},
 	],
 	
 	//排序格式化
@@ -33,10 +32,10 @@ var adminRoleModule = {
 			btn.push('编辑');
 			btn.push('删除');
 		}else{
-			btn.push('<a href="javascript:void(0);" onclick="adminRoleModule.permission('+val+')">权限设置</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminRoleModule.category('+val+')">栏目权限</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminRoleModule.edit('+val+')">编辑</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminRoleModule.delete('+val+')">删除</a>');
+			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.permission('+val+')">权限设置</a>');
+			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.category('+val+')">栏目权限</a>');
+			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.edit('+val+')">编辑</a>');
+			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.delete('+val+')">删除</a>');
 		}
 		return btn.join(' | ');
 	},
@@ -55,7 +54,7 @@ var adminRoleModule = {
 			width: 380,
 			height: 260,
 			cache: false,
-			href: '<{:U('Admin/roleAdd')}>',
+			href: '<{:U('Admin/jobAdd')}>',
 			modal: true,
 			collapsible: false,
 			minimizable: false,
@@ -71,7 +70,7 @@ var adminRoleModule = {
 							if (!isValid) return false;
 							
 							$.messager.progress({text:'处理中，请稍候...'});
-							$.post('<{:U('Admin/roleAdd?dosubmit=1')}>', $(this).serialize(), function(res){
+							$.post('<{:U('Admin/jobAdd?dosubmit=1')}>', $(this).serialize(), function(res){
 								$.messager.progress('close');
 								
 								if(!res.status){
@@ -181,22 +180,7 @@ var adminRoleModule = {
 		});
 	},
 	
-	//排序
-	order: function(){
-		var that = this;
-		$.messager.progress({text:'处理中，请稍候...'});
-		$.post('<{:U('Admin/roleOrder')}>', $(that.datagrid).parent('div').find('input[type="text"].sort-input').serialize(), function(res){
-			$.messager.progress('close');
-			
-			if(!res.status){
-				$.app.method.tip('提示信息', res.info, 'error');
-			}else{
-				$.app.method.tip('提示信息', res.info, 'info');
-				that.refresh();
-			}
-		}, 'json');
-	},
-	
+
 	//权限设置
 	permission: function(id){
 		if(typeof(id) !== 'number'){
@@ -315,7 +299,7 @@ var adminRoleModule = {
 	
 	//栏目权限全选或取消格式化
 	checkbox: function(val, arr){
-		return '<input type="checkbox" value="' + arr['catid'] + '" onclick="adminRoleModule.checkAll(this)" />';
+		return '<input type="checkbox" value="' + arr['catid'] + '" onclick="adminJobModule.checkAll(this)" />';
 	},
 	
 	//栏目权限字段格式化

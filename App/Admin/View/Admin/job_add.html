@@ -1,0 +1,25 @@
+<form>
+	<table cellspacing="6" width="100%">
+		<tr>
+			<td width="90">职位名称：</td>
+			<td><input class="easyui-validatebox" type="text" name="info[name]" data-options="required:true,validType:['length[2,20]','remote[\'<{:U('Admin/public_checkRoleName')}>\',\'rolename\']']" style="width:220px" /></td>
+		</tr>
+		<tr>
+			<td>职位描述：</td>
+			<td><textarea class="easyui-validatebox" name="info[description]" data-options="validType:{length:[0,200]}" style="width:220px;height:60px;font-size:12px"></textarea></td>
+		</tr>
+		<tr>
+			<td>权限：</td>
+			<td>
+				<select class="easyui-combobox" style="width:230px;height:24px">
+					<option value="1">可查看全部数据</option>
+					<option value="2">可查看所在地区数据</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>是否启用：</td>
+			<td><label><input type="radio" name="info[display]" value="0" checked />启用</label> <label><input type="radio" name="info[display]" value="1" />禁止</label></td>
+		</tr>
+	</table>
+</form>
