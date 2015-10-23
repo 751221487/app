@@ -4,7 +4,7 @@ use Admin\Controller\CommonController;
 
 /**
  * 后台用户相关模块
- * @author wangdong
+ * @author haojie
  */
 class AdminController extends CommonController {
 	/**
@@ -140,15 +140,32 @@ class AdminController extends CommonController {
 	public function memberList($page = 1, $rows = 10, $sort = 'userid', $order = 'asc'){
 		if(IS_POST){
 			$admin_db = D('Admin');
-			$admin_role_db = D('AdminRole');
-			$rolelist = $admin_role_db->where(array('disabled'=>'0'))->order('listorder asc')->getField('roleid,rolename', true);
-
+			$job_db = D('Job');
+			$area_db = D('Area');
+			$jobList = $job_db->select();
+			$areaList = $area_db->select();
 			$total = $admin_db->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $total ? $admin_db->field('userid,username,lastloginip,email,realname,lastlogintime,roleid')->order($order)->limit($limit)->select() : array();
+			$list = $total ? $admin_db->order($order)->limit($limit)->select() : array();
 			foreach($list as &$info){
-				$info['rolename']      = isset($rolelist[$info['roleid']]) ? $rolelist[$info['roleid']] : '-';
+				$info['jobname'] = '-';
+				$info['target'] = '-';
+				$info['target_limit'] = '-';
+				for ($i=0; $i < count($jobList); $i++) { 
+					# code...
+					if($jobList[$i]['id'] == $info['job']){
+						$info['jobname'] = $jobList[$i]['name'];
+						$info['target'] = $jobList[$i]['target'];
+						$info['target_limit'] = $jobList[$i]['time'];
+					}
+				}
+				$info['areaname'] = '全国';
+				for ($i=0; $i < count($areaList); $i++) { 
+					if($areaList[$i]['id'] == $info['area']){
+						$info['areaname'] = $areaList[$i]['name'];
+					}
+				}
 				$info['lastlogintime'] = $info['lastlogintime'] ? date('Y-m-d H:i:s', $info['lastlogintime']) : '-';
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
@@ -164,12 +181,16 @@ class AdminController extends CommonController {
 				),
 				'fields' => array(
 					'用户名'      => array('field'=>'username','width'=>15,'sortable'=>true),
-					'所属角色'    => array('field'=>'rolename','width'=>15),
-					'最后登录IP'  => array('field'=>'lastloginip','width'=>15,'sortable'=>true),
-					'最后登录时间' => array('field'=>'lastlogintime','width'=>15,'sortable'=>true,'formatter'=>'adminMemberModule.time'),
+					'真实姓名'     => array('field'=>'realname','width'=>15,'sortable'=>true),
+					'职位'    	 => array('field'=>'jobname','width'=>15),
+					'业务目标'	 => array('field'=>'target', 'width'=>15),
+					'目标期限'	 => array('field'=>'target_limit', 'width'=>15),
+					'地区'		 => array('field'=>'areaname', 'width'=>15),
+					'入职时间'	 => array('field'=>'join_time', 'width'=>15),
 					'E-mail'     => array('field'=>'email','width'=>25,'sortable'=>true),
-					'真实姓名'    => array('field'=>'realname','width'=>15,'sortable'=>true),
-					'管理操作'    => array('field'=>'userid','width'=>25,'formatter'=>'adminMemberModule.operate'),
+					'电话'		=> array('field'=>'tel', "width"=>15),
+					'备注'		=> array('field'=>'remark', 'width'=>25),
+					'管理操作'     => array('field'=>'userid','width'=>25,'formatter'=>'adminMemberModule.operate'),
 				)
 			);
 			$this->assign('datagrid', $datagrid);
@@ -188,16 +209,7 @@ class AdminController extends CommonController {
 				$this->error('用户名称已经存在');
 			}
 
-			//邮件模版
-			$email_db = M('email');
-			$email    = $email_db->field(array('subject', 'content'))->where(array('code'=>'user_register'))->find();
-			if($email){
-				$email = array_merge($email, array(
-					'email' => $data['email'],
-					'content' => str_replace(array('{username}', '{password}', '{site}'), array($data['username'], $data['password'], SITE_URL), htmlspecialchars_decode($email['content']))
-				));
-			}
-
+			$data['password'] = '123456';
 			$passwordinfo = password($data['password']);
 			$data['password'] = $passwordinfo['password'];
 			$data['encrypt'] = $passwordinfo['encrypt'];
@@ -210,9 +222,9 @@ class AdminController extends CommonController {
 				$this->error('添加失败');
 			}
 		}else{
-			$admin_role_db = D('AdminRole');
-			$rolelist = $admin_role_db->where(array('disabled'=>'0'))->order('listorder asc')->getField('roleid,rolename', true);
-			$this->assign('rolelist', $rolelist);
+			$job_db = D('Job');
+			$jobList = $job_db->select();
+			$this->assign('jobList', $jobList);
 			$this->display('member_add');
 		}
 	}
@@ -223,11 +235,8 @@ class AdminController extends CommonController {
 	public function memberEdit($id){
 		$admin_db = D('Admin');
 		if(IS_POST){
-			if($id == '1') $this->error('该用户不能被修改');
 			$data = I('post.info');
-			
 			if(isset($data['password'])) unset($data['password']);
-			
 			$result = $admin_db->where(array('userid'=>$id))->save($data);
 			if($result){
 				$this->success('修改成功');
@@ -235,11 +244,11 @@ class AdminController extends CommonController {
 				$this->error('修改失败');
 			}
 		}else{
-			$admin_role_db = D('AdminRole');
-			$info = $admin_db->getUserInfo($id);
-			$rolelist = $admin_role_db->where(array('disabled'=>'0'))->order('listorder asc')->getField('roleid,rolename', true);
+			$info = $admin_db->where(array('userid'=>$id))->find();
 			$this->assign('info', $info);
-			$this->assign('rolelist', $rolelist);
+			$job_db = D('Job');
+			$jobList = $job_db->select();
+			$this->assign('jobList', $jobList);
 			$this->display('member_edit');
 		}
 	}
@@ -249,7 +258,7 @@ class AdminController extends CommonController {
 	 */
 	public function memberResetPassword($id){
 		$admin_db = D('Admin');
-		$password = rand(100000, 999999);
+		$password = '123456';
 		$info = password($password);
 		$data = array(
 			'password' => $info['password'],
@@ -257,19 +266,7 @@ class AdminController extends CommonController {
 		);
 		$result = $admin_db->where(array('userid'=>$id))->save($data);
 
-		//邮件模版
-		$email_db = M('email');
-		$email    = $email_db->field(array('subject', 'content'))->where(array('code'=>'user_reset_password'))->find();
-		if($email){
-			$userInfo = $admin_db->field('username,email')->where(array('userid'=>$id))->find();
-			$email = array_merge($email, array(
-				'email' => $userInfo['email'],
-				'content' => str_replace(array('{username}', '{password}', '{site}'), array($userInfo['username'], $password, SITE_URL), htmlspecialchars_decode($email['content']))
-			));
-		}
-		
 		if ($result){
-			if($email) send_email($email['email'], $email['subject'], $email['content'], array('isHtml'=>true, 'charset'=>'GB2312'));
 			$this->ajaxReturn(array('status'=>1, 'info'=>'重置成功', 'password'=>$password));
 		}else {
 			$this->error('重置失败');
@@ -391,6 +388,7 @@ class AdminController extends CommonController {
 		}
 	}
 	
+
 	/**
 	 * 验证密码
 	 */
@@ -421,21 +419,6 @@ class AdminController extends CommonController {
 		}
 	}
 	
-	/**
-	 * 验证角色名称是否存在
-	 */
-	public function public_checkRoleName($rolename){
-		if (I('get.default') == $rolename) {
-			exit('true');
-		}
-		$admin_role_db = D('AdminRole');
-		$exists = $admin_role_db->where(array('rolename'=>$rolename))->field('rolename')->find();
-		if ($exists) {
-			exit('false');
-		}else{
-			exit('true');
-		}
-	}
 
 	/**
 	 * 地区列表
@@ -512,7 +495,7 @@ class AdminController extends CommonController {
 	public function public_areaSelectTree(){
 		$area_db = D('Area');
 		$data = $area_db->getSelectTree();
-		$data = array(0=>array('id'=>0,'text'=>'作为一级菜单','children'=>$data));
+		$data = array(0=>array('id'=>0,'text'=>'全国','children'=>$data));
 		S('system_public_areaselecttree', $data);
 		$this->ajaxReturn($data);
 	}
@@ -585,11 +568,11 @@ class AdminController extends CommonController {
 					'toolbar' => 'adminJobModule.toolbar',
 				),
 				'fields' => array(
-					'ID'     => array('field'=>'id','width'=>5,'align'=>'center','sortable'=>true),
 					'职位名称'  => array('field'=>'name','width'=>15,'sortable'=>true),
 					'职位描述'  => array('field'=>'description','width'=>25),
-					'状态'      => array('field'=>'display','width'=>15,'sortable'=>true,'formatter'=>'adminJobModule.state'),
-					'管理操作'  => array('field'=>'operateid','width'=>20,'formatter'=>'adminJobModule.operate'),
+					'业务目标'  => array('field'=>'target', 'width'=>25),
+					'业务期限'  => array('field'=>'time', 'width'=>15, 'formatter'=>'adminJobModule.timeLimit'),
+					'管理操作'  => array('field'=>'id','width'=>20,'formatter'=>'adminJobModule.operate'),
 				)
 			);
 			$this->assign('datagrid', $datagrid);
@@ -606,6 +589,7 @@ class AdminController extends CommonController {
 		if(IS_POST){
 			$job_db = D('Job');
 			$data = I('post.info');
+			$data['display'] = 1;
 			if($job_db->where(array('name'=>$data['name']))->field('name')->find()){
 				$this->error('职位名称已存在');
 			}
@@ -627,14 +611,16 @@ class AdminController extends CommonController {
 		$job_db = D('Job');
 		if(IS_POST){
 			$data = I('post.info');
-			$id = $admin_job_db->where(array('id'=>$id))->save($data);
+			$data['display'] = 1;
+
+			$id = $job_db->where(array('id'=>$id))->save($data);
 			if($id){
 				$this->success('修改成功');
 			}else {
 				$this->error('修改失败');
 			}
 		}else{
-			$info = $admin_job_db->where(array('id'=>$id))->find();
+			$info = $job_db->where(array('id'=>$id))->find();
 			$this->assign('info', $info);
 			$this->display('job_edit');
 		}
@@ -657,6 +643,22 @@ class AdminController extends CommonController {
 			$this->success('删除成功');
 		}else {
 			$this->error('删除失败');
+		}
+	}
+
+	/**
+	 * 验证 职位名称是否存在
+	 */
+	public function public_checkJobName($name){
+		if (I('get.default') == $name) {
+			exit('true');
+		}
+		$job_db = D('Job');
+		$exists = $job_db->where(array('name'=>$name))->field('name')->find();
+		if ($exists) {
+			exit('false');
+		}else{
+			exit('true');
 		}
 	}
 

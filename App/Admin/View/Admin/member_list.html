@@ -9,7 +9,7 @@ var adminMemberModule = {
 	
 	//工具栏
 	toolbar: [
-		{ text: '添加用户', iconCls: 'icons-table-table_add', handler: function(){adminMemberModule.add();}},
+		{ text: '添加员工', iconCls: 'icons-table-table_add', handler: function(){adminMemberModule.add();}},
 		{ text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){adminMemberModule.refresh();}}
 	],
 	
@@ -21,15 +21,9 @@ var adminMemberModule = {
 	//操作字段格式化
 	operate: function(val){
 		var btn = [];
-		if(val == 1){
-			btn.push('编辑用户');
-			btn.push('重置密码');
-			btn.push('删除');
-		}else{
-			btn.push('<a href="javascript:;" onclick="adminMemberModule.edit('+val+')">编辑用户</a>');
-			btn.push('<a href="javascript:;" onclick="adminMemberModule.password('+val+')">重置密码</a>');
-			btn.push('<a href="javascript:;" onclick="adminMemberModule.delete('+val+')">删除</a>');
-		}
+		btn.push('<a href="javascript:;" onclick="adminMemberModule.edit('+val+')">编辑员工</a>');
+		btn.push('<a href="javascript:;" onclick="adminMemberModule.password('+val+')">重置密码</a>');
+		btn.push('<a href="javascript:;" onclick="adminMemberModule.delete('+val+')">删除</a>');
 		return btn.join(' | ');
 	},
 	
@@ -38,14 +32,14 @@ var adminMemberModule = {
 		$(this.datagrid).datagrid('reload');
 	},
 	
-	//添加用户
+	//添加员工
 	add: function(){
 		var that = this;
 		$(that.dialog).dialog({
-			title: '添加用户',
+			title: '添加员工',
 			iconCls: 'icons-application-application_add',
 			width: 370,
-			height: 300,
+			height: 420,
 			cache: false,
 			href: '<{:U('Admin/memberAdd')}>',
 			modal: true,
@@ -88,10 +82,10 @@ var adminMemberModule = {
 		});
 	},
 	
-	//编辑用户
+	//编辑员工
 	edit: function(id){
 		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择用户', 'error');
+			$.app.method.tip('提示信息', '未选择员工', 'error');
 			return false;
 		}
 		var href = '<{:U('Admin/memberEdit')}>';
@@ -99,10 +93,10 @@ var adminMemberModule = {
 
 		var that = this;
 		$(that.dialog).dialog({
-			title: '编辑用户',
+			title: '编辑员工',
 			iconCls: 'icons-application-application_edit',
 			width: 370,
-			height: 230,
+			height: 400,
 			cache: false,
 			href: href,
 			modal: true,
@@ -147,10 +141,10 @@ var adminMemberModule = {
 		});
 	},
 	
-	//删除用户
+	//删除员工
 	delete: function(id){
 		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择用户', 'error');
+			$.app.method.tip('提示信息', '未选择员工', 'error');
 			return false;
 		}
 		
@@ -175,7 +169,7 @@ var adminMemberModule = {
 	//重置密码
 	password: function(id){
 		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择用户', 'error');
+			$.app.method.tip('提示信息', '未选择员工', 'error');
 			return false;
 		}
 		

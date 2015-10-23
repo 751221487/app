@@ -27,7 +27,7 @@ class CommonController extends Controller {
 		if(CONTROLLER_NAME =='Index' && in_array(ACTION_NAME, array('login', 'code')) ) {
 			return true;
 		}
-		if(!session('userid') || !session('roleid')){
+		if(!session('userid')){
 			//针对iframe加载返回
 			if(IS_GET && strpos(ACTION_NAME,'_iframe') !== false){
 				exit('<style type="text/css">body{margin:0;padding:0}a{color:#08c;text-decoration:none}a:hover,a:focus{color:#005580;text-decoration:underline}a:focus,a:hover,a:active{outline:0}</style><div style="padding:6px;font-size:12px">请先<a target="_parent" href="'.U('Index/login').'">登录</a>后台管理</div>');
@@ -44,41 +44,7 @@ class CommonController extends Controller {
 	 * 权限判断
 	 */
 	final public function check_priv() {
-		if(session('roleid') == 1) return true;
-		//过滤不需要权限控制的页面
-		switch (CONTROLLER_NAME){
-			case 'Index':
-				switch (ACTION_NAME){
-					case 'index':
-					case 'login':
-					case 'code':
-					case 'logout':
-						return true;
-						break;
-				}
-				break;
-			case 'Upload':
-				return true;
-				break;
-			case 'Content':
-				if (ACTION_NAME != 'index') return true;
-				break;
-		}
-		if(strpos(ACTION_NAME, 'public_')!==false) return true;
-				
-		$priv_db = M('admin_role_priv');
-		$r = $priv_db->where(array('c'=>CONTROLLER_NAME, 'a'=>ACTION_NAME, 'roleid'=>session('roleid')))->find();
-		if(!$r){
-			//兼容iframe加载
-			if(IS_GET && strpos(ACTION_NAME,'_iframe') !== false){
-				exit('<style type="text/css">body{margin:0;padding:0}</style><div style="padding:6px;font-size:12px">您没有权限操作该项</div>');
-			}
-			if(IS_AJAX && IS_GET){
-				exit('<div style="padding:6px">您没有权限操作该项</div>');
-			}else {
-				$this->error('您没有权限操作该项');
-			}
-		}
+		return true;
 	}
 
 	/**

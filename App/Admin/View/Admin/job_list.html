@@ -9,7 +9,7 @@ var adminJobModule = {
 	
 	//工具栏
 	toolbar: [
-		{text: '添加职位', iconCls: 'icons-table-table_add', handler: function(){adminJobModule.add();}},
+		{text: '添加状态', iconCls: 'icons-table-table_add', handler: function(){adminJobModule.add();}},
 		{text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){adminJobModule.refresh();}},
 	],
 	
@@ -19,24 +19,15 @@ var adminJobModule = {
 	},
 	
 	//状态格式化
-	state: function(val){
-		return val == 1 ? '<font color="red">未启用</font>' : '已启用';
+	timeLimit: function(val){
+		return val + '天';
 	},
 
 	//操作格式化
 	operate: function(val){
 		var btn = [];
-		if(val == 1){
-			btn.push('权限设置');
-			btn.push('栏目权限');
-			btn.push('编辑');
-			btn.push('删除');
-		}else{
-			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.permission('+val+')">权限设置</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.category('+val+')">栏目权限</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.edit('+val+')">编辑</a>');
-			btn.push('<a href="javascript:void(0);" onclick="adminJobModule.delete('+val+')">删除</a>');
-		}
+		btn.push('<a href="javascript:void(0);" onclick="adminJobModule.edit('+val+')">编辑</a>');
+		btn.push('<a href="javascript:void(0);" onclick="adminJobModule.delete('+val+')">删除</a>');
 		return btn.join(' | ');
 	},
 	
@@ -52,7 +43,7 @@ var adminJobModule = {
 			title: '添加角色',
 			iconCls: 'icons-application-application_add',
 			width: 380,
-			height: 260,
+			height: 300,
 			cache: false,
 			href: '<{:U('Admin/jobAdd')}>',
 			modal: true,
@@ -102,7 +93,7 @@ var adminJobModule = {
 			$.app.method.tip('提示信息', '未选择角色', 'error');
 			return false;
 		}
-		var href = '<{:U('Admin/roleEdit')}>';
+		var href = '<{:U('Admin/jobEdit')}>';
 		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
 		
 		var that = this;
@@ -110,7 +101,7 @@ var adminJobModule = {
 			title: '编辑角色',
 			iconCls: 'icons-application-application_edit',
 			width: 380,
-			height: 260,
+			height: 300,
 			cache: false,
 			href: href,
 			modal: true,
@@ -181,154 +172,6 @@ var adminJobModule = {
 	},
 	
 
-	//权限设置
-	permission: function(id){
-		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择角色', 'error');
-			return false;
-		}
-		var href = '<{:U('Admin/rolePermission')}>';
-		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
-		
-		var that = this;
-		$(that.dialog).dialog({
-			title: '权限设置',
-			iconCls: 'icons-application-application_key',
-			width: 320,
-			height: 250,
-			cache: false,
-			href: href,
-			modal: true,
-			collapsible: false,
-			minimizable: false,
-			resizable: true,
-			maximizable: true,
-			buttons:[{
-				text:'确定',
-				iconCls:'icons-other-tick',
-				handler:function(){
-					var nodes = $('#admin-role-permission-tree').tree('getChecked');
-					var menuids = [];
-					for(var i=0; i<nodes.length; i++){
-						menuids.push(nodes[i]['id']);
-						menuids.push(nodes[i]['attributes']['parent']);
-					}
-					
-					$.messager.progress({text:'处理中，请稍候...'});
-					$.post('<{:U('Admin/rolePermission?dosubmit=1')}>', {id: id, menuids: menuids.join(',')}, function(res){
-						$.messager.progress('close');
-						
-						if(!res.status){
-							$.app.method.tip('提示信息', res.info, 'error');
-						}else{
-							$.app.method.tip('提示信息', res.info, 'info');
-							$(that.dialog).dialog('close');
-						}
-					});
-					return false;
-				}
-			},{
-				text: '取消',
-				iconCls: 'icons-arrow-cross',
-				handler: function(){
-					$(that.dialog).dialog('close');
-				}
-			}]
-		});
-	},
-	
-	//栏目权限
-	category: function(id){
-		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择角色', 'error');
-			return false;
-		}
-		var href = '<{:U('Admin/roleCategory')}>';
-		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
-		
-		var that = this;
-		$(that.dialog).dialog({
-			title: '栏目权限',
-			iconCls: 'icons-application-application_key',
-			width: 560,
-			height: 360,
-			cache: false,
-			href: href,
-			modal: true,
-			collapsible: false,
-			minimizable: false,
-			resizable: true,
-			maximizable: true,
-			buttons:[{
-				text:'确定',
-				iconCls:'icons-other-tick',
-				handler:function(){
-					var data = {};
-					$(that.dialog).find('input[type="checkbox"]:checked').each(function(i, obj){
-						var catid = $(obj).attr('catid') || 0;
-						if(catid && !obj.disabled && obj.value){
-							if(!data[catid]) data[catid] = [];
-							data[catid].push(obj.value);
-						}
-					});
-					var action = '<{:U('Admin/roleCategory?dosubmit=1')}>';
-					action += action.indexOf('?') != -1 ? '&id='+id : '?id='+id;
-					
-					$.messager.progress({text:'处理中，请稍候...'});
-					$.post(action, {info: data}, function(res){
-						$.messager.progress('close');
-						
-						if(!res.status){
-							$.app.method.tip('提示信息', res.info, 'error');
-						}else{
-							$.app.method.tip('提示信息', res.info, 'info');
-							$(that.dialog).dialog('close');
-						}
-					});
-					return false;
-				}
-			},{
-				text: '取消',
-				iconCls: 'icons-arrow-cross',
-				handler: function(){
-					$(that.dialog).dialog('close');
-				}
-			}]
-		});
-	},
-	
-	//栏目权限全选或取消格式化
-	checkbox: function(val, arr){
-		return '<input type="checkbox" value="' + arr['catid'] + '" onclick="adminJobModule.checkAll(this)" />';
-	},
-	
-	//栏目权限字段格式化
-	field: function(val, arr){
-		var row = ['<input type="checkbox"'];
-		row.push('class="catid_' + arr['catid'] + '"');
-		row.push('catid="' + arr['catid'] + '"');
-		row.push('value="' + val + '"');
-		
-		if(arr['checked_' + val]) row.push('checked');
-		
-		switch(parseInt(arr['type'])){
-			case 0:
-				if(val != 'view') row.push('disabled');
-				break;
-		}
-		row.push('/>');
-		return row.join(' ');
-	},
-	
-	//栏目权限全选或取消操作
-	checkAll: function(object){
-		$(this.dialog).find('input[type="checkbox"].catid_' + object.value).each(function(i, obj){
-			if(object.checked && !obj.checked){
-				obj.checked = true;
-			}else if(!object.checked && obj.checked){
-				obj.checked = false;
-			}
-		});
-	}
+
 };
 </script>

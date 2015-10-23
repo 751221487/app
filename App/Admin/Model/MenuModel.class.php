@@ -14,7 +14,7 @@ class MenuModel extends Model{
 	 */
 	public function getMenu($parentid = 0, $with_self = 0) {
 		$parentid = intval($parentid);
-		$roleid = session('roleid');
+		$roleid = 1;
 		$result = $this->where(array('parentid'=>$parentid, 'display'=>1))->order('listorder ASC')->limit(1000)->select();
 		if (!is_array($result)) $result=array();
 		if($with_self) {

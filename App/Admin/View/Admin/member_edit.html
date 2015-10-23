@@ -1,7 +1,7 @@
 <form>
 	<table cellspacing="6" width="100%">
 		<tr>
-			<td width="90">用户名：</td>
+			<td width="90">工号：</td>
 			<td><input class="easyui-validatebox" type="text" value="<{$info.username}>" readonly style="width:200px" /></td>
 		</tr>
 		<tr>
@@ -9,17 +9,39 @@
 			<td><input class="easyui-validatebox" type="text" name="info[realname]" value="<{$info.realname}>" data-options="required:true,validType:{length:[2,20]}" style="width:200px" /></td>
 		</tr>
 		<tr>
+			<td>入职时间：</td>
+			<td><input class="easyui-datebox" type="text" name="info[join_time]" value="<{$info.join_time}>" data-options="required:true,validType:{length:[2,20]}" style="width:200px" /></td>
+		</tr>
+		<tr>
+			<td>地区：</td>
+			<td><input class="easyui-combotree" value="<{$info.area}>" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="info[area]" style="width:200px"/></td>
+		</tr>
+		<tr>
+			<td>职位：</td>
+			<td><input class="easyui-validatebox" type="text" data-options="required:true" name="info[position]" value="<{$info.position}>" style="width:200px;"/></td>
+		</tr>
+		<tr>
+			<td>状态：</td>
+			<td>
+				<select class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="info[job]" value="<{$info.job}>" style="width:200px;">
+					<foreach name="jobList" item="job">
+						<option value="<{$job.id}>"><{$job.name}></option>
+					</foreach>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<td>E-mail：</td>
 			<td><input class="easyui-validatebox" type="text" name="info[email]" value="<{$info.email}>" data-options="required:true,validType:['email','length[3,40]','remote[\'<{:U('Admin/public_checkEmail', array('default'=>$info['email']))}>\',\'email\']']" style="width:200px" /></td>
 		</tr>
 		<tr>
-			<td>所属角色：</td>
+			<td>电话：</td>
+			<td><input class="easyui-validatebox" type="text" name="info[tel]" value="<{$info.tel}>" data-options="required:true" style="width:200px" /></td>
+		</tr>
+		<tr>
+			<td>备注：</td>
 			<td>
-				<select class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="info[roleid]" style="height:24px">
-				<foreach name="rolelist" key="roleid" item="rolename">
-					<option value="<{$roleid}>" <eq name="info.roleid" value="$roleid">selected</eq>><{$rolename}></option>
-				</foreach>
-				</select>
+				<textarea class="easyui-validatebox" name="info[remark]" style="width:200px"><{$info.remark}></textarea>
 			</td>
 		</tr>
 	</table>
