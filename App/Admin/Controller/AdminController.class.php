@@ -147,7 +147,12 @@ class AdminController extends CommonController {
 			$total = $admin_db->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
+			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$list = $total ? $admin_db->order($order)->limit($limit)->select() : array();
+			if($admin['permission'] == 2){
+				$total = 1;
+				$list = $admin_db->where(array('userid'=>session('userid')))->order($order)->limit($limit)->select();
+			}
 			foreach($list as &$info){
 				$info['jobname'] = '-';
 				$info['target'] = '-';
@@ -167,32 +172,34 @@ class AdminController extends CommonController {
 					}
 				}
 				$info['lastlogintime'] = $info['lastlogintime'] ? date('Y-m-d H:i:s', $info['lastlogintime']) : '-';
+				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
 		}else{
 			$menu_db = D('Menu');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
+			$admin_db = D('admin');
+			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$datagrid = array(
 				'options'     => array(
 					'title'   => $currentpos,
 					'url'     => U('Admin/memberList', array('grid'=>'datagrid')),
-					'toolbar' => 'adminMemberModule.toolbar',
+					'toolbar' => $admin['permission'] == 1 ? 'adminMemberModule.toolbar' : null,
 				),
 				'fields' => array(
 					'用户名'      => array('field'=>'username','width'=>15,'sortable'=>true),
 					'真实姓名'     => array('field'=>'realname','width'=>15,'sortable'=>true),
-					'职位'    	 => array('field'=>'jobname','width'=>15),
-					'业务目标'	 => array('field'=>'target', 'width'=>15),
-					'目标期限'	 => array('field'=>'target_limit', 'width'=>15),
-					'地区'		 => array('field'=>'areaname', 'width'=>15),
+					'职位'     => array('field'=>'position','width'=>15,'sortable'=>true),
+					'状态'    	 => array('field'=>'jobname','width'=>15),
+					'业务目标'	 => array('field'=>'target', 'width'=>15, 'formatter'=>'adminMemberModule.target'),
+					'目标期限'	 => array('field'=>'target_time', 'width'=>15),
+					'部门'		 => array('field'=>'areaname', 'width'=>15),
 					'入职时间'	 => array('field'=>'join_time', 'width'=>15),
-					'E-mail'     => array('field'=>'email','width'=>25,'sortable'=>true),
-					'电话'		=> array('field'=>'tel', "width"=>15),
-					'备注'		=> array('field'=>'remark', 'width'=>25),
 					'管理操作'     => array('field'=>'userid','width'=>25,'formatter'=>'adminMemberModule.operate'),
 				)
 			);
+			
 			$this->assign('datagrid', $datagrid);
 			$this->display('member_list');
 		}
@@ -236,7 +243,6 @@ class AdminController extends CommonController {
 		$admin_db = D('Admin');
 		if(IS_POST){
 			$data = I('post.info');
-			if(isset($data['password'])) unset($data['password']);
 			$result = $admin_db->where(array('userid'=>$id))->save($data);
 			if($result){
 				$this->success('修改成功');
@@ -324,53 +330,7 @@ class AdminController extends CommonController {
 			$this->display('role_permission');
 		}
 	}
-	
-	/**
-	 * 栏目权限
-	 */
-	public function roleCategory($id){
-		if(IS_POST){
-			$category_priv_db = D('CategoryPriv');
-			if (I('get.dosubmit')){
-				$data = I('post.info');
-				$category_priv_db->where(array('roleid'=>$id))->delete();
-				foreach ($data as $catid=>$actionList){
-					foreach ($actionList as $action){
-						$category_priv_db->add(array(
-							'catid'    => $catid,
-							'roleid'   => $id,
-							'is_admin' => 1,
-							'action'   => $action,
-						));
-					}
-				}
-				$this->success('权限设置成功');
-			}else{
-				$data = $category_priv_db->getTreeGrid($id);
-				$this->ajaxReturn($data);
-			}
-		}else{
-			$treegrid = array(
-				'options' => array(
-					'url'       => U('Admin/roleCategory', array('id'=>$id, 'grid'=>'treegrid')),
-					'idField'   => 'catid',
-					'treeField' => 'catname',
-				),
-				'fields' => array(
-					'全选/取消'  => array('field'=>'operateid','width'=>30,'align'=>'center','formatter'=>'adminRoleModule.checkbox'),
-					'栏目ID'   => array('field'=>'catid','width'=>20,'align'=>'center'),
-					'栏目名称'   => array('field'=>'catname','width'=>120),
-					'查看'       => array('field'=>'field_view','width'=>15,'align'=>'center','formatter'=>'adminRoleModule.field'),
-					'添加'       => array('field'=>'field_add','width'=>15,'align'=>'center','formatter'=>'adminRoleModule.field'),
-					'编辑'       => array('field'=>'field_edit','width'=>15,'align'=>'center','formatter'=>'adminRoleModule.field'),
-					'删除'       => array('field'=>'field_delete','width'=>15,'align'=>'center','formatter'=>'adminRoleModule.field'),
-				)
-			);
-			$this->assign('id', $id);
-			$this->assign('treegrid', $treegrid);
-			$this->display('role_category');
-		}
-	}
+
 	
 	/**
 	 * 验证邮箱是否存在
@@ -425,11 +385,18 @@ class AdminController extends CommonController {
 	 */
 	public function areaList(){
 		$area_db = D('Area');
+		$admin_db = D('Admin');
 		$menu_db = D('Menu');
 		if(IS_POST){
 			$data = $area_db->getTree();
 			$this->ajaxReturn($data);
 		}else{
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$adminArea = $area_db->where(array('id'=>$currentAdmin['area']))->find();
+			if($adminArea['parentid']){
+				echo "<p>你无权访问该内容</p>";
+				exit();
+			}
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$treegrid = array(
 				'options'       => array(
@@ -494,9 +461,15 @@ class AdminController extends CommonController {
 	 */
 	public function public_areaSelectTree(){
 		$area_db = D('Area');
-		$data = $area_db->getSelectTree();
-		$data = array(0=>array('id'=>0,'text'=>'全国','children'=>$data));
-		S('system_public_areaselecttree', $data);
+		$admin_db = D('Admin');
+		$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+		$adminArea = $area_db->where(array('id'=>$currentAdmin['area']))->find();
+		$data = $area_db->getSelectTree($currentAdmin['area']);
+		if($currentAdmin['area'] == 0){
+			$data = array(0=>array('id'=>0,'text'=>'全国','children'=>$data));
+		} else {
+			$data = array(0=>array('id'=>$adminArea['id'],'text'=>$adminArea['name'],'children'=>$data));
+		}
 		$this->ajaxReturn($data);
 	}
 
@@ -559,6 +532,14 @@ class AdminController extends CommonController {
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
 		}else{
+			$admin_db = D('admin');
+			$area_db = D('Area');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$adminArea = $area_db->where(array('id'=>$currentAdmin['area']))->find();
+			if($adminArea['parentid']){
+				echo "<p>你无权访问该内容</p>";
+				exit();
+			}
 			$menu_db = D('Menu');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$datagrid = array(
@@ -570,7 +551,7 @@ class AdminController extends CommonController {
 				'fields' => array(
 					'职位名称'  => array('field'=>'name','width'=>15,'sortable'=>true),
 					'职位描述'  => array('field'=>'description','width'=>25),
-					'业务目标'  => array('field'=>'target', 'width'=>25),
+					'业务目标'  => array('field'=>'target', 'width'=>25, 'formatter'=>'adminJobModule.target'),
 					'业务期限'  => array('field'=>'time', 'width'=>15, 'formatter'=>'adminJobModule.timeLimit'),
 					'管理操作'  => array('field'=>'id','width'=>20,'formatter'=>'adminJobModule.operate'),
 				)
@@ -660,6 +641,19 @@ class AdminController extends CommonController {
 		}else{
 			exit('true');
 		}
+	}
+
+	/**
+	* 选择员工combobox
+	*/
+	public function public_selectAdmin(){
+		$admin_db = D('Admin');
+		$adminList = $admin_db->field(array('userid', 'username', 'realname'))->select();
+		for($i = 0; $i < count($adminList); $i++){
+			$adminList[$i]['id'] = $adminList[$i]['userid'];
+			$adminList[$i]['text'] = $adminList[$i]['realname'].'('.$adminList[$i]['username'].')';
+		}
+		$this->ajaxReturn($adminList);
 	}
 
 }

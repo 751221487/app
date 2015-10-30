@@ -1,23 +1,17 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.10.1
+-- version 4.4.10
 -- http://www.phpmyadmin.net
 --
--- 主机: localhost
--- 生成日期: 2015 年 10 月 08 日 16:52
--- 服务器版本: 5.5.20
--- PHP 版本: 5.3.10
+-- Host: localhost:3306
+-- Generation Time: 2015-10-30 17:10:36
+-- 服务器版本： 5.5.42
+-- PHP Version: 5.6.10
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- 数据库: `app`
+-- Database: `app`
 --
 
 -- --------------------------------------------------------
@@ -26,175 +20,122 @@ SET time_zone = "+00:00";
 -- 表的结构 `app2_admin`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_admin` (
-  `userid` mediumint(6) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `app2_admin` (
+  `userid` mediumint(6) unsigned NOT NULL,
   `username` varchar(20) DEFAULT NULL,
   `password` varchar(32) DEFAULT NULL,
-  `roleid` smallint(5) DEFAULT '0',
+  `position` varchar(30) DEFAULT NULL,
+  `area` int(11) DEFAULT NULL,
+  `join_time` date DEFAULT NULL,
+  `job` int(11) DEFAULT '0',
   `encrypt` varchar(6) DEFAULT NULL,
   `lastloginip` varchar(15) DEFAULT NULL,
   `lastlogintime` int(10) unsigned DEFAULT '0',
   `email` varchar(40) DEFAULT NULL,
-  `realname` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`userid`),
-  KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `tel` varchar(20) DEFAULT NULL,
+  `permission` int(11) NOT NULL COMMENT '权限（1，2）',
+  `remark` varchar(100) DEFAULT NULL,
+  `realname` varchar(50) NOT NULL DEFAULT ''
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `app2_admin`
 --
 
-INSERT INTO `app2_admin` (`userid`, `username`, `password`, `roleid`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `realname`) VALUES
-(1, 'admin', '6b7d31de24f084a68b099d318178adcf', 1, 'mYbZBr', '0.0.0.0', 1444319532, 'admin@admin.com', '');
+INSERT INTO `app2_admin` (`userid`, `username`, `password`, `position`, `area`, `join_time`, `job`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `tel`, `permission`, `remark`, `realname`) VALUES
+(1, 'admin', '0c85dd37ceb4d51ea4ed9e78c468ee13', '财务', 0, '2015-10-01', 1, 'MgaxbA', '0.0.0.0', 1446205214, 'admin@admin.com', '123456', 1, 'admin', 'asd'),
+(3, '12345', '6bce23e60359eefb359149dbbdc745eb', '总经理', 5, '2015-10-01', 1, 'SQMjgC', '0.0.0.0', 1446204743, 'a@b.c', '123456', 2, 'test', 'test');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app2_admin_log`
+-- 表的结构 `app2_area`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_admin_log` (
-  `logid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `userid` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `username` varchar(20) NOT NULL,
-  `httpuseragent` text NOT NULL,
-  `sessionid` varchar(30) NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `type` varchar(30) NOT NULL,
-  PRIMARY KEY (`logid`),
-  KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+CREATE TABLE `app2_area` (
+  `id` int(11) NOT NULL COMMENT 'PK',
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '地区名',
+  `parentid` int(11) DEFAULT NULL COMMENT '所属地区',
+  `display` int(11) DEFAULT NULL COMMENT '是否显示'
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
--- 转存表中的数据 `app2_admin_log`
+-- 转存表中的数据 `app2_area`
 --
 
-INSERT INTO `app2_admin_log` (`logid`, `userid`, `username`, `httpuseragent`, `sessionid`, `ip`, `time`, `type`) VALUES
-(1, 1, 'admin', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36', 'cc4r9flidiv7figdmb7bghppj3', '0.0.0.0', '2015-10-08 02:30:33', 'login'),
-(2, 1, 'admin', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36', 'cc4r9flidiv7figdmb7bghppj3', '0.0.0.0', '2015-10-08 02:40:21', 'login'),
-(3, 1, 'admin', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36', '0othkgu1kilhna8mgvo31k45g0', '0.0.0.0', '2015-10-08 23:52:12', 'login');
+INSERT INTO `app2_area` (`id`, `name`, `parentid`, `display`) VALUES
+(4, '江苏省', 0, 1),
+(5, '南京市', 4, 1),
+(6, '玄武区', 5, 1),
+(7, '秦淮区', 5, 1),
+(8, 'asd', 7, 1);
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app2_admin_role`
+-- 表的结构 `app2_contract`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_admin_role` (
-  `roleid` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `rolename` varchar(50) NOT NULL,
-  `description` text NOT NULL,
-  `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `disabled` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`roleid`),
-  KEY `listorder` (`listorder`),
-  KEY `disabled` (`disabled`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `app2_contract` (
+  `id` int(11) NOT NULL COMMENT 'PK',
+  `code` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '合同编号',
+  `product` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '产品种类',
+  `money` int(11) DEFAULT NULL COMMENT '投资金额',
+  `create_date` date DEFAULT NULL COMMENT '签单日',
+  `income_rate` int(11) DEFAULT NULL COMMENT '收益率',
+  `time_limit` int(11) DEFAULT NULL COMMENT '投资期限',
+  `income` int(11) DEFAULT NULL COMMENT '每期收益',
+  `income_cycle` int(11) DEFAULT NULL COMMENT '收益支付周期',
+  `time_finish` date DEFAULT NULL COMMENT '满期日',
+  `customer` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '客户',
+  `idcard` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证',
+  `bankcard` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡',
+  `contract_file` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '合同电子档',
+  `user` int(11) NOT NULL COMMENT '理财顾问',
+  `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
+  `arrive_date` date DEFAULT NULL COMMENT '到账日',
+  `total_income` int(11) DEFAULT NULL COMMENT '总收益',
+  `create_user` int(11) DEFAULT NULL COMMENT '经办（财务）',
+  `is_float` int(11) DEFAULT NULL COMMENT '是否浮动',
+  `float_income` int(11) DEFAULT NULL COMMENT '浮动收益',
+  `idnumber` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证号码',
+  `banknumber` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡号码',
+  `bank` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '开户行',
+  `paid_finish` int(11) DEFAULT NULL COMMENT '已付期数',
+  `emerge_person` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '紧急联系人',
+  `emerge_tel` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '紧急联系人电话'
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='合同';
 
 --
--- 转存表中的数据 `app2_admin_role`
+-- 转存表中的数据 `app2_contract`
 --
 
-INSERT INTO `app2_admin_role` (`roleid`, `rolename`, `description`, `listorder`, `disabled`) VALUES
-(1, '超级管理员', '超级管理员', 99, 0),
-(2, '普通用户', '普通用户', 0, 0);
+INSERT INTO `app2_contract` (`id`, `code`, `product`, `money`, `create_date`, `income_rate`, `time_limit`, `income`, `income_cycle`, `time_finish`, `customer`, `idcard`, `bankcard`, `contract_file`, `user`, `remark`, `arrive_date`, `total_income`, `create_user`, `is_float`, `float_income`, `idnumber`, `banknumber`, `bank`, `paid_finish`, `emerge_person`, `emerge_tel`) VALUES
+(1, '123456', '1', 2, '2015-10-05', 1, 2, 3, 4, '2015-10-08', 'asd', '2015-10-30/563262a9b6d92.jpg', '2015-10-30/563262a9b7435.jpg', '2015-10-30/563262a9b7a8a.jpg', 1, 'qwfesdvfda', '2015-10-16', 1, NULL, 0, 1, '123123123', '123123123123', 'asdasd', 2, 'asfasd', '314325435q');
 
 -- --------------------------------------------------------
 
 --
--- 表的结构 `app2_admin_role_priv`
+-- 表的结构 `app2_job`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_admin_role_priv` (
-  `roleid` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `c` varchar(20) NOT NULL,
-  `a` varchar(20) NOT NULL,
-  KEY `roleid` (`roleid`,`c`,`a`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app2_article`
---
-
-CREATE TABLE IF NOT EXISTS `app2_article` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `catid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `uuid` varchar(40) NOT NULL,
-  `title` varchar(80) NOT NULL DEFAULT '',
-  `keywords` varchar(40) NOT NULL DEFAULT '',
-  `description` mediumtext NOT NULL,
-  `thumb` varchar(100) NOT NULL DEFAULT '',
-  `url` varchar(100) NOT NULL,
-  `content` mediumtext NOT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `islink` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `istop` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `author` varchar(20) NOT NULL,
-  `addtime` int(10) unsigned NOT NULL DEFAULT '0',
-  `updatetime` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `catid` (`catid`,`status`,`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+CREATE TABLE `app2_job` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
+  `description` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `target` varchar(60) CHARACTER SET utf8 DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `permission` int(11) DEFAULT NULL,
+  `display` int(11) DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
--- 表的结构 `app2_category`
+-- 转存表中的数据 `app2_job`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_category` (
-  `catid` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `type` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `parentid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `catname` varchar(30) NOT NULL,
-  `description` text NOT NULL,
-  `model` varchar(50) NOT NULL DEFAULT 'article' COMMENT '模型',
-  `setting` text,
-  `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `disabled` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否禁用',
-  `ismenu` tinyint(1) NOT NULL DEFAULT '1' COMMENT '前台显示',
-  PRIMARY KEY (`catid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- 转存表中的数据 `app2_category`
---
-
-INSERT INTO `app2_category` (`catid`, `type`, `parentid`, `catname`, `description`, `model`, `setting`, `listorder`, `disabled`, `ismenu`) VALUES
-(1, 0, 0, 'asd', 'ASffasdg', 'article', NULL, 0, 0, 1);
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app2_category_priv`
---
-
-CREATE TABLE IF NOT EXISTS `app2_category_priv` (
-  `catid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `roleid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `is_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `action` varchar(30) NOT NULL,
-  KEY `catid` (`catid`,`roleid`,`is_admin`,`action`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app2_email`
---
-
-CREATE TABLE IF NOT EXISTS `app2_email` (
-  `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
-  `code` varchar(40) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `addtime` int(10) DEFAULT '0',
-  `edittime` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+INSERT INTO `app2_job` (`id`, `name`, `description`, `target`, `time`, `permission`, `display`) VALUES
+(1, '新人', 'qweqweqwe', '2', 30, 1, 1),
+(2, '正式员工', 'qweefds', '3', 60, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -202,19 +143,16 @@ CREATE TABLE IF NOT EXISTS `app2_email` (
 -- 表的结构 `app2_log`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_log` (
-  `logid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `app2_log` (
+  `logid` int(10) unsigned NOT NULL,
   `controller` varchar(15) NOT NULL,
   `action` varchar(20) NOT NULL,
   `querystring` mediumtext NOT NULL,
   `userid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `username` varchar(20) NOT NULL,
   `ip` varchar(15) NOT NULL,
-  `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`logid`),
-  KEY `module` (`controller`,`action`),
-  KEY `username` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -222,66 +160,35 @@ CREATE TABLE IF NOT EXISTS `app2_log` (
 -- 表的结构 `app2_member`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_member` (
-  `memberid` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL COMMENT '帐号',
-  `head` varchar(255) DEFAULT NULL COMMENT '头像',
-  `nick` varchar(50) DEFAULT NULL COMMENT '昵称',
-  `gender` tinyint(1) DEFAULT '0' COMMENT '0:保密,1:男,2:女',
-  `password` varchar(32) NOT NULL,
-  `encrypt` varchar(6) NOT NULL,
-  `typeid` smallint(5) DEFAULT '0',
-  `status` tinyint(1) DEFAULT '0' COMMENT '0:待认证1:已认证',
-  `remark` text COMMENT '备注',
-  `lastloginip` varchar(15) DEFAULT NULL,
-  `lastlogintime` int(10) DEFAULT '0',
-  `regip` varchar(15) NOT NULL,
-  `regtime` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
-  PRIMARY KEY (`memberid`),
-  KEY `username` (`username`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app2_member_oauth`
---
-
-CREATE TABLE IF NOT EXISTS `app2_member_oauth` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `memberid` int(11) NOT NULL COMMENT '本站用户id',
-  `openid` varchar(50) NOT NULL DEFAULT '' COMMENT '唯一标识',
-  `email` varchar(40) DEFAULT NULL COMMENT '邮箱',
-  `nick` varchar(80) DEFAULT NULL COMMENT '昵称',
-  `head` varchar(255) DEFAULT NULL COMMENT '用户图像',
-  `gender` varchar(10) DEFAULT NULL COMMENT '性别',
-  `link` varchar(255) DEFAULT NULL COMMENT '用户链接',
-  `type` varchar(50) NOT NULL DEFAULT '' COMMENT '类型',
-  `addtime` int(10) DEFAULT '0' COMMENT '添加时间',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
+CREATE TABLE `app2_member` (
+  `memberid` int(11) unsigned NOT NULL,
+  `idcard` varchar(30) DEFAULT NULL,
+  `gender` int(11) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL COMMENT '年龄',
+  `province` varchar(20) DEFAULT NULL,
+  `place` varchar(20) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `education` varchar(20) DEFAULT NULL,
+  `job` varchar(100) NOT NULL COMMENT '行业',
+  `income` int(11) NOT NULL COMMENT '收入',
+  `address` varchar(100) NOT NULL COMMENT '地址',
+  `corp` varchar(30) NOT NULL COMMENT '单位',
+  `origin` varchar(255) DEFAULT NULL COMMENT '来源',
+  `name` varchar(50) DEFAULT NULL COMMENT '姓名',
+  `tel` varchar(20) DEFAULT NULL COMMENT '电话',
+  `user` int(11) DEFAULT NULL COMMENT '负责人',
+  `create_time` date DEFAULT NULL COMMENT '创建时间',
+  `status` varchar(20) DEFAULT NULL COMMENT '状态',
+  `department` int(11) DEFAULT NULL COMMENT '负责部门',
+  `remark` text COMMENT '备注'
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- 表的结构 `app2_member_type`
+-- 转存表中的数据 `app2_member`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_member_type` (
-  `typeid` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `typename` varchar(50) NOT NULL,
-  `description` text NOT NULL,
-  `listorder` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `disabled` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`typeid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- 转存表中的数据 `app2_member_type`
---
-
-INSERT INTO `app2_member_type` (`typeid`, `typename`, `description`, `listorder`, `disabled`) VALUES
-(1, '普通用户', '本地用户', 0, 0);
+INSERT INTO `app2_member` (`memberid`, `idcard`, `gender`, `age`, `province`, `place`, `birthday`, `education`, `job`, `income`, `address`, `corp`, `origin`, `name`, `tel`, `user`, `create_time`, `status`, `department`, `remark`) VALUES
+(1, '410303199312061017', 1, 1993, '江苏', '苏州', '1993-12-06', '本科', '计算机', 100, 'asdasdasdasdasd', 'asdasd', '广告', '郝杰', '123456789', 1, '2015-10-24', '新客户', NULL, 'asdasdasd');
 
 -- --------------------------------------------------------
 
@@ -289,20 +196,16 @@ INSERT INTO `app2_member_type` (`typeid`, `typename`, `description`, `listorder`
 -- 表的结构 `app2_menu`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_menu` (
-  `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `app2_menu` (
+  `id` smallint(6) unsigned NOT NULL,
   `name` varchar(40) NOT NULL DEFAULT '',
   `parentid` smallint(6) NOT NULL DEFAULT '0',
   `c` varchar(20) NOT NULL DEFAULT '',
   `a` varchar(20) NOT NULL DEFAULT '',
   `data` varchar(255) NOT NULL DEFAULT '',
   `listorder` smallint(6) unsigned NOT NULL DEFAULT '0',
-  `display` enum('1','0') NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
-  KEY `listorder` (`listorder`),
-  KEY `parentid` (`parentid`),
-  KEY `module` (`c`,`a`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=72 ;
+  `display` enum('1','0') NOT NULL DEFAULT '1'
+) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `app2_menu`
@@ -316,7 +219,7 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (7, '登录日志', 6, 'Admin', 'loginLog', '', 1, '1'),
 (8, '删除登录日志', 7, 'Admin', 'loginLogDelete', '', 1, '1'),
 (9, '系统设置', 2, 'System', 'settingLeft', '', 1, '1'),
-(10, '系统设置', 9, 'System', 'setting', '', 1, '1'),
+(80, '客户管理', 3, 'Member', 'memberList', '', 0, '1'),
 (11, '菜单设置', 9, 'System', 'menuList', '', 2, '1'),
 (12, '查看列表', 11, 'System', 'menuViewList', '', 0, '1'),
 (13, '添加菜单', 11, 'System', 'menuAdd', '', 0, '1'),
@@ -325,13 +228,13 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (16, '菜单排序', 11, 'System', 'menuOrder', '', 0, '1'),
 (17, '菜单导出', 11, 'System', 'menuExport', '', 0, '1'),
 (18, '菜单导入', 11, 'System', 'menuImport', '', 0, '1'),
-(19, '用户设置', 2, 'Admin', 'left', '', 2, '1'),
-(20, '用户管理', 19, 'Admin', 'memberList', '', 1, '1'),
+(19, '员工设置', 2, 'Admin', 'left', '', 2, '1'),
+(20, '员工管理', 19, 'Admin', 'memberList', '', 1, '1'),
 (21, '查看列表', 20, 'Admin', 'memberViewList', '', 0, '1'),
 (22, '添加用户', 20, 'Admin', 'memberAdd', '', 0, '1'),
 (23, '编辑用户', 20, 'Admin', 'memberEdit', '', 0, '1'),
 (24, '删除用户', 20, 'Admin', 'memberDelete', '', 0, '1'),
-(25, '角色管理', 19, 'Admin', 'roleList', '', 2, '1'),
+(73, '权限管理', 2, 'Admin', 'permissionLeft', '', 0, '1'),
 (26, '查看列表', 25, 'Admin', 'roleViewList', '', 0, '1'),
 (27, '添加角色', 25, 'Admin', 'roleAdd', '', 0, '1'),
 (28, '编辑角色', 25, 'Admin', 'roleEdit', '', 0, '1'),
@@ -339,7 +242,6 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (30, '角色排序', 25, 'Admin', 'roleOrder', '', 0, '1'),
 (31, '权限设置', 25, 'Admin', 'rolePermission', '', 0, '1'),
 (32, '栏目权限', 25, 'Admin', 'roleCategory', '', 0, '1'),
-(33, '系统记录', 2, 'System', 'recordLeft', '', 3, '1'),
 (34, '日志管理', 33, 'System', 'logList', '', 3, '1'),
 (35, '查看列表', 34, 'System', 'logViewList', '', 0, '1'),
 (39, '内容管理', 38, 'Content', 'index', '', 0, '1'),
@@ -371,25 +273,12 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (67, '模版列表', 63, 'System', 'emailList', '', 0, '1'),
 (68, '上传管理', 38, 'Storage', 'index', '', 0, '1'),
 (70, '备份数据库', 69, 'Database', 'exportlist', '', 0, '1'),
-(71, '还原数据库', 69, 'Database', 'importlist', '', 0, '1');
-
--- --------------------------------------------------------
-
---
--- 表的结构 `app2_page`
---
-
-CREATE TABLE IF NOT EXISTS `app2_page` (
-  `catid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `uuid` varchar(40) NOT NULL,
-  `title` varchar(160) NOT NULL,
-  `keywords` varchar(40) NOT NULL,
-  `description` text NOT NULL,
-  `content` text NOT NULL,
-  `status` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `updatetime` int(10) unsigned NOT NULL DEFAULT '0',
-  KEY `catid` (`catid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+(71, '还原数据库', 69, 'Database', 'importlist', '', 0, '1'),
+(74, '地区管理', 73, 'Admin', 'areaList', '', 0, '1'),
+(79, '状态管理', 73, 'Admin', 'jobList', '', 0, '1'),
+(81, '合同管理', 3, 'Contract', 'contractList', '', 0, '1'),
+(82, '客户列表', 80, 'Member', 'memberList', '', 0, '1'),
+(83, '合同列表', 81, 'Contract', 'contractList', '', 0, '1');
 
 -- --------------------------------------------------------
 
@@ -397,27 +286,106 @@ CREATE TABLE IF NOT EXISTS `app2_page` (
 -- 表的结构 `app2_setting`
 --
 
-CREATE TABLE IF NOT EXISTS `app2_setting` (
+CREATE TABLE `app2_setting` (
   `key` varchar(50) NOT NULL,
-  `value` varchar(5000) DEFAULT '',
-  PRIMARY KEY (`key`)
+  `value` varchar(5000) DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- 表的结构 `app2_times`
+-- Indexes for dumped tables
 --
 
-CREATE TABLE IF NOT EXISTS `app2_times` (
-  `username` char(40) NOT NULL,
-  `ip` char(15) NOT NULL,
-  `logintime` int(10) unsigned NOT NULL DEFAULT '0',
-  `isadmin` tinyint(1) NOT NULL DEFAULT '0',
-  `times` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`username`,`isadmin`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+--
+-- Indexes for table `app2_admin`
+--
+ALTER TABLE `app2_admin`
+  ADD PRIMARY KEY (`userid`),
+  ADD KEY `username` (`username`);
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+--
+-- Indexes for table `app2_area`
+--
+ALTER TABLE `app2_area`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `app2_contract`
+--
+ALTER TABLE `app2_contract`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `app2_job`
+--
+ALTER TABLE `app2_job`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `app2_log`
+--
+ALTER TABLE `app2_log`
+  ADD PRIMARY KEY (`logid`),
+  ADD KEY `module` (`controller`,`action`),
+  ADD KEY `username` (`username`);
+
+--
+-- Indexes for table `app2_member`
+--
+ALTER TABLE `app2_member`
+  ADD PRIMARY KEY (`memberid`),
+  ADD KEY `username` (`corp`);
+
+--
+-- Indexes for table `app2_menu`
+--
+ALTER TABLE `app2_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `listorder` (`listorder`),
+  ADD KEY `parentid` (`parentid`),
+  ADD KEY `module` (`c`,`a`);
+
+--
+-- Indexes for table `app2_setting`
+--
+ALTER TABLE `app2_setting`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `app2_admin`
+--
+ALTER TABLE `app2_admin`
+  MODIFY `userid` mediumint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `app2_area`
+--
+ALTER TABLE `app2_area`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PK',AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT for table `app2_contract`
+--
+ALTER TABLE `app2_contract`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PK',AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `app2_job`
+--
+ALTER TABLE `app2_job`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `app2_log`
+--
+ALTER TABLE `app2_log`
+  MODIFY `logid` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `app2_member`
+--
+ALTER TABLE `app2_member`
+  MODIFY `memberid` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `app2_menu`
+--
+ALTER TABLE `app2_menu`
+  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=84;

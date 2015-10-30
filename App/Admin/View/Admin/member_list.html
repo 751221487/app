@@ -17,6 +17,10 @@ var adminMemberModule = {
 	time: function(val){
 		return val != '1970-01-01 08:00:00' ? val : '';
 	},
+
+	target: function(val){
+		return val + '万元';
+	},
 	
 	//操作字段格式化
 	operate: function(val){
@@ -39,7 +43,7 @@ var adminMemberModule = {
 			title: '添加员工',
 			iconCls: 'icons-application-application_add',
 			width: 370,
-			height: 420,
+			height: 460,
 			cache: false,
 			href: '<{:U('Admin/memberAdd')}>',
 			modal: true,
@@ -96,7 +100,7 @@ var adminMemberModule = {
 			title: '编辑员工',
 			iconCls: 'icons-application-application_edit',
 			width: 370,
-			height: 400,
+			height: 460,
 			cache: false,
 			href: href,
 			modal: true,

@@ -6,15 +6,15 @@
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
 		注册时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
 		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
-		会员名:
-		<input type="text" name="search[username]" style="width:100px;padding:2px"/>
-		昵称:
-		<input type="text" name="search[nick]" style="width:100px;padding:2px"/>
+		客户名:
+		<input type="text" name="search[name]" style="width:100px;padding:2px"/>
+		电话:
+		<input type="text" name="search[tel]" style="width:100px;padding:2px"/>
 
 		<a href="javascript:;" onclick="memberMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>
 	<div>
-		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_add'" onclick="memberMemberModule.add()">添加会员</a>
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_add'" onclick="memberMemberModule.add()">添加客户</a>
 		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="memberMemberModule.refresh()">刷新</a>
 	</div>
 </div>
@@ -24,29 +24,11 @@ var memberMemberModule = {
 	dialog:   '#globel-dialog-div',
 	datagrid: '#member_memberlist_datagrid',
 
-	//性别格式化
-	gender: function(key){
-		var gender = <{:json_encode($dict['gender'])}>;
-		return gender[key] || '-';
-	},
-	
-	//状态格式化
-	status: function(key){
-		var status = {0: '<font color="red">未验证</font>', 1: '已验证'};
-		return status[key] || '-';
-	},
-	
-	//时间格式化
-	time: function(val){
-		return val != '1970-01-01 08:00:00' ? val : '';
-	},
 	
 	//操作格式化
 	operate: function(val){
 		var btn = [];
-		btn.push('<a href="javascript:;" onclick="memberMemberModule.view('+val+')">查看详情</a>');
-		btn.push('<a href="javascript:;" onclick="memberMemberModule.edit('+val+')">编辑会员</a>');
-		btn.push('<a href="javascript:;" onclick="memberMemberModule.password('+val+')">重置密码</a>');
+		btn.push('<a href="javascript:;" onclick="memberMemberModule.edit('+val+')">编辑</a>');
 		btn.push('<a href="javascript:;" onclick="memberMemberModule.delete('+val+')">删除</a>');
 		return btn.join(' | ');
 	},
@@ -69,10 +51,10 @@ var memberMemberModule = {
 	add: function(){
 		var that = this;
 		$(that.dialog).dialog({
-			title: '添加会员',
+			title: '添加客户',
 			iconCls: 'icons-application-application_add',
-			width: 390,
-			height: 360,
+			width: 500,
+			height: 400,
 			cache: false,
 			href: '<{:U('Member/memberAdd')}>',
 			modal: true,
@@ -119,7 +101,7 @@ var memberMemberModule = {
 	//编辑
 	edit: function(id){
 		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择会员', 'error');
+			$.app.method.tip('提示信息', '未选择客户', 'error');
 			return false;
 		}
 		var href = '<{:U('Member/memberEdit')}>';
@@ -127,10 +109,10 @@ var memberMemberModule = {
 		
 		var that = this;
 		$(that.dialog).dialog({
-			title: '编辑会员',
+			title: '编辑客户',
 			iconCls: 'icons-application-application_edit',
-			width: 390,
-			height: 300,
+			width: 500,
+			height: 400,
 			cache: false,
 			href: href,
 			modal: true,
@@ -180,7 +162,7 @@ var memberMemberModule = {
 	//删除
 	delete: function(id){
 		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择会员', 'error');
+			$.app.method.tip('提示信息', '未选择客户', 'error');
 			return false;
 		}
 		var that = this;
@@ -201,60 +183,6 @@ var memberMemberModule = {
 		});
 	},
 	
-	//重置密码
-	password: function(id){
-		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择会员', 'error');
-			return false;
-		}
-		var that = this;
-		$.messager.confirm('提示信息', '确定要重置密码吗？', function(result){
-			if(!result) return false;
-			
-			$.messager.progress({text:'处理中，请稍候...'});
-			$.post('<{:U('Member/memberResetPassword')}>', {id: id}, function(res){
-				$.messager.progress('close');
-				
-				if(!res.status){
-					$.app.method.tip('提示信息', res.info, 'error');
-				}else{
-					$.app.method.tip('提示信息', res.info, 'info');
-					$.messager.alert('提示信息', '密码已重置为：' + res.password + '，请牢记新密码！', 'info');
-				}
-			}, 'json');
-		});
-	},
 	
-	//查看
-	view: function(id){
-		if(typeof(id) !== 'number'){
-			$.app.method.tip('提示信息', '未选择会员', 'error');
-			return false;
-		}
-		var href = '<{:U('Member/memberView')}>';
-		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
-		
-		var that = this;
-		$(that.dialog).dialog({
-			title: '会员详情',
-			iconCls: 'icons-application-application_view_detail',
-			width: 450,
-			height: 350,
-			cache: false,
-			href: href,
-			modal: true,
-			collapsible: false,
-			minimizable: false,
-			resizable: false,
-			maximizable: false,
-			buttons:[{
-				text:'关闭',
-				iconCls:'icons-arrow-cross',
-				handler: function(){
-					$(that.dialog).dialog('close');
-				}
-			}]
-		});
-	}
 };
 </script>

@@ -18,7 +18,18 @@
 		</tr>
 		<tr>
 			<td>职位：</td>
-			<td><input class="easyui-validatebox" type="text" data-options="required:true" name="info[position]" value="<{$info.position}>" style="width:200px;"/></td>
+			<td>
+				<select class="easyui-combobox" data-options="required:true" name="info[position]" style="width:200px;">
+					<option value="总经理">总经理</option>
+					<option value="副总经理">副总经理</option>
+					<option value="财务">财务</option>
+					<option value="业务发展经理">业务发展经理</option>
+					<option value="区域经理">区域经理</option>
+					<option value="总监">总监</option>
+					<option value="营业部经理">营业部经理</option>
+					<option value="理财顾问">理财顾问</option>
+				</select>
+			</td>
 		</tr>
 		<tr>
 			<td>状态：</td>
@@ -27,6 +38,15 @@
 					<foreach name="jobList" item="job">
 						<option value="<{$job.id}>"><{$job.name}></option>
 					</foreach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>权限：</td>
+			<td>
+				<select class="easyui-combobox" data-options="required:true" name="info[permission]" style="width:200px;" value="<{$info.permision}>">
+					<option value="1">可查看所在区域全部员工</option>
+					<option value="2">只能查看自己信息</option>
 				</select>
 			</td>
 		</tr>

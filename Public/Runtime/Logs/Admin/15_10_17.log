@@ -1,0 +1,693 @@
+[ 2015-10-17T14:35:52+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.004195s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.017804s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.004148s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.078553s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.083747s ]
+
+[ 2015-10-17T14:36:06+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000530s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003054s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000115s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013194s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014085s ]
+
+[ 2015-10-17T14:36:21+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000520s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.004126s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000158s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014077s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014957s ]
+
+[ 2015-10-17T14:36:37+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000527s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003489s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000149s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013713s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014598s ]
+
+[ 2015-10-17T14:36:53+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000511s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006297s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000179s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.019888s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.020779s ]
+
+[ 2015-10-17T14:37:08+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000527s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006668s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000277s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.018678s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.019668s ]
+
+[ 2015-10-17T14:37:26+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000513s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003214s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000136s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013533s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014410s ]
+
+[ 2015-10-17T14:37:42+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000542s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003122s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000147s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013147s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014079s ]
+
+[ 2015-10-17T14:37:58+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000532s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006671s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000270s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.017280s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.018215s ]
+
+[ 2015-10-17T14:38:15+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000516s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003730s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000165s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013814s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014710s ]
+
+[ 2015-10-17T14:38:36+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006976s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000245s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015157s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015850s ]
+
+[ 2015-10-17T14:38:58+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002707s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000141s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010869s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011541s ]
+
+[ 2015-10-17T14:39:14+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002777s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010604s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011276s ]
+
+[ 2015-10-17T14:39:30+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000380s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002819s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010662s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011351s ]
+
+[ 2015-10-17T14:39:46+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000395s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002761s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000152s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011669s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012426s ]
+
+[ 2015-10-17T14:40:02+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000378s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002925s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000141s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010778s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011456s ]
+
+[ 2015-10-17T14:40:18+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000378s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006665s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000169s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014584s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015264s ]
+
+[ 2015-10-17T14:40:35+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003000s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000152s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010855s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011524s ]
+
+[ 2015-10-17T14:40:53+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000609s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003184s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000260s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.013478s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.014611s ]
+
+[ 2015-10-17T14:41:08+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006724s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000169s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015153s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015826s ]
+
+[ 2015-10-17T14:41:26+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002773s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010652s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011329s ]
+
+[ 2015-10-17T14:41:43+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002834s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010682s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011361s ]
+
+[ 2015-10-17T14:42:00+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000379s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003225s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000145s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011216s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011901s ]
+
+[ 2015-10-17T14:42:16+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006617s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000256s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015028s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015721s ]
+
+[ 2015-10-17T14:42:32+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000387s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002980s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010865s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011590s ]
+
+[ 2015-10-17T14:42:47+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002923s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000165s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011033s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011719s ]
+
+[ 2015-10-17T14:43:03+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002896s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000141s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010983s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011658s ]
+
+[ 2015-10-17T14:43:19+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000389s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003482s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000145s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011831s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012522s ]
+
+[ 2015-10-17T14:43:34+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000509s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006779s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000193s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014694s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015515s ]
+
+[ 2015-10-17T14:43:50+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000377s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002727s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011536s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012207s ]
+
+[ 2015-10-17T14:44:05+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000384s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002972s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000147s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011207s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011891s ]
+
+[ 2015-10-17T14:44:20+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002693s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000130s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010502s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011164s ]
+
+[ 2015-10-17T14:44:35+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000378s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003841s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000181s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014882s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015567s ]
+
+[ 2015-10-17T14:44:51+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000925s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003064s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000158s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015083s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.016691s ]
+
+[ 2015-10-17T14:45:07+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003187s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000137s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011033s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011693s ]
+
+[ 2015-10-17T14:45:23+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002760s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000143s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010662s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011340s ]
+
+[ 2015-10-17T14:45:39+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006434s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000163s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014350s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015025s ]
+
+[ 2015-10-17T14:45:55+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.009063s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000252s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.017296s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.017985s ]
+
+[ 2015-10-17T14:46:11+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000368s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003066s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000145s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010992s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011657s ]
+
+[ 2015-10-17T14:46:27+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000378s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002757s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000147s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010600s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011287s ]
+
+[ 2015-10-17T14:46:43+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003439s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000146s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011653s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012326s ]
+
+[ 2015-10-17T14:46:59+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000380s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.001831s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000158s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010501s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011184s ]
+
+[ 2015-10-17T14:47:16+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002745s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000118s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010847s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011516s ]
+
+[ 2015-10-17T14:47:33+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000382s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002743s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000144s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010640s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011360s ]
+
+[ 2015-10-17T14:47:49+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000377s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003662s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000152s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011568s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012249s ]
+
+[ 2015-10-17T14:48:04+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006626s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000172s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015067s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015745s ]
+
+[ 2015-10-17T14:48:20+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000427s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002675s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000144s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011903s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.013031s ]
+
+[ 2015-10-17T14:48:38+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000374s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003183s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000133s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010977s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011639s ]
+
+[ 2015-10-17T14:48:54+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002855s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000139s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010722s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011399s ]
+
+[ 2015-10-17T14:49:09+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000379s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002813s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000221s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011121s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011808s ]
+
+[ 2015-10-17T14:49:24+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000381s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003564s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000146s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011703s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012375s ]
+
+[ 2015-10-17T14:49:43+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000374s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003531s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000147s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011421s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012097s ]
+
+[ 2015-10-17T14:49:59+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002673s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000150s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010599s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011275s ]
+
+[ 2015-10-17T14:50:19+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000386s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002872s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010698s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011485s ]
+
+[ 2015-10-17T14:50:35+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002719s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010552s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011224s ]
+
+[ 2015-10-17T14:50:50+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000389s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003409s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000436s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.016248s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.016973s ]
+
+[ 2015-10-17T14:51:07+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003539s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000146s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011499s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012175s ]
+
+[ 2015-10-17T14:51:23+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002550s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000132s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010252s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.010911s ]
+
+[ 2015-10-17T14:51:39+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000385s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002733s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000141s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010638s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011341s ]
+
+[ 2015-10-17T14:51:55+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000378s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002662s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000141s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010542s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011228s ]
+
+[ 2015-10-17T14:52:10+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002690s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000143s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010535s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011211s ]
+
+[ 2015-10-17T14:52:27+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000377s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002763s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010579s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011257s ]
+
+[ 2015-10-17T14:52:43+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002934s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010747s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011421s ]
+
+[ 2015-10-17T14:52:59+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000372s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002683s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000143s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010494s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011166s ]
+
+[ 2015-10-17T14:53:15+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003042s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000142s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011129s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011795s ]
+
+[ 2015-10-17T14:53:31+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.009032s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000246s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.017193s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.017887s ]
+
+[ 2015-10-17T14:53:47+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002739s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000140s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011116s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011789s ]
+
+[ 2015-10-17T14:54:02+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000463s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003108s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000172s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011580s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012378s ]
+
+[ 2015-10-17T14:54:18+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000420s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002581s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000132s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010583s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011299s ]
+
+[ 2015-10-17T14:54:39+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000390s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002860s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000107s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010803s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011512s ]
+
+[ 2015-10-17T14:54:55+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000479s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002754s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000150s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010800s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011593s ]
+
+[ 2015-10-17T14:55:11+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000371s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003614s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000145s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.011383s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.012042s ]
+
+[ 2015-10-17T14:55:30+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.003034s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000144s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010858s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011529s ]
+
+[ 2015-10-17T14:55:46+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000376s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006600s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000248s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.015245s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015940s ]
+
+[ 2015-10-17T14:56:06+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000375s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.009058s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000246s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.017216s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.017910s ]
+
+[ 2015-10-17T14:56:22+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000384s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.002668s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000135s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.010365s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.011037s ]
+
+[ 2015-10-17T14:56:37+08:00 ] ::1 /app/admin/index/public_sessionlife.html
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000373s ]
+SQL: SHOW COLUMNS FROM `app2_setting` [ RunTime:0.006532s ]
+SQL: SELECT `key`,`value` FROM `app2_setting`  [ RunTime:0.000161s ]
+NOTIC: [2] unlink(/Applications/MAMP/htdocs/app/Public/Runtime/Temp/71df8fced343b2a8ba67c00a47a67b50.php): No such file or directory /Applications/MAMP/htdocs/app/Libs/ThinkPHP/Library/Think/Cache/Driver/File.class.php 第 157 行.
+INFO: Run Common\Behavior\SettingBehavior [ RunTime:0.014493s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.015170s ]
+

@@ -20,7 +20,12 @@ var adminJobModule = {
 	
 	//状态格式化
 	timeLimit: function(val){
-		return val + '天';
+		return val + '日';
+	},
+
+	//目标格式化
+	target: function(val){
+		return val + '万元';
 	},
 
 	//操作格式化
@@ -35,6 +40,8 @@ var adminJobModule = {
 	refresh: function(){
 		$(this.datagrid).datagrid('reload');
 	},
+
+
 	
 	//添加角色
 	add: function(){
@@ -119,7 +126,7 @@ var adminJobModule = {
 							if (!isValid) return false;
 							
 							$.messager.progress({text:'处理中，请稍候...'});
-							var action = '<{:U('Admin/roleEdit', array('dosubmit'=>1))}>';
+							var action = '<{:U('Admin/jobEdit', array('dosubmit'=>1))}>';
 							action += action.indexOf('?') != -1 ? '&id='+id : '?id='+id;
 							$.post(action, $(this).serialize(), function(res){
 								$.messager.progress('close');

@@ -71,7 +71,7 @@ class AdminModel extends Model{
 		S('SESSION_ID_' . $r['userid'] , session_id());  //单点登录用
 		return true;
 	}
-	
+
 	/**
 	 * 获取用户信息
 	 */
@@ -80,6 +80,32 @@ class AdminModel extends Model{
 		$info = $this->field('password, encrypt', true)->where(array('userid'=>$userid))->find();
 		if($info) $info['rolename'] = $admin_role_db->getRoleName($info['roleid']);    //获取角色名称
 		return $info;
+	}
+	
+
+	/**
+	* 员工列表
+	*/
+	public function listAdmin($userid, $order, $limit){
+		$area_db = D("area");
+		$admin = $this->where(array('userid'=>$userid))->find();
+		if($admin['area'] == 0){
+			return $this->order($order)->limit($limit)->select();
+		} else {
+			$Model = new \Think\Model();
+			$sql = "
+				with cte as
+				(
+				    select * from app2_admin
+				    where area = ".$admin['area']."
+				    union all
+				    select * from cte c inner join app2_area d
+				    on c.area = d.parentid
+				)
+				select * from cte order by $order LIMIT $limit
+			";
+			return $Model->query($sql);
+		}
 	}
 	
 	/**

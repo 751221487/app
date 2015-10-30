@@ -1,0 +1,1 @@
+<?php if (!defined('THINK_PATH')) exit();?><ul id="admin-role-permission-tree" class="easyui-tree" data-options="url:'<?php echo U('Admin/rolePermission?id='.$id);?>',method:'post',animate:true,checkbox:true,lines:true"></ul>
