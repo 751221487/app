@@ -1,0 +1,33 @@
+<taglib name="Admin\TagLib\EasyUI" />
+<script>
+	(function($){  
+        $.fn.serializeJson=function(){  
+            var serializeObj={};  
+            $(this.serializeArray()).each(function(){  
+                serializeObj[this.name]=this.value;  
+            });  
+            return serializeObj;  
+        };  
+    })(jQuery);
+</script>
+<easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
+
+<div id="message-messagelist-datagrid-toolbar" style="padding:1px;height:auto">
+	<div>
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="messageMessageModule.refresh()">刷新</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+var messageMessageModule = {
+	dialog:   '#globel-dialog-div',
+	datagrid: '#message_messagelist_datagrid',
+
+	
+	//刷新
+	refresh: function(){
+		$(this.datagrid).datagrid('reload');
+	},
+
+};
+</script>
