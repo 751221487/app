@@ -17,6 +17,12 @@
 				$('#charge').combobox('setValue', '<{$info.user}>');
 			}
 		});
+
+		$('#customer').combobox({
+			valueField: 'id',
+			textField: 'text',
+			url: '<{:U('Member/public_selectcustomer')}>'
+		});
 	})
 </script>
 <form>
@@ -68,7 +74,7 @@
 			</td>
 			<td>客户：</td>
 			<td>
-				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[customer]" value="<{$info.customer}>">
+				<input type="text" id="customer" class="easyui-combobox" data-options="required:true" name="info[customer]" value="<{$info.customer}>">
 			</td>
 		</tr>
 		<tr>
@@ -116,12 +122,8 @@
 		</tr>
 		<tr>
 			<td>开户行：</td>
-			<td>
+			<td colspan=3>
 				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[bank]" value="<{$info.bank}>">
-			</td>
-			<td>已付期数：</td>
-			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[paid_finish]" value="<{$info.paid_finish}>">
 			</td>
 		</tr>
 		<tr>

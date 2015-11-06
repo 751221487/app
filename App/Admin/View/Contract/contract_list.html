@@ -95,16 +95,15 @@ var contractContractModule = {
 								dataType : 'jsonp',
 								data : $(this).serializeJson(),
 								success : function(data, status){
+									$.messager.progress('close');
 									data = JSON.parse(data);
-									if(data.status == 1){
-										$.app.method.tip('提示信息', res.info, 'info');
-										$(that.dialog).dialog('close');
-										that.refresh();
-									} else {
-										$.app.method.tip('提示信息', res.info, 'error');
-									}
+									$.app.method.tip('提示信息', data.info, 'info');
+									$(that.dialog).dialog('close');
+									that.refresh();
 								},
 								error: function(data, status){
+									$.messager.progress('close');
+									$.app.method.tip('提示信息', '添加失败', 'error');
 									return;
 								}
 							});
@@ -197,16 +196,16 @@ var contractContractModule = {
 								dataType : 'jsonp',
 								data : $(this).serializeJson(),
 								success : function(data, status){
+									$.messager.progress('close');
+									console.log(data);
 									data = JSON.parse(data);
-									if(data.status == 1){
-										$.app.method.tip('提示信息', res.info, 'info');
-										$(that.dialog).dialog('close');
-										that.refresh();
-									} else {
-										$.app.method.tip('提示信息', res.info, 'error');
-									}
+									$.app.method.tip('提示信息', data.info, 'info');
+									$(that.dialog).dialog('close');
+									that.refresh();
 								},
 								error: function(data, status){
+									$.messager.progress('close');
+									$.app.method.tip('提示信息', '修改失败', 'error');
 									return;
 								}
 							});

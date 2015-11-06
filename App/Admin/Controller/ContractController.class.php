@@ -103,10 +103,11 @@ class ContractController extends CommonController {
 			$data['bankcard'] = $info['bankcard']['savepath'].$info['bankcard']['savename'];
 			$data['contract_file'] = $info['contract_file']['savepath'].$info['contract_file']['savename'];
 			$id = $contract_db->add($data);
+			header("Content-Type:text/html");
 			if($id){
-				$this->success('添加成功');
+				echo json_encode(array('status'=>1, 'info'=>'修改成功'));
 			}else {
-				$this->error('添加失败');
+				echo json_encode(array('status'=>0, 'info'=>'修改失败'));
 			}
 		}else{
 			$this->display('contract_add');
@@ -121,11 +122,21 @@ class ContractController extends CommonController {
 		$info = $contract_db->where(array('id'=>$id))->find();
 		$admin_db = D('Admin');
 		$adminList = $admin_db->select();
+		$member_db = D('Member');
+		$memberList = $member_db->select();
 		for($i = 0; $i < count($adminList); $i++){
 			if($info['user'] == $adminList[$i]['userid']) {
 				$info['charge'] = $adminList[$i]['realname'];
 			}
+			if($info['customer'] == $memberList[$i]['memberid']){
+				$info['customername'] = $memberList[$i]['name'];
+			}
 		}
+		$now = time();
+		$create_time = strtotime($info['create_date']);
+		$month_diff = ($now['y'] - $create_time['y']) * 12 + ($now['m'] - $create_time['m']);
+		$info['paid_finish'] = intval($month_diff / $info['income_cycle']);
+		$this->assign('admin', $admin_db->where(array('userid'=>session('userid')))->find());
 		$this->assign('info', $info);
 		$this->display('contract_detail');
 	}
@@ -143,20 +154,21 @@ class ContractController extends CommonController {
 			$upload->rootPath  =     './Public/upload/'; // 设置附件上传根目录
 			$upload->saveName = array('uniqid','');
 			$info   =   $upload->upload($_FILES);
-			if($info['idcard']['name'] != ''){
+			if(isset($info['idcard'])){
 				$data['idcard'] = $info['idcard']['savepath'].$info['idcard']['savename'];
 			}
-			if($info['bankcard']['name'] != ''){
+			if(isset($info['bankcard'])){
 				$data['bankcard'] = $info['bankcard']['savepath'].$info['bankcard']['savename'];
 			}
-			if($info['contract_file']['name'] != ''){
+			if(isset($info['contract_file'])){
 				$data['contract_file'] = $info['contract_file']['savepath'].$info['contract_file']['savename'];
 			}
 			$result = $contract_db->where(array('id'=>$id))->save($data);
+			header("Content-Type:text/html");
 			if($result){
-				$this->success('修改成功');
+				echo json_encode(array('status'=>1, 'info'=>'修改成功'));
 			}else {
-				$this->error('修改失败');
+				echo json_encode(array('status'=>0, 'info'=>'修改失败'));
 			}
 		}else{
 			$info = $contract_db->where(array('id'=>$id))->find();
@@ -188,5 +200,6 @@ class ContractController extends CommonController {
 			$this->error('删除失败');
 		}
 	}
+
 
 }

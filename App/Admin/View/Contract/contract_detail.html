@@ -60,10 +60,10 @@
 			</td>
 			<td>客户</td>
 			<td>
-				<{$info.customer}>
+				<{$info.customername}>
 			</td>
 		</tr>
-<!-- 	财务可以查看	
+		<?php if($admin['position'] == '财务'){ ?>	
 		<tr>
 			<td>身份证号码</td>
 			<td>
@@ -83,7 +83,8 @@
 			<td>
 				<img src="__PUBLIC__/upload/<{$info.bankcard}>" alt="">
 			</td>
-		</tr> -->
+		</tr>
+		<?php } ?>
 		<tr>
 			<td>到账日</td>
 			<td>

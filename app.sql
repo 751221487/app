@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 2015-10-30 17:10:36
+-- Generation Time: 2015-11-06 14:07:53
 -- 服务器版本： 5.5.42
 -- PHP Version: 5.6.10
 
@@ -43,7 +43,7 @@ CREATE TABLE `app2_admin` (
 --
 
 INSERT INTO `app2_admin` (`userid`, `username`, `password`, `position`, `area`, `join_time`, `job`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `tel`, `permission`, `remark`, `realname`) VALUES
-(1, 'admin', '0c85dd37ceb4d51ea4ed9e78c468ee13', '财务', 0, '2015-10-01', 1, 'MgaxbA', '0.0.0.0', 1446205214, 'admin@admin.com', '123456', 1, 'admin', 'asd'),
+(1, 'admin', '0c85dd37ceb4d51ea4ed9e78c468ee13', '财务', 0, '2015-10-01', 1, 'MgaxbA', '0.0.0.0', 1446662786, 'admin@admin.com', '123456', 1, 'admin', 'asd'),
 (3, '12345', '6bce23e60359eefb359149dbbdc745eb', '总经理', 5, '2015-10-01', 1, 'SQMjgC', '0.0.0.0', 1446204743, 'a@b.c', '123456', 2, 'test', 'test');
 
 -- --------------------------------------------------------
@@ -101,7 +101,6 @@ CREATE TABLE `app2_contract` (
   `idnumber` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证号码',
   `banknumber` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡号码',
   `bank` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '开户行',
-  `paid_finish` int(11) DEFAULT NULL COMMENT '已付期数',
   `emerge_person` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '紧急联系人',
   `emerge_tel` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '紧急联系人电话'
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COMMENT='合同';
@@ -110,8 +109,8 @@ CREATE TABLE `app2_contract` (
 -- 转存表中的数据 `app2_contract`
 --
 
-INSERT INTO `app2_contract` (`id`, `code`, `product`, `money`, `create_date`, `income_rate`, `time_limit`, `income`, `income_cycle`, `time_finish`, `customer`, `idcard`, `bankcard`, `contract_file`, `user`, `remark`, `arrive_date`, `total_income`, `create_user`, `is_float`, `float_income`, `idnumber`, `banknumber`, `bank`, `paid_finish`, `emerge_person`, `emerge_tel`) VALUES
-(1, '123456', '1', 2, '2015-10-05', 1, 2, 3, 4, '2015-10-08', 'asd', '2015-10-30/563262a9b6d92.jpg', '2015-10-30/563262a9b7435.jpg', '2015-10-30/563262a9b7a8a.jpg', 1, 'qwfesdvfda', '2015-10-16', 1, NULL, 0, 1, '123123123', '123123123123', 'asdasd', 2, 'asfasd', '314325435q');
+INSERT INTO `app2_contract` (`id`, `code`, `product`, `money`, `create_date`, `income_rate`, `time_limit`, `income`, `income_cycle`, `time_finish`, `customer`, `idcard`, `bankcard`, `contract_file`, `user`, `remark`, `arrive_date`, `total_income`, `create_user`, `is_float`, `float_income`, `idnumber`, `banknumber`, `bank`, `emerge_person`, `emerge_tel`) VALUES
+(1, '123456', '1', 2, '2015-10-05', 1, 2, 3, 4, '2015-10-08', '1', '2015-11-05/563a66b6a2724.jpg', '2015-10-30/563262a9b7435.jpg', '2015-10-30/563262a9b7a8a.jpg', 1, 'qwfesdvfda', '2015-10-16', 1, NULL, 0, 1, '123123123', '123123123123', 'asdasdaa', 'asfasdas', '314325435q');
 
 -- --------------------------------------------------------
 
@@ -188,7 +187,7 @@ CREATE TABLE `app2_member` (
 --
 
 INSERT INTO `app2_member` (`memberid`, `idcard`, `gender`, `age`, `province`, `place`, `birthday`, `education`, `job`, `income`, `address`, `corp`, `origin`, `name`, `tel`, `user`, `create_time`, `status`, `department`, `remark`) VALUES
-(1, '410303199312061017', 1, 1993, '江苏', '苏州', '1993-12-06', '本科', '计算机', 100, 'asdasdasdasdasd', 'asdasd', '广告', '郝杰', '123456789', 1, '2015-10-24', '新客户', NULL, 'asdasdasd');
+(1, '410303199312061017', 1, 1993, '江苏', '苏州', '1993-12-06', '本科', '计算机', 100, 'asdasdasdasdasd', 'asdasd', '广告', '郝杰', '123456789', 1, '2015-10-24', '准客户', 0, 'asdasdasd');
 
 -- --------------------------------------------------------
 
@@ -205,7 +204,7 @@ CREATE TABLE `app2_menu` (
   `data` varchar(255) NOT NULL DEFAULT '',
   `listorder` smallint(6) unsigned NOT NULL DEFAULT '0',
   `display` enum('1','0') NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `app2_menu`
@@ -215,7 +214,7 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (1, '我的面板', 0, 'Admin', 'top', '', 1, '1'),
 (2, '系统管理', 0, 'System', 'top', '', 2, '1'),
 (3, '客户信息管理', 0, 'Content', 'top', '', 3, '1'),
-(6, '安全记录', 1, 'Admin', 'userLeft', '', 0, '1'),
+(6, '消息中心', 1, 'Admin', 'userLeft', '', 0, '1'),
 (7, '登录日志', 6, 'Admin', 'loginLog', '', 1, '1'),
 (8, '删除登录日志', 7, 'Admin', 'loginLogDelete', '', 1, '1'),
 (9, '系统设置', 2, 'System', 'settingLeft', '', 1, '1'),
@@ -278,7 +277,8 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (79, '状态管理', 73, 'Admin', 'jobList', '', 0, '1'),
 (81, '合同管理', 3, 'Contract', 'contractList', '', 0, '1'),
 (82, '客户列表', 80, 'Member', 'memberList', '', 0, '1'),
-(83, '合同列表', 81, 'Contract', 'contractList', '', 0, '1');
+(83, '合同列表', 81, 'Contract', 'contractList', '', 0, '1'),
+(84, '站内消息', 6, 'Message', 'messageList', '', 0, '1');
 
 -- --------------------------------------------------------
 
@@ -388,4 +388,4 @@ ALTER TABLE `app2_member`
 -- AUTO_INCREMENT for table `app2_menu`
 --
 ALTER TABLE `app2_menu`
-  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=84;
+  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=85;

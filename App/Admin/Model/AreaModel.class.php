@@ -142,6 +142,30 @@ class AreaModel extends Model{
 		}
 		return true;
 	}
+
+	/**
+	 * 获取某地区下的所有子地区
+	 */
+	public function getChild($id){
+		$res = array($id);
+		$this->walkThroughChild($id, $res);
+		return $res;
+	}
+
+	/**
+	 * 获取某地区下的所有子地区递归函数
+	 */
+	public function walkThroughChild($parentid, &$arr){
+		$data = $this->where(array('parentid'=>$parentid))->field(array('id'))->select();
+		for($i = 0; $i < count($data); $i++){
+			array_push($arr, $data[$i]['id']);
+			$childs = $this->where(array('parentid'=>$data[$i]['id']))->field(array('id'))->select();
+			if(!empty($childs)){
+				$this->walkThroughChild($data[$i]['id'], $arr);
+			}
+		}
+	}
+
 	
 	/**
 	 * 清除菜单相关缓存

@@ -3,12 +3,12 @@ namespace Admin\Controller;
 use Admin\Controller\CommonController;
 
 /**
- * 前台会员模块
+ * 前台客户模块
  * @author wangdong
  */
 class MemberController extends CommonController {
 	/**
-	 * 会员管理
+	 * 客户管理
 	 */
 	public function memberList($page = 1, $rows = 10, $search = array(), $sort = 'memberid', $order = 'asc'){
 		if(IS_POST){
@@ -86,7 +86,7 @@ class MemberController extends CommonController {
 	}
 	
 	/**
-	 * 添加会员
+	 * 添加客户
 	 */
 	public function memberAdd(){
 		if(IS_POST){
@@ -95,6 +95,9 @@ class MemberController extends CommonController {
 
 			$data['user'] = session('userid');
 			$data['create_time'] = date("Y-m-d", time());
+			$admin_db = D('Admin');
+			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
+			$data['department'] = $charger['area'];
 
 			$id = $member_db->add($data);
 			if($id){
@@ -113,13 +116,16 @@ class MemberController extends CommonController {
 	}
 	
 	/**
-	 * 编辑会员
+	 * 编辑客户
 	 */
 	public function memberEdit($id){
 		$member_db = M('member');
 		if(IS_POST){
 			$data = I('post.info');
-			if(isset($data['password'])) unset($data['password']);
+			$data['user'] = session('userid');
+			$admin_db = D('Admin');
+			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
+			$data['department'] = $charger['area'];
 			$result = $member_db->where(array('memberid'=>$id))->save($data);
 			if($result){
 				$this->success('修改成功');
@@ -139,7 +145,7 @@ class MemberController extends CommonController {
 	}
 	
 	/**
-	 * 删除会员
+	 * 删除客户
 	 */
 	public function memberDelete($id){
 		$member_oauth_db = M('member_oauth');
@@ -153,6 +159,23 @@ class MemberController extends CommonController {
 		}else {
 			$this->error('删除失败');
 		}
+	}
+
+
+	/**
+	* 选择客户combobox
+	*/
+	public function public_selectCustomer(){
+		$admin_db = D('Admin');
+		$member_db = D('Member');
+		$admin = $admin_db->where(array('userid'=>session('userid')))->find();
+		$area_db = D('Area');
+		$memberList = $member_db->where(array('department'=>array('in', $area_db->getChild($admin['area']))))->field(array('memberid', 'name'))->select();
+		for($i = 0; $i < count($memberList); $i++){
+			$memberList[$i]['id'] = $memberList[$i]['memberid'];
+			$memberList[$i]['text'] = $memberList[$i]['name'];
+		}
+		$this->ajaxReturn($memberList);
 	}
 
 }

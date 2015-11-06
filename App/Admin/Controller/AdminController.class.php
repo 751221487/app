@@ -144,11 +144,12 @@ class AdminController extends CommonController {
 			$area_db = D('Area');
 			$jobList = $job_db->select();
 			$areaList = $area_db->select();
-			$total = $admin_db->count();
+			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$areas = $area_db->getChild($admin['area']);
+			$total = $admin_db->where(array('area'=>array('in', $areas)))->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
-			$list = $total ? $admin_db->order($order)->limit($limit)->select() : array();
+			$list = $total ? $admin_db->where(array('area'=>array('in', $areas)))->order($order)->limit($limit)->select() : array();
 			if($admin['permission'] == 2){
 				$total = 1;
 				$list = $admin_db->where(array('userid'=>session('userid')))->order($order)->limit($limit)->select();
@@ -177,6 +178,7 @@ class AdminController extends CommonController {
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
 		}else{
+			$area_db = D('Area');
 			$menu_db = D('Menu');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$admin_db = D('admin');
@@ -648,7 +650,9 @@ class AdminController extends CommonController {
 	*/
 	public function public_selectAdmin(){
 		$admin_db = D('Admin');
-		$adminList = $admin_db->field(array('userid', 'username', 'realname'))->select();
+		$admin = $admin_db->where(array('userid'=>session('userid')))->find();
+		$area_db = D('Area');
+		$adminList = $admin_db->where(array('area'=>array('in', $area_db->getChild($admin['area']))))->field(array('userid', 'username', 'realname'))->select();
 		for($i = 0; $i < count($adminList); $i++){
 			$adminList[$i]['id'] = $adminList[$i]['userid'];
 			$adminList[$i]['text'] = $adminList[$i]['realname'].'('.$adminList[$i]['username'].')';
