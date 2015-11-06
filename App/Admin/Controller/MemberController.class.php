@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 前台客户模块
- * @author wangdong
  */
 class MemberController extends CommonController {
 	/**

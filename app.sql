@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 2015-11-06 14:07:53
+-- Generation Time: 2015-11-06 14:51:09
 -- 服务器版本： 5.5.42
 -- PHP Version: 5.6.10
 
@@ -283,6 +283,26 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `app2_message`
+--
+
+CREATE TABLE `app2_message` (
+  `id` int(11) NOT NULL,
+  `user` int(11) DEFAULT NULL,
+  `content` varchar(300) CHARACTER SET utf8 DEFAULT NULL,
+  `time` datetime DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `app2_message`
+--
+
+INSERT INTO `app2_message` (`id`, `user`, `content`, `time`) VALUES
+(1, 1, 'srdgfadsfdgres', '2015-11-06 11:26:18');
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `app2_setting`
 --
 
@@ -345,6 +365,12 @@ ALTER TABLE `app2_menu`
   ADD KEY `module` (`c`,`a`);
 
 --
+-- Indexes for table `app2_message`
+--
+ALTER TABLE `app2_message`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `app2_setting`
 --
 ALTER TABLE `app2_setting`
@@ -389,3 +415,8 @@ ALTER TABLE `app2_member`
 --
 ALTER TABLE `app2_menu`
   MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=85;
+--
+-- AUTO_INCREMENT for table `app2_message`
+--
+ALTER TABLE `app2_message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;

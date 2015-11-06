@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 合同模块
- * @author wangdong
  */
 class ContractController extends CommonController {
 	

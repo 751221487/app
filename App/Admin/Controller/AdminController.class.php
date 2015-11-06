@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 后台用户相关模块
- * @author haojie
  */
 class AdminController extends CommonController {
 	/**

@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 后台管理通用模块
- * @author wangdong
  */
 class IndexController extends CommonController {
 	/**

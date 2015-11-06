@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 后台管理模块
- * @author wangdong
  */
 class SystemController extends CommonController{
 	private $fileBathPath = RUNTIME_PATH;   //文件管理根目录

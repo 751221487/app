@@ -4,7 +4,6 @@ use Think\Controller;
 
 /**
  * 公共控制器
- * @author wangdong
  * 
  * TODO
  * 后缀带_iframe的ACTION是在iframe中加载的，用于统一返回格式

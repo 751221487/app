@@ -4,7 +4,6 @@ use Admin\Controller\CommonController;
 
 /**
  * 栏目相关模块
- * @author wangdong
  */
 class CategoryController extends CommonController {
 	/**
