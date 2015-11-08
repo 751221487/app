@@ -11,16 +11,26 @@
         };  
     })(jQuery);
 </script>
+<script>
+	$(function(){
+
+		$('#customer').combobox({
+			valueField: 'id',
+			textField: 'text',
+			url: '<{:U('Member/public_selectcustomer')}>'
+		});
+	})
+</script>
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
 
 <div id="contract-contractlist-datagrid-toolbar" style="padding:1px;height:auto">
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
 		投入时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
 		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
-		客户名:
-		<input type="text" name="search[name]" style="width:100px;padding:2px"/>
-		电话:
-		<input type="text" name="search[tel]" style="width:100px;padding:2px"/>
+		客户:
+		<input type="text" id="customer" class="easyui-combobox" name="search[customer]">
+		地区:
+		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[area]" style="width:200px;"/>
 
 		<a href="javascript:;" onclick="contractContractModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>

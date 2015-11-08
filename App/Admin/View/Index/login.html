@@ -6,7 +6,7 @@
 <title><{:C('SYSTEM_NAME')}></title>
 <include file="Common:head"/>
 <style type="text/css">
-form{width:280px;height:120px;margin:30px auto 0;}
+form{width:280px;height:90px;margin:30px auto 0;}
 form div label{float:left;display:block;width:65px;font-size:16px;padding-top:6px;}
 form div.input{margin:8px auto;}
 form div.input input{height:21px;padding:2px 3px;width:200px}
@@ -45,10 +45,7 @@ $(function(){
 		if(event.keyCode ==13) login();
 	});
 });
-function changeCode(){
-	var that = document.getElementById('code_img');
-	that.src = that.src + '&' + Math.random();
-}
+
 function login(){
 	var isValid = $('form').form('validate');
 	if (!isValid) return false;

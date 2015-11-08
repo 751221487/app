@@ -14,7 +14,7 @@ class MemberController extends CommonController {
 			$member_db      = M('member');
 			$member_type_db = M('member_type');
 			$typelist       = $member_type_db->where(array('disabled'=>'0'))->order('listorder asc')->getField('typeid,typename', true);
-
+			$area_db = D('Area');
 			//搜索
 			$where = array();
 			foreach ($search as $k=>$v){
@@ -39,6 +39,9 @@ class MemberController extends CommonController {
 						}
 						if($search['begin'] && $search['begin'] > $v) $v = $search['begin'];
 						$where[] = "`create_time` <= '{$v}'";
+						break;
+					case 'department':
+						$where['department'] = array('in', $area_db->getChild($v));
 						break;
 				}
 			}
@@ -132,15 +135,27 @@ class MemberController extends CommonController {
 				$this->error('修改失败');
 			}
 		}else{
-			$member_type_db = M('member_type');
-			$info = $member_db->field('password, encrypt', true)->where(array('memberid'=>$id))->find();
-			$typelist = $member_type_db->where(array('disabled'=>'0'))->getField('typeid,typename', true);
-			$dict = dict('', 'Member');
-			$this->assign('dict', $dict);
+			$info = $member_db->where(array('memberid'=>$id))->find();
 			$this->assign('info', $info);
-			$this->assign('typelist', $typelist);
 			$this->display('member_edit');
 		}
+	}
+
+	/**
+	* 客户详情
+	*/
+	public function memberDetail($id){
+		$member_db = M('member');
+		$admin_db = D('Admin');
+		$info = $member_db->where(array('memberid'=>$id))->find();
+		$adminList = $admin_db->select();
+		for($i = 0; $i < count($adminList); $i++){
+			if($info['user'] == $adminList[$i]['userid']) {
+				$info['charge'] = $adminList[$i]['realname'].'('.$adminList[$i]['username'].')';
+			}
+		}
+		$this->assign('info', $info);
+		$this->display('member_detail');
 	}
 	
 	/**

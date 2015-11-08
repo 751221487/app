@@ -1,3 +1,14 @@
+<script>
+	<?php 
+	$selects = array('position', 'job', 'permission');
+	for($i = 0; $i < count($selects); $i++){ ?>
+		$('#<?php echo $selects[$i]; ?> option').each(function(){
+			if($(this).val() == '<?php echo $info[$selects[$i]]; ?>'){
+				$(this).prop('selected', 'selected');
+			}
+		})
+	<?php } ?>
+</script>
 <form>
 	<table cellspacing="6" width="100%">
 		<tr>
@@ -19,7 +30,8 @@
 		<tr>
 			<td>职位：</td>
 			<td>
-				<select class="easyui-combobox" data-options="required:true" name="info[position]" style="width:200px;">
+				<select class="easyui-combobox" id="position" data-options="required:true" name="info[position]" style="width:200px;">
+					<option value="超级管理员">超级管理员</option>
 					<option value="总经理">总经理</option>
 					<option value="副总经理">副总经理</option>
 					<option value="财务">财务</option>
@@ -34,7 +46,7 @@
 		<tr>
 			<td>状态：</td>
 			<td>
-				<select class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="info[job]" value="<{$info.job}>" style="width:200px;">
+				<select class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="info[job]" id="job" style="width:200px;">
 					<foreach name="jobList" item="job">
 						<option value="<{$job.id}>"><{$job.name}></option>
 					</foreach>
@@ -44,7 +56,7 @@
 		<tr>
 			<td>权限：</td>
 			<td>
-				<select class="easyui-combobox" data-options="required:true" name="info[permission]" style="width:200px;" value="<{$info.permision}>">
+				<select class="easyui-combobox" data-options="required:true" name="info[permission]" style="width:200px;" id="permission">
 					<option value="1">可查看所在区域全部员工</option>
 					<option value="2">只能查看自己信息</option>
 				</select>

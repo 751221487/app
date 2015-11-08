@@ -1,0 +1,70 @@
+<table cellspacing="5" width="100%" border=1 style="border-collapse: collapse;" class="detail">
+	<tr>
+		<td width="90">工号</td>
+		<td><{$info.username}></td>
+		<td>真实姓名</td>
+		<td><{$info.realname}></td>
+	</tr>
+	<tr>
+		<td>入职时间</td>
+		<td><{$info.join_time}></td>
+		<td>地区</td>
+		<td><{$info.areaname}></td>
+	</tr>
+	<tr>
+		<td>职位</td>
+		<td>
+			<{$info.position}>
+		</td>
+		<td>状态</td>
+		<td>
+			<{$info.jobname}>
+		</td>
+	</tr>
+	<tr>
+		<td>业务目标</td>
+		<td>
+			<{$info.target}>
+		</td>
+		<td>目标期限</td>
+		<td>
+			<{$info.target_time}>
+		</td>
+	</tr>
+	<tr>
+		<td>合同总数</td>
+		<td>
+			<{$info.contractCount}>
+		</td>
+		<td>合同总金额</td>
+		<td>
+			<{$info.contractMoney}>元
+		</td>
+	</tr>
+	<tr>
+		<td>权限</td>
+		<td colspan=3>
+			<?php 
+				if($info['permission'] == 1){
+					echo '可查看所在区域全部员工';
+				} else if($info['permission'] == 2){
+					echo '只能查看自己信息';
+				}
+
+			 ?>
+
+		</td>
+	</tr>
+	<tr>
+		<td>E-mail</td>
+		<td><{$info.email}></td>
+		<td>电话</td>
+		<td><{$info.tel}></td>
+	</tr>
+	<tr>
+		<td>备注</td>
+		<td colspan=3>
+			<{$info.remark}>
+		</td>
+	</tr>
+</table>

@@ -1,0 +1,83 @@
+<table cellspacing="5" width="100%" border=1 style="border-collapse: collapse;" class="detail">
+	<tr>
+		<td>客户姓名：</td>
+		<td>
+			<{$info.name}>
+		</td>
+		<td>身份证：</td>
+		<td>
+			<{$info.idcard}>
+		</td>
+	</tr>
+	<tr>
+		<td>生日：</td>
+		<td>
+			<{$info.birthday}>
+		</td>
+		<td>性别：</td>
+		<td>
+			<?php 
+				if($info['gender'] == 1){
+					echo '男';
+				} else if($info['gender'] == 2){
+					echo '女';
+				}
+			 ?>
+		</td>
+	</tr>
+	<tr>
+		<td>籍贯：</td>
+		<td>
+			<{$info.province}><{$info.place}>
+		</td>
+		<td>负责人：</td>
+		<td><{$info.charge}></td>
+	</tr>
+	<tr>
+		<td>学历：</td>
+		<td>
+			<{$info.education}>
+		</td>
+		<td>从事行业：</td>
+		<td>
+			<{$info.job}>
+		</td>
+	</tr>
+	<tr>
+		<td>收入：</td>
+		<td>
+			<{$info.income}>
+		</td>
+		<td>联系电话：</td>
+		<td>
+			<{$info.tel}>
+		</td>
+	</tr>
+	<tr>
+		<td>单位</td>
+		<td colspan=3>
+			<{$info.corp}>
+		</td>
+	</tr>
+	<tr>
+		<td>联系地址：</td>
+		<td colspan=3>
+			<{$info.address}>
+		</td>
+	</tr>
+	<tr>
+		<td>客户来源：</td>
+		<td>
+			<{$info.origin}>
+		</td>
+		<td>客户状态：</td>
+		<td>
+			<{$info.status}>
+	</tr>
+	<tr>
+		<td>备注：</td>
+		<td colspan=3>
+			<{$info.remark}>
+		</td>
+	</tr>
+</table>

@@ -134,9 +134,9 @@ class AdminController extends CommonController {
 	}
 	
 	/**
-	 * 用户管理
+	 * 员工管理
 	 */
-	public function memberList($page = 1, $rows = 10, $sort = 'userid', $order = 'asc'){
+	public function memberList($page = 1, $rows = 10, $search = array(), $sort = 'userid', $order = 'asc'){
 		if(IS_POST){
 			$admin_db = D('Admin');
 			$job_db = D('Job');
@@ -145,10 +145,22 @@ class AdminController extends CommonController {
 			$areaList = $area_db->select();
 			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$areas = $area_db->getChild($admin['area']);
-			$total = $admin_db->where(array('area'=>array('in', $areas)))->count();
+			$where = array('area'=>array('in', $areas));
+			foreach ($search as $k=>$v){
+				if(!$v) continue;
+				switch ($k){
+					case 'realname':
+						$where[] = "`{$k}` like '%{$v}%'";
+						break;
+					case 'area':
+						$where['area'] = array('in', $area_db->getChild($v));
+						break;
+				}
+			}
+			$total = $admin_db->where($where)->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $total ? $admin_db->where(array('area'=>array('in', $areas)))->order($order)->limit($limit)->select() : array();
+			$list = $total ? $admin_db->where($where)->order($order)->limit($limit)->select() : array();
 			if($admin['permission'] == 2){
 				$total = 1;
 				$list = $admin_db->where(array('userid'=>session('userid')))->order($order)->limit($limit)->select();
@@ -158,7 +170,6 @@ class AdminController extends CommonController {
 				$info['target'] = '-';
 				$info['target_limit'] = '-';
 				for ($i=0; $i < count($jobList); $i++) { 
-					# code...
 					if($jobList[$i]['id'] == $info['job']){
 						$info['jobname'] = $jobList[$i]['name'];
 						$info['target'] = $jobList[$i]['target'];
@@ -171,7 +182,6 @@ class AdminController extends CommonController {
 						$info['areaname'] = $areaList[$i]['name'];
 					}
 				}
-				$info['lastlogintime'] = $info['lastlogintime'] ? date('Y-m-d H:i:s', $info['lastlogintime']) : '-';
 				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
@@ -186,28 +196,64 @@ class AdminController extends CommonController {
 				'options'     => array(
 					'title'   => $currentpos,
 					'url'     => U('Admin/memberList', array('grid'=>'datagrid')),
-					'toolbar' => $admin['permission'] == 1 ? 'adminMemberModule.toolbar' : null,
+					'toolbar' => '#admin-memberlist-datagrid-toolbar',
 				),
 				'fields' => array(
-					'用户名'      => array('field'=>'username','width'=>15,'sortable'=>true),
-					'真实姓名'     => array('field'=>'realname','width'=>15,'sortable'=>true),
+					'用户名'      => array('field'=>'username','width'=>10,'sortable'=>true),
+					'真实姓名'     => array('field'=>'realname','width'=>10,'sortable'=>true),
 					'职位'     => array('field'=>'position','width'=>15,'sortable'=>true),
 					'状态'    	 => array('field'=>'jobname','width'=>15),
-					'业务目标'	 => array('field'=>'target', 'width'=>15, 'formatter'=>'adminMemberModule.target'),
-					'目标期限'	 => array('field'=>'target_time', 'width'=>15),
 					'部门'		 => array('field'=>'areaname', 'width'=>15),
-					'入职时间'	 => array('field'=>'join_time', 'width'=>15),
-					'管理操作'     => array('field'=>'userid','width'=>25,'formatter'=>'adminMemberModule.operate'),
+					'入职时间'	 => array('field'=>'join_time', 'width'=>10),
+					'管理操作'     => array('field'=>'userid','width'=>30,'formatter'=>'adminMemberModule.operate'),
 				)
 			);
-			
+			$this->assign('admin', $admin);
 			$this->assign('datagrid', $datagrid);
 			$this->display('member_list');
 		}
 	}
-	
+
 	/**
-	 * 添加用户
+	* 员工详情
+	*/
+	public function memberDetail($id){
+		$admin_db = M('Admin');
+		$info = $admin_db->where(array('userid'=>$id))->find();
+
+		$job_db = D('Job');
+		$area_db = D('Area');
+		$contract_db = D('contract');
+
+		$jobList = $job_db->select();
+		$areaList = $area_db->select();
+
+		$info['contractCount'] = $contract_db->where(array('user'=>$id))->count();
+		$info['contractMoney'] = $contract_db->where(array('user'=>$id))->getField('SUM(total_income)');
+		$info['jobname'] = '-';
+		$info['target'] = '-';
+		$info['target_limit'] = '-';
+		for ($i=0; $i < count($jobList); $i++) { 
+			if($jobList[$i]['id'] == $info['job']){
+				$info['jobname'] = $jobList[$i]['name'];
+				$info['target'] = $jobList[$i]['target'];
+				$info['target_limit'] = $jobList[$i]['time'];
+			}
+		}
+		$info['areaname'] = '全国';
+		for ($i=0; $i < count($areaList); $i++) { 
+			if($areaList[$i]['id'] == $info['area']){
+				$info['areaname'] = $areaList[$i]['name'];
+			}
+		}
+		$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
+		
+		$this->assign('info', $info);
+		$this->display('member_detail');
+	}
+		
+	/**
+	 * 添加员工
 	 */
 	public function memberAdd(){
 		if(IS_POST){
@@ -238,7 +284,7 @@ class AdminController extends CommonController {
 	}
 	
 	/**
-	 * 编辑用户
+	 * 编辑员工
 	 */
 	public function memberEdit($id){
 		$admin_db = D('Admin');
@@ -296,43 +342,6 @@ class AdminController extends CommonController {
 	
 
 
-	/**
-	 * 权限设置
-	 */
-	public function rolePermission($id){
-		if(IS_POST) {
-			$menu_db = D('Menu');
-			if (I('get.dosubmit')){
-				$admin_role_priv_db = M('admin_role_priv');
-				$admin_role_priv_db->where(array('roleid'=>$id))->delete();
-				$menuids = explode(',', I('post.menuids'));
-				$menuids = array_unique($menuids);
-				if(!empty($menuids)){
-					$menuList = array();
-					$menuinfo = $menu_db->field(array('id','c','a'))->select();
-					foreach ($menuinfo as $v) $menuList[$v['id']] = $v;
-					foreach ($menuids as $menuid){
-						$info = array(
-							'roleid' => $id,
-							'c'      => $menuList[$menuid]['c'],
-							'a'      => $menuList[$menuid]['a'],
-						);
-						$admin_role_priv_db->add($info);
-					}
-				}
-				$this->success('权限设置成功');
-			//获取列表数据
-			}else{
-				$data = $menu_db->getRoleTree(0, $id);
-				$this->ajaxReturn($data);
-			}
-		} else {
-			$this->assign('id', $id);
-			$this->display('role_permission');
-		}
-	}
-
-	
 	/**
 	 * 验证邮箱是否存在
 	 */

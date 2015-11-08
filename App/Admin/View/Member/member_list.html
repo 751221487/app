@@ -4,13 +4,14 @@
 
 <div id="member-member-datagrid-toolbar" style="padding:1px;height:auto">
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
-		注册时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
+		添加时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
 		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
 		客户名:
 		<input type="text" name="search[name]" style="width:100px;padding:2px"/>
 		电话:
 		<input type="text" name="search[tel]" style="width:100px;padding:2px"/>
-
+		地区:
+		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[department]" style="width:200px;"/>
 		<a href="javascript:;" onclick="memberMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>
 	<div>
@@ -28,6 +29,7 @@ var memberMemberModule = {
 	//操作格式化
 	operate: function(val){
 		var btn = [];
+		btn.push('<a href="javascript:;" onclick="memberMemberModule.detail('+val+')">详情</a>');
 		btn.push('<a href="javascript:;" onclick="memberMemberModule.edit('+val+')">编辑</a>');
 		btn.push('<a href="javascript:;" onclick="memberMemberModule.delete('+val+')">删除</a>');
 		return btn.join(' | ');
@@ -45,6 +47,37 @@ var memberMemberModule = {
 			queryParams[this['name']] = this['value'];
 		});
 		$(this.datagrid).datagrid({pageNumber: 1});
+	},
+
+	//详情
+	detail: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择客户', 'error');
+			return false;
+		}
+		var href = '<{:U('Member/memberDetail')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		var that = this;
+		$(that.dialog).dialog({
+			title: '客户详情',
+			iconCls: 'icons-application-application_edit',
+			width: 500,
+			height: 350,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
 	},
 	
 	//添加

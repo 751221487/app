@@ -2,16 +2,30 @@
 
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
 
+<div id="admin-memberlist-datagrid-toolbar" style="padding:1px;height:auto">
+	<if condition="$admin.permission eq 1">
+	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
+		姓名:
+		<input type="text" name="search[realname]" style="width:100px;padding:2px"/>
+		地区:
+		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[area]" style="width:200px;"/>
+
+		<a href="javascript:;" onclick="adminMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
+	</form>
+	</if>
+	<div>
+		<if condition="$admin.position eq '超级管理员'">
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_add'" onclick="adminMemberModule.add()">添加合同</a>
+		</if>
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="adminMemberModule.refresh()">刷新</a>
+	</div>
+</div>
+
 <script type="text/javascript">
 var adminMemberModule = {
 	dialog:   '#globel-dialog-div',
 	datagrid: '#admin_memberlist_datagrid',
 	
-	//工具栏
-	toolbar: [
-		{ text: '添加员工', iconCls: 'icons-table-table_add', handler: function(){adminMemberModule.add();}},
-		{ text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){adminMemberModule.refresh();}}
-	],
 	
 	//时间字段格式化
 	time: function(val){
@@ -25,9 +39,12 @@ var adminMemberModule = {
 	//操作字段格式化
 	operate: function(val){
 		var btn = [];
+		btn.push('<a href="javascript:;" onclick="adminMemberModule.detail('+val+')">员工详情</a>');
+		<if condition="$admin.position eq '超级管理员'">
 		btn.push('<a href="javascript:;" onclick="adminMemberModule.edit('+val+')">编辑员工</a>');
 		btn.push('<a href="javascript:;" onclick="adminMemberModule.password('+val+')">重置密码</a>');
 		btn.push('<a href="javascript:;" onclick="adminMemberModule.delete('+val+')">删除</a>');
+		</if>
 		return btn.join(' | ');
 	},
 	
@@ -35,7 +52,38 @@ var adminMemberModule = {
 	refresh: function(){
 		$(this.datagrid).datagrid('reload');
 	},
+
+	detail: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择员工', 'error');
+			return false;
+		}
+		var href = '<{:U('Admin/memberDetail')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		var that = this;
+		$(that.dialog).dialog({
+			title: '员工详情',
+			iconCls: 'icons-application-application_edit',
+			width: 500,
+			height: 360,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	},
 	
+	<if condition="$admin.position eq '超级管理员'">
 	//添加员工
 	add: function(){
 		var that = this;
@@ -85,7 +133,7 @@ var adminMemberModule = {
 			}]
 		});
 	},
-	
+
 	//编辑员工
 	edit: function(id){
 		if(typeof(id) !== 'number'){
@@ -193,6 +241,16 @@ var adminMemberModule = {
 				}
 			}, 'json');
 		});
+	},
+	</if>
+
+	//搜索
+	search: function(that){
+		var queryParams = $(this.datagrid).datagrid('options').queryParams;
+		$.each($(that).parent('form').serializeArray(), function() {
+			queryParams[this['name']] = this['value'];
+		});
+		$(this.datagrid).datagrid({pageNumber: 1});
 	}
 }
 </script>

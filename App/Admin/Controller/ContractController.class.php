@@ -13,13 +13,16 @@ class ContractController extends CommonController {
 	public function contractList($page = 1, $rows = 10, $search = array(), $sort = 'id', $order = 'asc'){
 		if(IS_POST){
 			$contract_db      = M('contract');
-
+			$area_db = D('Area');
 			//搜索
 			$where = array();
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
-					case 'name':
+					case 'customer':
+						$where['customer'] = $v;
+					case 'area':
+						$where['area'] = array('in', $area_db->getChild($v));
 					case 'tel':
 						$where[] = "`{$k}` like '%{$v}%'";
 						break;
@@ -42,11 +45,11 @@ class ContractController extends CommonController {
 				}
 			}
 			$where = implode(' and ', $where);
-			$total = $contract_db->where($where)->count();
-			$order = $sort.' '.$order;
-			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $total ? $contract_db->where($where)->order($order)->limit($limit)->select() : array();
 			$admin_db = D('Admin');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			if($currentAdmin['position'] != '财务'){
+				$where['user'] = session('userid');
+			}
 			$adminList = $admin_db->select();
 			foreach($list as &$info){
 				for($i = 0; $i < count($adminList); $i++){
@@ -101,6 +104,13 @@ class ContractController extends CommonController {
 			$data['idcard'] = $info['idcard']['savepath'].$info['idcard']['savename'];
 			$data['bankcard'] = $info['bankcard']['savepath'].$info['bankcard']['savename'];
 			$data['contract_file'] = $info['contract_file']['savepath'].$info['contract_file']['savename'];
+			$admin_db = D('Admin');
+			$adminList = $admin_db->select();
+			for($i = 0; $i < count($adminList); $i++){
+				if($data['user'] == $adminList[$i]['userid']) {
+					$data['area'] = $adminList[$i]['area'];
+				}
+			}
 			$id = $contract_db->add($data);
 			header("Content-Type:text/html");
 			if($id){
@@ -161,6 +171,13 @@ class ContractController extends CommonController {
 			}
 			if(isset($info['contract_file'])){
 				$data['contract_file'] = $info['contract_file']['savepath'].$info['contract_file']['savename'];
+			}
+			$admin_db = D('Admin');
+			$adminList = $admin_db->select();
+			for($i = 0; $i < count($adminList); $i++){
+				if($data['user'] == $adminList[$i]['userid']) {
+					$data['area'] = $adminList[$i]['area'];
+				}
 			}
 			$result = $contract_db->where(array('id'=>$id))->save($data);
 			header("Content-Type:text/html");
