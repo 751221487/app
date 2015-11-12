@@ -21,6 +21,7 @@ class IndexController extends CommonController {
 		$this->assign('menuList', $menuList);
 		$this->display('index');
 	}
+
 	
 	/**
 	 * 用户登录
@@ -32,6 +33,7 @@ class IndexController extends CommonController {
 			
 			$username = I('post.username', '', 'trim') ? I('post.username', '', 'trim') : $this->error('用户名不能为空', HTTP_REFERER);
 			$password = I('post.password', '', 'trim') ? I('post.password', '', 'trim') : $this->error('密码不能为空', HTTP_REFERER);
+			$admin_db->login($username, $password);
 			
 			if($admin_db->login($username, $password)){
 				$this->success('登录成功', U('Index/index'));

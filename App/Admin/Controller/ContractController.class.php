@@ -44,12 +44,16 @@ class ContractController extends CommonController {
 						break;
 				}
 			}
-			$where = implode(' and ', $where);
+			// $where = implode(' and ', $where);
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
 			if($currentAdmin['position'] != '财务'){
 				$where['user'] = session('userid');
 			}
+			$total = $contract_db->where($where)->count();
+			$limit = ($page - 1) * $rows . "," . $rows;
+			$order = $sort.' '.$order;
+			$list = $total ? $contract_db->where($where)->order($order)->limit($limit)->select() : array();
 			$adminList = $admin_db->select();
 			foreach($list as &$info){
 				for($i = 0; $i < count($adminList); $i++){
@@ -104,6 +108,7 @@ class ContractController extends CommonController {
 			$data['idcard'] = $info['idcard']['savepath'].$info['idcard']['savename'];
 			$data['bankcard'] = $info['bankcard']['savepath'].$info['bankcard']['savename'];
 			$data['contract_file'] = $info['contract_file']['savepath'].$info['contract_file']['savename'];
+			$data['create_user'] = session('userid');
 			$admin_db = D('Admin');
 			$adminList = $admin_db->select();
 			for($i = 0; $i < count($adminList); $i++){
@@ -199,15 +204,37 @@ class ContractController extends CommonController {
 			$this->display('contract_edit');
 		}
 	}
-	
+
+	/**
+	* 合同付款
+	*/
+	public function contractpay(){
+		$id = I('post.id');
+		$contract_db = D('contract');
+		$contract = $contract_db->where(array('id'=>$id))->find();
+		$now = time();
+		$create_time = strtotime($contract['create_date']);
+		$month_diff = (date('Y') - date('Y', $create_time)) * 12 + (date('m') - date('m', $create_time));
+		$to_paid_finish = intval($month_diff / $contract['income_cycle']);
+		if($to_paid_finish <= $contract['paid_finish']){
+			$this->error('已付期数超出应付期数');
+		} else {
+			$result = $contract_db->where(array('id'=>$id))->save(array('paid_finish'=>($contract['paid_finish'] + 1)));
+
+			if ($result){
+				$this->success('付款成功');
+			}else {
+				$this->error('付款失败');
+			}
+		}
+	}
+
 	/**
 	 * 删除合同
 	 */
-	public function memberDelete($id){
-		$member_oauth_db = M('member_oauth');
-		$member_oauth_db->where(array('memberid'=>$id))->delete();
+	public function contractDelete($id){
 
-		$contract_db = M('member');
+		$contract_db = M('contract');
 		$result = $contract_db->where(array('memberid'=>$id))->delete();
 
 		if ($result){
@@ -216,6 +243,21 @@ class ContractController extends CommonController {
 			$this->error('删除失败');
 		}
 	}
+
+	/**
+	* 合同统计
+	*/
+	public function contractStatistics(){
+		$admin_db = D('admin');
+		$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+		if($currentAdmin['position'] == '财务' || $currentAdmin['position'] == '超级管理员'){
+			$this->display('contract_statistic');
+		} else {
+			echo "您的权限不足";
+			exit();
+		}
+	}
+
 
 
 }

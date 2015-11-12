@@ -38,6 +38,7 @@ class MessageController extends CommonController {
 				'fields' => array(
 					'时间'      => array('field'=>'time','width'=>10,'sortable'=>true),
 					'内容'      => array('field'=>'content', 'width'=>50),
+					'操作'	   => array('field'=>'id', 'width'=>'30', 'formatter'=>'messageMessageModule.operate')
 				)
 			);
 			$this->assign('admin', $currentAdmin);

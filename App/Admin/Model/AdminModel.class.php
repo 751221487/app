@@ -6,6 +6,62 @@ class AdminModel extends Model{
 	protected $tableName = 'admin';
 	protected $pk             = 'userid';
 	public      $error;
+
+
+	/**
+	* 处理消息
+	*/
+	private function handleMessage($userid){
+		$member_db = D('Member');
+		$contract_db = D('Contract');
+		$message_db = D('message');
+
+		//处理生日
+		$memberList = $member_db->where(array('user'=>$userid))->select();
+		for($i = 0; $i < count($memberList); $i++){
+			if(date('m-d', strtotime($memberList[$i]['birthday'])) == date('m-d', time())){
+				$where = array(
+					'type' => 1,
+					'link' => $memberList[$i]['memberid'],
+					'MONTH(time)' => date('m', time()),
+					'DAY(time)'=> date('d', time())
+					);
+				if(!$message_db->where($where)->find()){
+					$data['user'] = $userid;
+					$data['content'] = '客户'.$memberList[$i]['name'].'的生日到了';
+					$data['time'] = date('Y-m-d H:i:s', time());
+					$data['type'] = 1;
+					$data['link'] = $memberList[$i]['memberid'];
+					$message_db->add($data);
+				}
+			}
+		}
+		//处理合同
+		$contractList = $contract_db->where(array('user'=>$userid))->select();
+		for($i = 0; $i < count($contractList); $i++) {
+			$now = time();
+			$create_time = strtotime($contractList[$i]['create_date']);
+			$month_diff = (date('Y') - date('Y', $create_time)) * 12 + (date('m') - date('m', $create_time));
+			$to_paid_finish = intval($month_diff / $contractList[$i]['income_cycle']);
+			if($to_paid_finish > $contractList[$i]['paid_finish'] && $now < strtotime($contractList[$i]['time_finish'])){
+				$where = array(
+					'type' => 2,
+					'link' => $contractList[$i]['id'],
+					'MONTH(time)' => date('m', time()),
+					'DAY(time)'=> date('d', time())
+					);
+				if(!$message_db->where($where)->find()){
+					$data['user'] = $userid;
+					$data['content'] = '合同'.$contractList[$i]['code'].'需要付款';
+					$data['time'] = date('Y-m-d H:i:s', time());
+					$data['type'] = 2;
+					$data['link'] = $contractList[$i]['id'];
+					$message_db->add($data);
+				}
+			}
+		}
+			
+	}
 	
 	/**
 	 * 登录验证
@@ -16,53 +72,21 @@ class AdminModel extends Model{
 		//查询帐号
 		$r = $this->where(array('username'=>$username))->find();
 		if(!$r){
-			$this->error = '管理员不存在';
+			$this->error = '用户不存在';
 			return false;
 		}
 		
-		//密码错误剩余重试次数
-		$rtime = $times_db->where(array('username'=>$username, 'isadmin'=>'1'))->find();
-		if($rtime['times'] >= C('MAX_LOGIN_TIMES')) {
-			$minute = C('LOGIN_WAIT_TIME') - floor((time()-$rtime['logintime'])/60);
-			if ($minute > 0) {
-				$this->error = "密码重试次数太多，请过{$minute}分钟后重新登录！";
-				return false;
-			}else {
-				$times_db->where(array('username'=>$username))->delete();
-			}
-		}
 
 		$password = md5(md5($password).$r['encrypt']);
 		$ip             = get_client_ip(0, true);
 
 		if($r['password'] != $password) {
-			if($rtime && $rtime['times'] < C('MAX_LOGIN_TIMES')) {
-				$times = C('MAX_LOGIN_TIMES') - intval($rtime['times']);
-				$times_db->where(array('username'=>$username))->save(array('ip'=>$ip,'isadmin'=>1));
-				$times_db->where(array('username'=>$username))->setInc('times');
-			} else {
-				$times_db->where(array('username'=>$username,'isadmin'=>1))->delete();
-				$times_db->add(array('username'=>$username,'ip'=>$ip,'isadmin'=>1,'logintime'=>time(),'times'=>1));
-				$times = C('MAX_LOGIN_TIMES');
-			}
-			$this->error = "密码错误，您还有{$times}次尝试机会！";
+			$this->error = "密码错误";
 			return false;
 		}
-		
-		$times_db->where(array('username'=>$username))->delete();
+
 		$this->where(array('userid'=>$r['userid']))->save(array('lastloginip'=>$ip,'lastlogintime'=>time()));
-		
-		//登录日志
-		$admin_log_db = M('admin_log');
-		$admin_log_db->add(array(
-			'userid'             => $r['userid'],
-			'username'       => $username,
-			'httpuseragent' => $_SERVER['HTTP_USER_AGENT'],
-			'ip'                   => $ip,
-			'time'               => date('Y-m-d H:i:s'),
-			'type'               => 'login',
-			'sessionid'        => session_id(),
-		));
+		$this->handleMessage($r['userid']);
 		
 		session('userid', $r['userid']);
 		session('roleid', $r['roleid']);
@@ -82,31 +106,6 @@ class AdminModel extends Model{
 		return $info;
 	}
 	
-
-	/**
-	* 员工列表
-	*/
-	public function listAdmin($userid, $order, $limit){
-		$area_db = D("area");
-		$admin = $this->where(array('userid'=>$userid))->find();
-		if($admin['area'] == 0){
-			return $this->order($order)->limit($limit)->select();
-		} else {
-			$Model = new \Think\Model();
-			$sql = "
-				with cte as
-				(
-				    select * from app2_admin
-				    where area = ".$admin['area']."
-				    union all
-				    select * from cte c inner join app2_area d
-				    on c.area = d.parentid
-				)
-				select * from cte order by $order LIMIT $limit
-			";
-			return $Model->query($sql);
-		}
-	}
 	
 	/**
 	 * 修改密码
