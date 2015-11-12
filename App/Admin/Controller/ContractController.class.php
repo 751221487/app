@@ -23,9 +23,6 @@ class ContractController extends CommonController {
 						$where['customer'] = $v;
 					case 'area':
 						$where['area'] = array('in', $area_db->getChild($v));
-					case 'tel':
-						$where[] = "`{$k}` like '%{$v}%'";
-						break;
 					case 'begin':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
 							unset($search[$k]);
@@ -249,6 +246,64 @@ class ContractController extends CommonController {
 	*/
 	public function contractStatistics(){
 		$admin_db = D('admin');
+		if(IS_POST){
+			$begin = I('post.begin');
+			$end = I('post.end');
+			$area = I('post.area');
+			$area_db = D('Area');
+			$contract_db = D("Contract");
+
+			$info = array();
+			if($area == 0) {
+				$area = array('id'=>0, 'name'=>'全国');
+			}else {
+				$area = $area_db->where(array('id'=>$area))->find();
+			}
+			$info['area'] = $area['name'];
+			$info['areas'] = array();
+			$info['pie'] = array();
+			$areas = $area_db->where(array('parentid'=>$area['id']))->select();
+			for($i = 0; $i < count($areas); $i++){
+				array_push($info['areas'], $areas[$i]);
+			}
+			$info['pie']['countData'] = array();
+			for($i = 0; $i < count($areas); $i++){
+				$where['area'] = array('in', $area_db->getChild($areas[$i]['id']));
+				$where['create_date'] = array(array('gt',$begin),array('lt',$end),'and'); 
+				$count = $contract_db->where($where)->count();
+				array_push($info['pie']['countData'], array('value'=>$count, 'name'=>$areas[$i]['name']));
+			}
+
+
+			$info['pie']['moneyData'] = array();
+			for($i = 0; $i < count($areas); $i++){
+				$where['area'] = array('in', $area_db->getChild($areas[$i]['id']));
+				$where['create_date'] = array(array('gt',$begin),array('lt',$end),'and'); 
+				$income = $contract_db->where($where)->getField('SUM(total_income)');
+				array_push($info['pie']['moneyData'], array('value'=>$income, 'name'=>$areas[$i]['name']));
+			}
+			$info['bar'] = array();
+			$info['bar']['months'] = array();
+			$info['bar']['count'] = array();
+			$info['bar']['money'] = array();
+
+			$time = strtotime($begin);
+			while ($time < strtotime($end)) {
+				$where['area'] = array('in', $area_db->getChild($area['id']));
+				$month = date('Y-m', $time);
+				$where['create_date'] = array('like', "%$month%");
+				array_push($info['bar']['months'], $month);
+				array_push($info['bar']['count'], $contract_db->where($where)->count());
+				$income = $contract_db->where($where)->getField('SUM(total_income)');
+				if(!$income){
+					$income = 0;
+				}
+				array_push($info['bar']['money'], $income);
+				$time = strtotime("+1 months", $time);
+			}
+
+			$this->ajaxReturn($info);
+		}
 		$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
 		if($currentAdmin['position'] == '财务' || $currentAdmin['position'] == '超级管理员'){
 			$this->display('contract_statistic');
@@ -257,7 +312,5 @@ class ContractController extends CommonController {
 			exit();
 		}
 	}
-
-
 
 }
