@@ -1,0 +1,107 @@
+<taglib name="Admin\TagLib\EasyUI" />
+
+<easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
+
+<div id="contract-contractloglist-datagrid-toolbar" style="padding:1px;height:auto">
+	<div>
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="contractContractlogModule.refresh()">刷新</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+var contractContractlogModule = {
+	dialog:   '#globel-dialog-div',
+	datagrid: '#contract_contractlog_datagrid',
+
+	
+	//刷新
+	refresh: function(){
+		$(this.datagrid).datagrid('reload');
+	},
+
+	//操作格式化
+	operate: function(val){
+		if(val == 1){
+			return '添加';
+		}
+		if(val == 2){
+			return '修改';
+		}
+	},
+
+	//员工格式化
+	user: function(val, row){
+		var btn = [];
+		btn.push('<a href="javascript:;" onclick="contractContractlogModule.userDetail('+row['user']+')">'+row['charge']+'</a>');
+		return btn;
+	},
+
+	//合同格式化
+	contractformatter: function(val, row){
+		var btn = [];
+		btn.push('<a href="javascript:;" onclick="contractContractlogModule.contractDetail('+row['contract']+')">'+row['contractcode']+'</a>');
+		return btn;
+	},
+
+	userDetail: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择员工', 'error');
+			return false;
+		}
+		var href = '<{:U('Admin/memberDetail')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		var that = this;
+		$(that.dialog).dialog({
+			title: '员工详情',
+			iconCls: 'icons-application-application_edit',
+			width: 500,
+			height: 360,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	},
+
+	contractDetail:function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择合同', 'error');
+			return false;
+		}
+		var href = '<{:U('Contract/contractDetail')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		var that = this;
+		$(that.dialog).dialog({
+			title: '合同详情',
+			iconCls: 'icons-application-application_edit',
+			width: 700,
+			height: 500,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	}
+	
+};
+</script>

@@ -14,6 +14,7 @@ class ContractController extends CommonController {
 		if(IS_POST){
 			$contract_db      = M('contract');
 			$area_db = D('Area');
+			$member_db = D('Member');
 			//搜索
 			$where = array();
 			foreach ($search as $k=>$v){
@@ -52,10 +53,16 @@ class ContractController extends CommonController {
 			$order = $sort.' '.$order;
 			$list = $total ? $contract_db->where($where)->order($order)->limit($limit)->select() : array();
 			$adminList = $admin_db->select();
+			$memberList = $member_db->select();
 			foreach($list as &$info){
 				for($i = 0; $i < count($adminList); $i++){
 					if($info['user'] == $adminList[$i]['userid']) {
 						$info['charge'] = $adminList[$i]['realname'];
+					}
+				}
+				for($i = 0; $i < count($memberList); $i++){
+					if($info['customer'] == $memberList[$i]['memberid']){
+						$info['customername'] = $memberList[$i]['name'];
 					}
 				}
 			}
@@ -75,7 +82,7 @@ class ContractController extends CommonController {
 				'fields' => array(
 					'合同编号'      => array('field'=>'code','width'=>10,'sortable'=>true),
 					'产品种类'        => array('field'=>'product','width'=>10,'sortable'=>true),
-					'客户'        => array('field'=>'customer','width'=>10),
+					'客户'        => array('field'=>'customername','width'=>10, 'formatter'=>'contractContractModule.customer'),
 					'负责人'          => array('field'=>'charge','width'=>10),
 					'投入时间' => array('field'=>'create_date','width'=>10,'sortable'=>true),
 					'投入金额'          => array('field'=>'money','width'=>10),
@@ -114,6 +121,13 @@ class ContractController extends CommonController {
 				}
 			}
 			$id = $contract_db->add($data);
+			$contract_log_db = D('Contract_log');
+			$log['user'] = session('userid');
+			$log['time'] = date("Y-m-d H:i:s", time());
+			$log['ip'] = get_client_ip(0, true);
+			$log['contract'] = $id;
+			$log['operate'] = 1;
+			$contract_log_db->add($log);
 			header("Content-Type:text/html");
 			if($id){
 				echo json_encode(array('status'=>1, 'info'=>'修改成功'));
@@ -182,6 +196,13 @@ class ContractController extends CommonController {
 				}
 			}
 			$result = $contract_db->where(array('id'=>$id))->save($data);
+			$contract_log_db = D('Contract_log');
+			$log['user'] = session('userid');
+			$log['time'] = date("Y-m-d H:i:s", time());
+			$log['ip'] = get_client_ip(0, true);
+			$log['contract'] = $id;
+			$log['operate'] = 2;
+			$contract_log_db->add($log);
 			header("Content-Type:text/html");
 			if($result){
 				echo json_encode(array('status'=>1, 'info'=>'修改成功'));
@@ -310,6 +331,61 @@ class ContractController extends CommonController {
 		} else {
 			echo "您的权限不足";
 			exit();
+		}
+	}
+
+	public function contractLog($page = 1, $rows = 10, $search = array(), $sort = 'id', $order = 'desc'){
+		if(IS_POST){
+			$contract_db      = M('contract');
+			$contract_log_db = D('Contract_log');
+			$admin_db = D('admin');
+			
+			$total = $contract_log_db->count();
+			$limit = ($page - 1) * $rows . "," . $rows;
+			$order = $sort.' '.$order;
+			$list = $total ? $contract_log_db->order($order)->limit($limit)->select() : array();
+			$adminList = $admin_db->select();
+			$contractList = $contract_db->select();
+			foreach($list as &$info){
+				for($i = 0; $i < count($adminList); $i++){
+					if($info['user'] == $adminList[$i]['userid']) {
+						$info['charge'] = $adminList[$i]['realname'];
+					}
+				}
+				for($i = 0; $i < count($contractList); $i++){
+					if($info['contract'] == $contractList[$i]['id']){
+						$info['contractcode'] = $contractList[$i]['code'];
+					}
+				}
+			}
+			$data = array('total'=>$total, 'rows'=>$list);
+			$this->ajaxReturn($data);
+		}else{
+			$admin_db = D('admin');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			if($currentAdmin['position'] != '超级管理员'){
+				echo "您的权限不足";
+				exit();
+			}
+			$menu_db = D('Menu');
+			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
+			$datagrid = array(
+				'options'     => array(
+					'title'   => $currentpos,
+					'url'     => U('Contract/contractlog', array('grid'=>'datagrid')),
+					'toolbar' => '#contract-contractloglist-datagrid-toolbar',
+				),
+				'fields' => array(
+					'合同编号'      => array('field'=>'contractcode','width'=>15,'formatter'=>'contractContractlogModule.contractformatter'),
+					'财务员工'          => array('field'=>'user','width'=>10, 'formatter'=>'contractContractlogModule.user'),
+					'操作' => array('field'=>'operate','width'=>10,'formatter'=>'contractContractlogModule.operate'),
+					'时间'          => array('field'=>'time','width'=>10),
+					'IP地址'          => array('field'=>'ip','width'=>10),
+				)
+			);
+			$this->assign('admin', $currentAdmin);
+			$this->assign('datagrid', $datagrid);
+			$this->display('contract_log');
 		}
 	}
 

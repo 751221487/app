@@ -246,7 +246,7 @@ class AdminController extends CommonController {
 				$info['areaname'] = $areaList[$i]['name'];
 			}
 		}
-		$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
+		
 		
 		$this->assign('info', $info);
 		$this->display('member_detail');
@@ -267,7 +267,9 @@ class AdminController extends CommonController {
 			$passwordinfo = password($data['password']);
 			$data['password'] = $passwordinfo['password'];
 			$data['encrypt'] = $passwordinfo['encrypt'];
-
+			$job_db = D('Job');
+			$job = $job_db->where(array('id'=>$data['job']))->find();
+			$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
 			$id = $admin_db->add($data);
 			if($id){
 				if($email) send_email($email['email'], $email['subject'], $email['content'], array('isHtml'=>true, 'charset'=>'GB2312'));
@@ -290,6 +292,12 @@ class AdminController extends CommonController {
 		$admin_db = D('Admin');
 		if(IS_POST){
 			$data = I('post.info');
+			$admin = $admin_db->where(array('userid'=>$id))->find();
+			if($data['job'] != $admin['job']){
+				$job_db = D('Job');
+				$job = $job_db->where(array('id'=>$data['job']))->find();
+				$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
+			}
 			$result = $admin_db->where(array('userid'=>$id))->save($data);
 			if($result){
 				$this->success('修改成功');

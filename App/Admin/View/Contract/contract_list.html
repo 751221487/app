@@ -64,6 +64,13 @@ var contractContractModule = {
 		$(this.datagrid).datagrid('reload');
 	},
 
+	//客户格式化
+	customer: function(val, row){
+		var btn = [];
+		btn.push('<a href="javascript:;" onclick="contractContractModule.customerDetail('+row['customer']+')">'+row['customername']+'</a>');
+		return btn;
+	},
+
 	//搜索
 	search: function(that){
 		var queryParams = $(this.datagrid).datagrid('options').queryParams;
@@ -258,6 +265,36 @@ var contractContractModule = {
 		});
 	},
 	</if>
+
+	customerDetail: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择客户', 'error');
+			return false;
+		}
+		var href = '<{:U('Member/memberDetail')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		var that = this;
+		$(that.dialog).dialog({
+			title: '客户详情',
+			iconCls: 'icons-application-application_edit',
+			width: 500,
+			height: 350,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	}
 	
 };
 </script>
