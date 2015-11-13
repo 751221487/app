@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: 2015-11-06 14:51:09
+-- Generation Time: 2015-11-13 10:01:06
 -- 服务器版本： 5.5.42
 -- PHP Version: 5.6.10
 
@@ -28,6 +28,7 @@ CREATE TABLE `app2_admin` (
   `area` int(11) DEFAULT NULL,
   `join_time` date DEFAULT NULL,
   `job` int(11) DEFAULT '0',
+  `target_time` date NOT NULL,
   `encrypt` varchar(6) DEFAULT NULL,
   `lastloginip` varchar(15) DEFAULT NULL,
   `lastlogintime` int(10) unsigned DEFAULT '0',
@@ -42,9 +43,9 @@ CREATE TABLE `app2_admin` (
 -- 转存表中的数据 `app2_admin`
 --
 
-INSERT INTO `app2_admin` (`userid`, `username`, `password`, `position`, `area`, `join_time`, `job`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `tel`, `permission`, `remark`, `realname`) VALUES
-(1, 'admin', '0c85dd37ceb4d51ea4ed9e78c468ee13', '财务', 0, '2015-10-01', 1, 'MgaxbA', '0.0.0.0', 1446662786, 'admin@admin.com', '123456', 1, 'admin', 'asd'),
-(3, '12345', '6bce23e60359eefb359149dbbdc745eb', '总经理', 5, '2015-10-01', 1, 'SQMjgC', '0.0.0.0', 1446204743, 'a@b.c', '123456', 2, 'test', 'test');
+INSERT INTO `app2_admin` (`userid`, `username`, `password`, `position`, `area`, `join_time`, `job`, `target_time`, `encrypt`, `lastloginip`, `lastlogintime`, `email`, `tel`, `permission`, `remark`, `realname`) VALUES
+(1, 'admin', '0c85dd37ceb4d51ea4ed9e78c468ee13', '超级管理员', 0, '2015-10-01', 1, '0000-00-00', 'MgaxbA', '0.0.0.0', 1447367618, 'admin@admin.cn', '123456', 1, 'admin', 'asd'),
+(3, '12345', '6bce23e60359eefb359149dbbdc745eb', '财务', 0, '2015-10-01', 1, '2015-12-13', 'SQMjgC', '0.0.0.0', 1447346718, 'asdasd@fes.fes', '123456', 1, 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -86,12 +87,14 @@ CREATE TABLE `app2_contract` (
   `time_limit` int(11) DEFAULT NULL COMMENT '投资期限',
   `income` int(11) DEFAULT NULL COMMENT '每期收益',
   `income_cycle` int(11) DEFAULT NULL COMMENT '收益支付周期',
+  `paid_finish` int(11) NOT NULL DEFAULT '0' COMMENT '已付期数',
   `time_finish` date DEFAULT NULL COMMENT '满期日',
-  `customer` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '客户',
+  `customer` int(11) DEFAULT NULL COMMENT '客户',
   `idcard` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '身份证',
   `bankcard` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '银行卡',
   `contract_file` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '合同电子档',
   `user` int(11) NOT NULL COMMENT '理财顾问',
+  `area` int(11) NOT NULL,
   `remark` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '备注',
   `arrive_date` date DEFAULT NULL COMMENT '到账日',
   `total_income` int(11) DEFAULT NULL COMMENT '总收益',
@@ -109,8 +112,30 @@ CREATE TABLE `app2_contract` (
 -- 转存表中的数据 `app2_contract`
 --
 
-INSERT INTO `app2_contract` (`id`, `code`, `product`, `money`, `create_date`, `income_rate`, `time_limit`, `income`, `income_cycle`, `time_finish`, `customer`, `idcard`, `bankcard`, `contract_file`, `user`, `remark`, `arrive_date`, `total_income`, `create_user`, `is_float`, `float_income`, `idnumber`, `banknumber`, `bank`, `emerge_person`, `emerge_tel`) VALUES
-(1, '123456', '1', 2, '2015-10-05', 1, 2, 3, 4, '2015-10-08', '1', '2015-11-05/563a66b6a2724.jpg', '2015-10-30/563262a9b7435.jpg', '2015-10-30/563262a9b7a8a.jpg', 1, 'qwfesdvfda', '2015-10-16', 1, NULL, 0, 1, '123123123', '123123123123', 'asdasdaa', 'asfasdas', '314325435q');
+INSERT INTO `app2_contract` (`id`, `code`, `product`, `money`, `create_date`, `income_rate`, `time_limit`, `income`, `income_cycle`, `paid_finish`, `time_finish`, `customer`, `idcard`, `bankcard`, `contract_file`, `user`, `area`, `remark`, `arrive_date`, `total_income`, `create_user`, `is_float`, `float_income`, `idnumber`, `banknumber`, `bank`, `emerge_person`, `emerge_tel`) VALUES
+(1, '123123', '1', 2, '2015-09-13', 10, 2, 3, 1, 2, '2016-10-13', 1, '2015-11-05/563a66b6a2724.jpg', '2015-10-30/563262a9b7435.jpg', '2015-10-30/563262a9b7a8a.jpg', 1, 4, 'qwfesdvfda', '2015-10-16', 10000, NULL, 0, 1, '123123123', '123123123123', 'asdasdaa', 'asfasdas', '314325435q');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `app2_contract_log`
+--
+
+CREATE TABLE `app2_contract_log` (
+  `id` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `operate` int(11) NOT NULL,
+  `contract` int(11) NOT NULL,
+  `time` datetime NOT NULL,
+  `ip` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `app2_contract_log`
+--
+
+INSERT INTO `app2_contract_log` (`id`, `user`, `operate`, `contract`, `time`, `ip`) VALUES
+(1, 3, 1, 1, '2015-11-13 06:53:52', 0);
 
 -- --------------------------------------------------------
 
@@ -187,7 +212,7 @@ CREATE TABLE `app2_member` (
 --
 
 INSERT INTO `app2_member` (`memberid`, `idcard`, `gender`, `age`, `province`, `place`, `birthday`, `education`, `job`, `income`, `address`, `corp`, `origin`, `name`, `tel`, `user`, `create_time`, `status`, `department`, `remark`) VALUES
-(1, '410303199312061017', 1, 1993, '江苏', '苏州', '1993-12-06', '本科', '计算机', 100, 'asdasdasdasdasd', 'asdasd', '广告', '郝杰', '123456789', 1, '2015-10-24', '准客户', 0, 'asdasdasd');
+(1, '410303199312061017', 1, 1993, '江苏', '苏州', '1992-11-13', '本科', '计算机', 100, 'asdasdasdasdasd', 'asdasd', '广告', '郝杰', '123456789', 1, '2015-10-24', '新客户', 0, 'asdasdasd');
 
 -- --------------------------------------------------------
 
@@ -204,7 +229,7 @@ CREATE TABLE `app2_menu` (
   `data` varchar(255) NOT NULL DEFAULT '',
   `listorder` smallint(6) unsigned NOT NULL DEFAULT '0',
   `display` enum('1','0') NOT NULL DEFAULT '1'
-) ENGINE=MyISAM AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 --
 -- 转存表中的数据 `app2_menu`
@@ -278,7 +303,9 @@ INSERT INTO `app2_menu` (`id`, `name`, `parentid`, `c`, `a`, `data`, `listorder`
 (81, '合同管理', 3, 'Contract', 'contractList', '', 0, '1'),
 (82, '客户列表', 80, 'Member', 'memberList', '', 0, '1'),
 (83, '合同列表', 81, 'Contract', 'contractList', '', 0, '1'),
-(84, '站内消息', 6, 'Message', 'messageList', '', 0, '1');
+(84, '站内消息', 6, 'Message', 'messageList', '', 0, '1'),
+(85, '合同统计', 81, 'Contract', 'contractStatistics', '', 0, '1'),
+(86, '合同日志', 81, 'Contract', 'contractLog', '', 0, '1');
 
 -- --------------------------------------------------------
 
@@ -290,15 +317,19 @@ CREATE TABLE `app2_message` (
   `id` int(11) NOT NULL,
   `user` int(11) DEFAULT NULL,
   `content` varchar(300) CHARACTER SET utf8 DEFAULT NULL,
-  `time` datetime DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `time` datetime DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `link` int(11) NOT NULL,
+  `isread` int(11) NOT NULL DEFAULT '0' COMMENT '是否已读'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- 转存表中的数据 `app2_message`
 --
 
-INSERT INTO `app2_message` (`id`, `user`, `content`, `time`) VALUES
-(1, 1, 'srdgfadsfdgres', '2015-11-06 11:26:18');
+INSERT INTO `app2_message` (`id`, `user`, `content`, `time`, `type`, `link`, `isread`) VALUES
+(4, 1, '客户郝杰的生日到了', '2015-11-13 00:27:13', 1, 1, 0),
+(5, 1, '合同123456需要付款', '2015-11-13 00:51:39', 2, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -332,6 +363,12 @@ ALTER TABLE `app2_area`
 -- Indexes for table `app2_contract`
 --
 ALTER TABLE `app2_contract`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `app2_contract_log`
+--
+ALTER TABLE `app2_contract_log`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -396,6 +433,11 @@ ALTER TABLE `app2_area`
 ALTER TABLE `app2_contract`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'PK',AUTO_INCREMENT=2;
 --
+-- AUTO_INCREMENT for table `app2_contract_log`
+--
+ALTER TABLE `app2_contract_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
 -- AUTO_INCREMENT for table `app2_job`
 --
 ALTER TABLE `app2_job`
@@ -414,9 +456,9 @@ ALTER TABLE `app2_member`
 -- AUTO_INCREMENT for table `app2_menu`
 --
 ALTER TABLE `app2_menu`
-  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=85;
+  MODIFY `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=87;
 --
 -- AUTO_INCREMENT for table `app2_message`
 --
 ALTER TABLE `app2_message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
