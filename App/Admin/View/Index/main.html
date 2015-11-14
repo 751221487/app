@@ -1,19 +1,38 @@
 <div class="easyui-panel" data-options="fit:true,title:'后台首页',border:false,onResize:function(){$('#index-main-portal').portal({border:false,fit:true});}">
 	<div id="index-main-portal">
-		<div style="width:50%">
-			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.8;height: 132px;">
+		<div style="width:60%">
+			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.8;height: 232px;font-size:22px">
 				您好，<{$userInfo.username}><br />
-				所属角色：<{$userInfo.rolename}> <br />
+				所属角色：<{$userInfo.position}> <br />
+				所属地区：<{$userInfo.area}> <br />
 				最后登录时间：<if condition="$userInfo['lastlogintime'] gt 0"><{$userInfo.lastlogintime|date='Y-m-d H:i:s',###}></if><br />
 				最后登录IP：<{$userInfo.lastloginip}> <br />
 			</div>
 
-			<div title="近期登录" collapsible="true" style="padding:8px;line-height:1.8">
-				<foreach name="loginList" item="log">
-					[<{$log.time}>] 登录IP：<{$log.ip}><br/>
-				</foreach>
+			<div title="未读消息" collapsible="true" style="padding:8px;line-height:1.8">
+				<if condition="$unread gt 0">
+					你有<{$unread}>条未读消息，<a href="javascript:" id="openMessage">点击查看</a>
+				<else />
+					暂无未读消息
+				</if>
 			</div>
 		</div>
-		<div style="width:50%"></div>
+		<div style="width:40%">
+			<div title="日历" collapsible="true" style="padding:8px;line-height:1.8;text-align:center;height:300px;">
+				<div id="cc" class="easyui-calendar" style="width:90%;height:90%;margin:10px auto;"></div>
+			</div>
+			<div title="天气" collapsible="true" style="padding:8px;line-height:1.8">
+				
+			</div>
+		</div>
+		<script>
+		$('#openMessage').click(function(){
+			if($('#pagetabs').tabs('exists', '站内消息')){
+				$('#pagetabs').tabs('select', '站内消息');
+			}else{
+				$('#pagetabs').tabs('add',{title: '站内消息', href: '<{:U('Message/messageList')}>?menuid=84', closable: true});
+			}
+		})
+		</script>
 	</div>
 </div>

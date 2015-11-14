@@ -10,19 +10,19 @@ class MessageController extends CommonController {
 	/**
 	* 消息列表
 	*/
-	public function messageList($page = 1, $rows = 10, $search = array(), $sort = 'id', $order = 'asc'){
+	public function messageList($page = 1, $rows = 10, $search = array(), $sort = 'id', $order = 'desc'){
 		if(IS_POST){
 			$message_db      = M('message');
 
 			//搜索
 			$where = array();
 			$where['user'] = session('userid');
-			$where = implode(' and ', $where);
 			$total = $message_db->where($where)->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
 			$list = $total ? $message_db->where($where)->order($order)->limit($limit)->select() : array();
 			$data = array('total'=>$total, 'rows'=>$list);
+			// $message_db->where($where)->setInc('isread', 1);
 			$this->ajaxReturn($data);
 		}else{
 			$menu_db = D('Menu');
@@ -45,6 +45,17 @@ class MessageController extends CommonController {
 			$this->assign('datagrid', $datagrid);
 			$this->display('message_list');
 		}
+
+	}
+
+	/**
+	* 设为已读
+	*/
+	public function setread(){
+		$id = I('post.id');
+		$message_db = D('message');
+		$result = $message_db->where(array('id'=>$id))->save(array('isread'=>1));
+		$this->ajaxReturn(array('status'=>1));
 	}
 
 }

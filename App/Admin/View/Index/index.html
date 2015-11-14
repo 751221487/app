@@ -54,7 +54,7 @@
 
 <!-- 左侧菜单 -->
 <div id="leftarea" data-options="iconCls:'icons-application-application_side_boxes',region:'west',title:'加载中...',split:true,width:220">
-	<div id="leftmenu" class="easyui-accordion" data-options="fit:true,border:false"></div>
+	<div id="leftmenu" class="easyui-accordion" data-options="fit:true,border:false,animate:false"></div>
 </div>
 
 <!-- 内容 -->
@@ -172,7 +172,7 @@ window.baseModule = {
 						var treedata = $.toJSON(menu.son);
 						content = '<ul class="easyui-tree" data-options=\'data:' + treedata + ',animate:true,lines:true,onClick:function(node){baseModule.openUrl(node.url, node.text)}\'></ul>';
 					}
-					$("#leftmenu").accordion("add", {title: menu.name, content: content, iconCls:'icons-application-application_side_list'});
+					$("#leftmenu").accordion("add", {title: menu.name, collapsed:false,collapsible:false, content: content, iconCls:'icons-application-application_side_list'});
 				});
 			}
 		});

@@ -37,7 +37,7 @@ class AdminModel extends Model{
 			}
 		}
 		//处理合同
-		$contractList = $contract_db->where(array('user'=>$userid))->select();
+		$contractList = $contract_db->where(array('create_user'=>$userid))->select();
 		for($i = 0; $i < count($contractList); $i++) {
 			$now = time();
 			$create_time = strtotime($contractList[$i]['create_date']);

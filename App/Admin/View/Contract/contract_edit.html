@@ -2,11 +2,14 @@
 	tr{
 		padding: 4px 0;
 	}
-	.easyui-validatebox, .easyui-datebox, .easyui-numberbox, .easyui-filebox, input[type='file'], .easyui-combobox{
+	.easyui-validatebox, .easyui-datebox, .easyui-numberbox, .easyui-filebox, input[type='file'], .easyui-combobox, select{
 		width: 150px;
 	}
 
 </style>
+<script>
+
+</script>
 <script>
 	$(function(){
 		$('#charge').combobox({
@@ -18,11 +21,33 @@
 			}
 		});
 
-		$('#customer').combobox({
+		$('#customer1').combobox({
 			valueField: 'id',
 			textField: 'text',
 			url: '<{:U('Member/public_selectcustomer')}>'
 		});
+
+		$('#isfloat option').each(function(){
+			if($(this).val() == '<{$info.is_float}>'){
+				$(this).prop('selected', 'selected');
+			}
+		})
+
+		<?php if($info->is_float == 0){ ?> 
+			$('#float-income').prop('disabled', true);
+		<?php } else if($info->is_float == 1){ ?> 
+			$('#float-income').prop('disabled', false);
+		<?php } ?>
+
+		$('#isfloat').change(function(){
+			var isfloat = $(this).val();
+			if(isfloat == 0){
+				$('#float-income').prop('disabled', true);
+			} else if(isfloat == 1){
+				$('#float-income').prop('disabled', false);
+			}
+		})
+
 	})
 </script>
 <form>
@@ -40,7 +65,7 @@
 		<tr>
 			<td>投资金额：</td>
 			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[money]" value="<{$info.money}>">
+				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[money]" value="<{$info.money}>">元
 			</td>
 			<td>签单日：</td>
 			<td>
@@ -74,7 +99,7 @@
 			</td>
 			<td>客户：</td>
 			<td>
-				<input type="text" id="customer" class="easyui-combobox" data-options="required:true" name="info[customer]" value="<{$info.customer}>">
+				<input type="text" id="customer1" class="easyui-combobox" data-options="required:true" name="info[customer]" value="<{$info.customer}>">
 			</td>
 		</tr>
 		<tr>
@@ -110,14 +135,14 @@
 		<tr>
 			<td>是否浮动</td>
 			<td>
-				<select class="easyui-combobox" name="info[is_float]" value="<{$info.is_float}>">
+				<select id="isfloat" name="info[is_float]" value="<{$info.is_float}>">
 					<option value="0">否</option>
 					<option value="1">是</option>
 				</select>
 			</td>
 			<td>浮动收益</td>
 			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[float_income]" value="<{$info.float_income}>">元
+				<input type="number" id="float-income" name="info[float_income]" value="<{$info.float_income}>">元
 			</td>
 		</tr>
 		<tr>

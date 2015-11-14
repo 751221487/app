@@ -112,6 +112,9 @@ class IndexController extends CommonController {
 		$admin_log = M('admin_log');
 		$loginList = $admin_log->where(array('userid'=>$userid))->order("time desc")->limit(5)->select();
 
+		$message_db = D('Message');
+		$unreadMessage = $message_db->where(array('user'=>$userid, 'isread'=>0))->count();
+
 		$changFile  = SITE_DIR . DS . 'change.log';
 		$changeList = array();
 		if(file_exists($changFile)){
@@ -120,7 +123,7 @@ class IndexController extends CommonController {
 		
 		$this->assign('changeList', $changeList);
 		$this->assign('userInfo', $userInfo);
-		$this->assign('loginList', $loginList);
+		$this->assign('unread', $unreadMessage);
 		$this->display('main');
 	}
 

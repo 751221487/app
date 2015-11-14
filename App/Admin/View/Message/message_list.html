@@ -19,6 +19,7 @@
 </div>
 
 <script type="text/javascript">
+
 var messageMessageModule = {
 	dialog:   '#globel-dialog-div',
 	datagrid: '#message_messagelist_datagrid',
@@ -32,12 +33,17 @@ var messageMessageModule = {
 	//操作
 	operate: function(val, row){
 		var btn = [];
-		btn.push('<a href="javascript:;" onclick="messageMessageModule.detail('+row['type']+', '+row['link']+')">查看</a>');
+		if(row['isread'] == 0){
+			btn.push('<a href="javascript:;" class="unread" onclick="messageMessageModule.detail('+row['type']+', '+row['link']+', '+ row['id']+ ')">查看</a>');
+		} else {
+			btn.push('<a href="javascript:;" onclick="messageMessageModule.detail('+row['type']+', '+row['link']+', '+ row['id'] + ')">查看</a>');
+		}
 		return btn;
 	},
 
+
 	//查看
-	detail: function(type, id){
+	detail: function(type, id, messageid){
 		if(type == 1){
 			if(typeof(id) !== 'number'){
 				$.app.method.tip('提示信息', '未选择客户', 'error');
@@ -46,26 +52,31 @@ var messageMessageModule = {
 			var href = '<{:U('Member/memberDetail')}>';
 			href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
 			var that = this;
-			$(that.dialog).dialog({
-				title: '客户详情',
-				iconCls: 'icons-application-application_edit',
-				width: 500,
-				height: 350,
-				cache: false,
-				href: href,
-				modal: true,
-				collapsible: false,
-				minimizable: false,
-				resizable: false,
-				maximizable: false,
-				buttons:[{
-					text:'确定',
-					iconCls:'icons-arrow-cross',
-					handler: function(){
-						$(that.dialog).dialog('close');
-					}
-				}]
-			});
+			$.post('<{:U('Message/setRead')}>', {id : messageid}, function(res){
+				if(res.status == 1){
+					$(that.dialog).dialog({
+						title: '客户详情',
+						iconCls: 'icons-application-application_edit',
+						width: 500,
+						height: 350,
+						cache: false,
+						href: href,
+						modal: true,
+						collapsible: false,
+						minimizable: false,
+						resizable: false,
+						maximizable: false,
+						buttons:[{
+							text:'确定',
+							iconCls:'icons-arrow-cross',
+							handler: function(){
+								$(that.dialog).dialog('close');
+							}
+						}]
+					});
+				}
+			})
+			
 		} else if(type == 2){
 			if(typeof(id) !== 'number'){
 				$.app.method.tip('提示信息', '未选择合同', 'error');
@@ -74,46 +85,58 @@ var messageMessageModule = {
 			var href = '<{:U('Contract/contractDetail')}>';
 			href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
 			var that = this;
-			$(that.dialog).dialog({
-				title: '合同详情',
-				iconCls: 'icons-application-application_edit',
-				width: 700,
-				height: 500,
-				cache: false,
-				href: href,
-				modal: true,
-				collapsible: false,
-				minimizable: false,
-				resizable: false,
-				maximizable: false,
-				buttons:[{
-					text:'设为已付款',
-					iconCls:'icons-other-tick',
-					handler: function(){
-						if(confirm('确定要设为已付款吗？')){
-							$.messager.progress({text:'处理中，请稍候...'});
-							$.post('<{:U('Contract/contractpay')}>', {id : id}, function(res){
-								$.messager.progress('close');
-								if(!res.status){
-									$.app.method.tip('提示信息', res.info, 'error');
-								}else{
-									$.app.method.tip('提示信息', res.info, 'info');
-									$(that.dialog).dialog('close');
-									that.refresh();
-								}
-							})
+			$.post('<{:U('Message/setRead')}>', {id : messageid}, function(res){
+				$(that.dialog).dialog({
+					title: '合同详情',
+					iconCls: 'icons-application-application_edit',
+					width: 700,
+					height: 500,
+					cache: false,
+					href: href,
+					modal: true,
+					collapsible: false,
+					minimizable: false,
+					resizable: false,
+					maximizable: false,
+					buttons:[{
+						text:'设为已付款',
+						iconCls:'icons-other-tick',
+						handler: function(){
+							if(confirm('确定要设为已付款吗？')){
+								$.messager.progress({text:'处理中，请稍候...'});
+								$.post('<{:U('Contract/contractpay')}>', {id : id}, function(res){
+									$.messager.progress('close');
+									if(!res.status){
+										$.app.method.tip('提示信息', res.info, 'error');
+									}else{
+										$.app.method.tip('提示信息', res.info, 'info');
+										$(that.dialog).dialog('close');
+										that.refresh();
+									}
+								})
+							}
 						}
-					}
-				}, {
-					text:'关闭',
-					iconCls:'icons-arrow-cross',
-					handler: function(){
-						$(that.dialog).dialog('close');
-					}
-				}]
+					}, {
+						text:'关闭',
+						iconCls:'icons-arrow-cross',
+						handler: function(){
+							$(that.dialog).dialog('close');
+						}
+					}]
+				});
 			});
 		}
 	},
 
 };
+
+$(function(){
+	$('#message_messagelist_datagrid').datagrid({
+		onLoadSuccess: function(){
+			$('.unread').each(function(){
+				$(this).parent().parent().parent().css('background-color', '#FFFFB3');
+			});
+		}
+	})
+})
 </script>

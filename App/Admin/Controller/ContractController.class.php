@@ -45,7 +45,7 @@ class ContractController extends CommonController {
 			// $where = implode(' and ', $where);
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
-			if($currentAdmin['position'] != '财务'){
+			if($currentAdmin['position'] != '财务' && $currentAdmin['position'] != '超级管理员'){
 				$where['user'] = session('userid');
 			}
 			$total = $contract_db->where($where)->count();
@@ -153,14 +153,20 @@ class ContractController extends CommonController {
 			if($info['user'] == $adminList[$i]['userid']) {
 				$info['charge'] = $adminList[$i]['realname'];
 			}
+			if($info['create_user'] == $adminList[$i]['userid']){
+				$info['creater'] = $adminList[$i]['realname'];
+			}
+			
+		}
+		for($i = 0; $i < count($memberList); $i++){
 			if($info['customer'] == $memberList[$i]['memberid']){
 				$info['customername'] = $memberList[$i]['name'];
 			}
 		}
 		$now = time();
-		$create_time = strtotime($info['create_date']);
-		$month_diff = ($now['y'] - $create_time['y']) * 12 + ($now['m'] - $create_time['m']);
-		$info['paid_finish'] = intval($month_diff / $info['income_cycle']);
+		// $create_time = strtotime($info['create_date']);
+		// $month_diff = ($now['y'] - $create_time['y']) * 12 + ($now['m'] - $create_time['m']);
+		// $info['paid_finish'] = intval($month_diff / $info['income_cycle']);
 		$this->assign('admin', $admin_db->where(array('userid'=>session('userid')))->find());
 		$this->assign('info', $info);
 		$this->display('contract_detail');
@@ -300,7 +306,7 @@ class ContractController extends CommonController {
 			for($i = 0; $i < count($areas); $i++){
 				$where['area'] = array('in', $area_db->getChild($areas[$i]['id']));
 				$where['create_date'] = array(array('gt',$begin),array('lt',$end),'and'); 
-				$income = $contract_db->where($where)->getField('SUM(total_income)');
+				$income = $contract_db->where($where)->getField('SUM(money)');
 				array_push($info['pie']['moneyData'], array('value'=>$income, 'name'=>$areas[$i]['name']));
 			}
 			$info['bar'] = array();
@@ -315,7 +321,7 @@ class ContractController extends CommonController {
 				$where['create_date'] = array('like', "%$month%");
 				array_push($info['bar']['months'], $month);
 				array_push($info['bar']['count'], $contract_db->where($where)->count());
-				$income = $contract_db->where($where)->getField('SUM(total_income)');
+				$income = $contract_db->where($where)->getField('SUM(money)');
 				if(!$income){
 					$income = 0;
 				}
