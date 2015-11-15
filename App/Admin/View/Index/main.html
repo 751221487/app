@@ -1,10 +1,10 @@
 <div class="easyui-panel" data-options="fit:true,title:'后台首页',border:false,onResize:function(){$('#index-main-portal').portal({border:false,fit:true});}">
 	<div id="index-main-portal">
-		<div style="width:50%">
+		<div style="width:60%">
 			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.8;height: 232px;font-size:22px">
 				您好，<{$userInfo.username}><br />
 				所属角色：<{$userInfo.position}> <br />
-				所属地区：<{$userInfo.area}> <br />
+				所属地区：<{$userInfo.areaname}> <br />
 				最后登录时间：<if condition="$userInfo['lastlogintime'] gt 0"><{$userInfo.lastlogintime|date='Y-m-d H:i:s',###}></if><br />
 				最后登录IP：<{$userInfo.lastloginip}> <br />
 			</div>
@@ -16,13 +16,14 @@
 					暂无未读消息
 				</if>
 			</div>
+			
 		</div>
-		<div style="width:50%">
+		<div style="width:40%">
 			<div title="日历" collapsible="true" style="padding:8px;line-height:1.8;text-align:center;height:300px;">
 				<div id="cc" class="easyui-calendar" style="width:90%;height:90%;margin:10px auto;"></div>
 			</div>
-			<div title="天气" collapsible="true" style="padding:8px;line-height:1.8;height:300px">
-				<iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=2&num=5" width="80%" height="80%" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+			<div title="天气" collapsible="true" style="padding:8px;line-height:1.8;height:200px;">
+				<iframe width="500px" style="margin:10px auto;" scrolling="no" height="70" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=2&icon=1&num=3"></iframe>
 			</div>
 		</div>
 		<script>

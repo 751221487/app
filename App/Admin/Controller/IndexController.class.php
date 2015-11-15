@@ -12,11 +12,12 @@ class IndexController extends CommonController {
 	public function index(){
 		$admin_db = D('Admin');
 		$menu_db  = D('Menu');
+		$area_db = D('Area');
 		
 		$userid     = session('userid');
 		$userInfo  = $admin_db->getUserInfo($userid);    //获取用户基本信息
+
 		$menuList = $menu_db->getMenu();                //头部菜单列表
-		
 		$this->assign('userInfo', $userInfo);
 		$this->assign('menuList', $menuList);
 		$this->display('index');
@@ -106,6 +107,7 @@ class IndexController extends CommonController {
 	 */
 	public function public_main(){
 		$admin_db = D('Admin');
+		$area_db = D('Area');
 		$userid   = session('userid');
 		$userInfo = $admin_db->getUserInfo($userid);    //获取用户基本信息
 
@@ -115,13 +117,12 @@ class IndexController extends CommonController {
 		$message_db = D('Message');
 		$unreadMessage = $message_db->where(array('user'=>$userid, 'isread'=>0))->count();
 
-		$changFile  = SITE_DIR . DS . 'change.log';
-		$changeList = array();
-		if(file_exists($changFile)){
-			$changeList = file($changFile);
+		if($userInfo['area'] == 0){
+			$userInfo['areaname'] = '全国';
+		} else {
+			$area = $area_db->where(array('id'=>$userInfo['area']))->find();
+			$userInfo['areaname'] = $area['name'];
 		}
-		
-		$this->assign('changeList', $changeList);
 		$this->assign('userInfo', $userInfo);
 		$this->assign('unread', $unreadMessage);
 		$this->display('main');

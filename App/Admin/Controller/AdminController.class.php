@@ -229,7 +229,11 @@ class AdminController extends CommonController {
 		$areaList = $area_db->select();
 
 		$info['contractCount'] = $contract_db->where(array('user'=>$id))->count();
-		$info['contractMoney'] = $contract_db->where(array('user'=>$id))->getField('SUM(total_income)');
+		if($$info['contractCount'] == 0){
+			$info['contractMoney'] = 0;
+		} else {
+			$info['contractMoney'] = $contract_db->where(array('user'=>$id))->getField('SUM(money)');
+		}
 		$info['jobname'] = '-';
 		$info['target'] = '-';
 		$info['target_limit'] = '-';
