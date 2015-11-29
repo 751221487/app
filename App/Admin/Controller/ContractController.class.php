@@ -17,6 +17,12 @@ class ContractController extends CommonController {
 			$member_db = D('Member');
 			//搜索
 			$where = array('1');
+			if(I('get.userid')){
+				$where[] = "a.user = ".I('get.userid');
+			}
+			if(I('get.memberid')){
+				$where[] = "a.customer = ".I('get.memberid');
+			}
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
@@ -54,7 +60,7 @@ class ContractController extends CommonController {
 			}
 			$where = implode(' and ', $where);
 			$Model = new \Think\Model();
-			$sql = "SELECT COUNT(*) as count, SUM(a.money) as money FROM app2_contract a left join app2_admin b on a.user=b.userid WHERE $where";
+			$sql = "SELECT COUNT(*) as count, ifnull(SUM(a.money), 0) as money FROM app2_contract a left join app2_admin b on a.user=b.userid WHERE $where";
 			$res = $Model->query($sql);
 			$total = $res[0]['count'];
 			$money = $res[0]['money'];
@@ -93,10 +99,17 @@ class ContractController extends CommonController {
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$cond = array('grid'=>'datagrid');
+			if(I('get.userid')){
+				$cond['userid'] = I('get.userid');
+			}
+			if(I('get.memberid')){
+				$cond['memberid'] = I('get.memberid');
+			}
 			$datagrid = array(
 				'options'     => array(
 					'title'   => $currentpos,
-					'url'     => U('Contract/contractlist', array('grid'=>'datagrid')),
+					'url'     => $url = U('Contract/contractlist', $cond),
 					'toolbar' => '#contract-contractlist-datagrid-toolbar',
 				),
 				'fields' => array(

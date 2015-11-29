@@ -94,7 +94,7 @@ class MemberController extends CommonController {
 					'姓名'        => array('field'=>'name','width'=>10),
 					'电话'    => array('field'=>'tel','width'=>10,'sortable'=>false),
 					'负责人'          => array('field'=>'charge','width'=>10),
-					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true),
+					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true, 'formatter'=>'memberMemberModule.contract'),
 					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
 					'管理操作'      => array('field'=>'memberid','width'=>30,'formatter'=>'memberMemberModule.operate'),
 				)

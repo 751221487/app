@@ -158,7 +158,7 @@ class AdminController extends CommonController {
 				}
 			}
 			$where = implode(' and ', $where);
-			
+
 			$Model = new \Think\Model();
 			$sql = "SELECT COUNT(*) as count FROM app2_admin a WHERE $where";
 			$total = $Model->query($sql);
@@ -298,7 +298,7 @@ class AdminController extends CommonController {
 					'状态'    	 => array('field'=>'jobname','width'=>10, 'sortable'=>true),
 					'部门'		 => array('field'=>'areaname', 'width'=>10, 'sortable'=>true),
 					'业务目标'	=> array('field'=>'target', 'width'=>10, 'sortable'=>true),
-					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true),
+					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true, 'formatter'=>'adminMemberModule.contract'),
 					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
 					'业务差距'	=> array('field'=>'gap', 'width'=>12, 'sortable'=>true), 
 					'业务期限'	 => array('field'=>'target_time', 'width'=>12),

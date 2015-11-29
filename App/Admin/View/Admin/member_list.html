@@ -54,6 +54,16 @@ var adminMemberModule = {
 	target: function(val){
 		return val + '万元';
 	},
+
+	//合同数量格式化
+	contract: function(val, row){
+		return '<a href="javascript:;" onclick="adminMemberModule.showContract('+row['userid']+')">'+val+'件</a>';
+	},
+
+	//打开员工合同页面
+	showContract: function(id){
+		$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&userid='+id, closable: true});
+	},
 	
 	//操作字段格式化
 	operate: function(val){

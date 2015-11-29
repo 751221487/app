@@ -49,6 +49,16 @@ var memberMemberModule = {
 		$(this.datagrid).datagrid({pageNumber: 1});
 	},
 
+	//合同数量格式化
+	contract: function(val, row){
+		return '<a href="javascript:;" onclick="memberMemberModule.showContract('+row['memberid']+')">'+val+'件</a>';
+	},
+
+	//打开客户合同页面
+	showContract: function(id){
+		$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&memberid='+id, closable: true});
+	},
+
 	//详情
 	detail: function(id){
 		if(typeof(id) !== 'number'){
