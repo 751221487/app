@@ -158,7 +158,7 @@ class AdminController extends CommonController {
 				}
 			}
 			$where = implode(' and ', $where);
-
+			
 			$Model = new \Think\Model();
 			$sql = "SELECT COUNT(*) as count FROM app2_admin a WHERE $where";
 			$total = $Model->query($sql);

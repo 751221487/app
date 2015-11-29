@@ -19,6 +19,11 @@
 			textField: 'text',
 			url: '<{:U('Member/public_selectcustomer')}>'
 		});
+		$('#charger').combobox({
+			valueField: 'id',
+			textField: 'text',
+			url: '<{:U('Admin/public_selectadmin')}>'
+		});
 	})
 </script>
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
@@ -27,6 +32,10 @@
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
 		投入时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
 		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
+		产品种类:
+		<input type="text" class="easyui-validatebox" name="search[product]">
+		负责人:
+		<input type="text" id="charger" class="easyui-combobox" name="search[user]">
 		客户:
 		<input type="text" id="customer" class="easyui-combobox" name="search[customer]">
 		地区:
@@ -38,7 +47,9 @@
 		<if condition="$admin.position eq '财务'">
 			<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_add'" onclick="contractContractModule.add()">添加合同</a>
 		</if>
-		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="contractContractModule.refresh()">刷新</a>
+		<a href="javascript:;" class="easyui-linkbutton" data-options="plain:true,iconCls:'icons-table-table_refresh'" onclick="contractContractModule.refresh()">刷新</a> 
+		<span id="count" style="margin-left:10px"></span> 
+		<span id="money" style="margin-left:10px"></span>
 	</div>
 </div>
 
@@ -62,6 +73,11 @@ var contractContractModule = {
 	//刷新
 	refresh: function(){
 		$(this.datagrid).datagrid('reload');
+	},
+
+	//投资期限格式化
+	timeLimit:function(val){
+		return val + '月';
 	},
 
 	//客户格式化
@@ -295,6 +311,11 @@ var contractContractModule = {
 			}]
 		});
 	}
-	
 };
+$(contractContractModule.datagrid).datagrid({
+	onLoadSuccess: function(data){
+		$('#count').html('合同总数:' + data.total);
+		$('#money').html('合同总金额:' + data.money);
+	}
+});
 </script>

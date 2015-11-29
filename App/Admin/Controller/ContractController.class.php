@@ -16,14 +16,19 @@ class ContractController extends CommonController {
 			$area_db = D('Area');
 			$member_db = D('Member');
 			//搜索
-			$where = array();
+			$where = array('1');
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
+					case 'product':
+						$where[] = "a.{$k} like '%{$v}%'";
+						break;
 					case 'customer':
-						$where['customer'] = $v;
+					case 'user':
+						$where[] = "a.{$k} = '{$v}'";
+						break;
 					case 'area':
-						$where['area'] = array('in', $area_db->getChild($v));
+						$where[] = "b.area in (".implode(',', $area_db->getChild($search['area'])).")";
 					case 'begin':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
 							unset($search[$k]);
@@ -42,31 +47,46 @@ class ContractController extends CommonController {
 						break;
 				}
 			}
-			// $where = implode(' and ', $where);
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
 			if($currentAdmin['position'] != '财务' && $currentAdmin['position'] != '超级管理员'){
-				$where['user'] = session('userid');
+				$where[] = "user=".session('userid');
 			}
-			$total = $contract_db->where($where)->count();
+			$where = implode(' and ', $where);
+			$Model = new \Think\Model();
+			$sql = "SELECT COUNT(*) as count, SUM(a.money) as money FROM app2_contract a left join app2_admin b on a.user=b.userid WHERE $where";
+			$res = $Model->query($sql);
+			$total = $res[0]['count'];
+			$money = $res[0]['money'];
 			$limit = ($page - 1) * $rows . "," . $rows;
 			$order = $sort.' '.$order;
-			$list = $total ? $contract_db->where($where)->order($order)->limit($limit)->select() : array();
-			$adminList = $admin_db->select();
-			$memberList = $member_db->select();
+			$sql = "SELECT 
+						a.*, 
+						b.realname as charge, 
+						d.name as customername
+					FROM 
+						app2_contract a, app2_admin b, app2_area c, app2_member d
+					WHERE
+						a.user = b.userid
+					AND
+						a.customer = d.memberid
+					AND
+						b.area = c.id
+					AND
+						$where
+					ORDER BY 
+						$order 
+					LIMIT 
+						$limit";
+			$list = $total ? $Model->query($sql) : array();
 			foreach($list as &$info){
-				for($i = 0; $i < count($adminList); $i++){
-					if($info['user'] == $adminList[$i]['userid']) {
-						$info['charge'] = $adminList[$i]['realname'];
-					}
-				}
-				for($i = 0; $i < count($memberList); $i++){
-					if($info['customer'] == $memberList[$i]['memberid']){
-						$info['customername'] = $memberList[$i]['name'];
-					}
+				if(time() > strtotime($info['time_finish'])){
+					$info['status'] = '已完成';
+				} else {
+					$info['status'] = '履行中';
 				}
 			}
-			$data = array('total'=>$total, 'rows'=>$list);
+			$data = array('total'=>$total, 'rows'=>$list, 'money'=>$money);
 			$this->ajaxReturn($data);
 		}else{
 			$menu_db = D('Menu');
@@ -83,10 +103,11 @@ class ContractController extends CommonController {
 					'合同编号'      => array('field'=>'code','width'=>10,'sortable'=>true),
 					'产品种类'        => array('field'=>'product','width'=>10,'sortable'=>true),
 					'客户'        => array('field'=>'customername','width'=>10, 'formatter'=>'contractContractModule.customer'),
-					'负责人'          => array('field'=>'charge','width'=>10),
+					'负责人'          => array('field'=>'charge','width'=>10,'sortable'=>true),
 					'投入时间' => array('field'=>'create_date','width'=>10,'sortable'=>true),
-					'投入金额'          => array('field'=>'money','width'=>10),
-					'投资期限'          => array('field'=>'time_limit','width'=>10),
+					'投入金额'          => array('field'=>'money','width'=>10,'sortable'=>true),
+					'投资期限'          => array('field'=>'time_limit','width'=>8, 'sortable'=>true, 'formatter'=>'contractContractModule.timeLimit'),
+					'合同状态'          => array('field'=>'status','width'=>10),
 					'管理操作'      => array('field'=>'id','width'=>30,'formatter'=>'contractContractModule.operate'),
 				)
 			);

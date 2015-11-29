@@ -16,7 +16,10 @@ class MemberController extends CommonController {
 			$typelist       = $member_type_db->where(array('disabled'=>'0'))->order('listorder asc')->getField('typeid,typename', true);
 			$area_db = D('Area');
 			//搜索
-			$where = array();
+			$admin_db = D('admin');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$areas = $area_db->getChild($currentAdmin['area']);
+			$where[] = "b.area in (".implode(',', $areas).")";
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
@@ -41,24 +44,40 @@ class MemberController extends CommonController {
 						$where[] = "`create_time` <= '{$v}'";
 						break;
 					case 'department':
-						$where['department'] = array('in', $area_db->getChild($v));
+						$where[] = "b.area in (".implode(',', $areas).")";
+						// $where['department'] = array('in', $area_db->getChild($v));
 						break;
 				}
 			}
 			$where = implode(' and ', $where);
-			$total = $member_db->where($where)->count();
+			$Model = new \Think\Model();
+			$sql = "SELECT COUNT(*) as count FROM app2_member a, app2_admin b WHERE $where";
+			$total = $Model->query($sql);
+			$total = $total[0]['count'];
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $total ? $member_db->where($where)->order($order)->limit($limit)->select() : array();
-			$admin_db = D('Admin');
-			$adminList = $admin_db->select();
-			foreach($list as &$info){
-				for($i = 0; $i < count($adminList); $i++){
-					if($info['user'] == $adminList[$i]['userid']) {
-						$info['charge'] = $adminList[$i]['realname'];
-					}
-				}
-			}
+			$sql = "SELECT 
+						a.*, 
+						b.realname as charge, 
+						ifnull(SUM(d.money), 0) as contractmoney,
+						COUNT(d.id) as contractcount
+					FROM 
+						app2_admin b, app2_contract d
+					RIGHT join
+						app2_member a
+					ON
+						a.memberid=d.customer
+					WHERE 
+						$where
+					AND 
+						a.user=b.userid
+					GROUP BY
+						a.memberid
+					ORDER BY 
+						$order 
+					LIMIT 
+						$limit";
+			$list = $total ? $Model->query($sql) : array();
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
 		}else{
@@ -75,7 +94,8 @@ class MemberController extends CommonController {
 					'姓名'        => array('field'=>'name','width'=>10),
 					'电话'    => array('field'=>'tel','width'=>10,'sortable'=>false),
 					'负责人'          => array('field'=>'charge','width'=>10),
-					'创建时间' => array('field'=>'create_time','width'=>15,'sortable'=>true,'formatter'=>'memberMemberModule.time'),
+					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true),
+					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
 					'管理操作'      => array('field'=>'memberid','width'=>30,'formatter'=>'memberMemberModule.operate'),
 				)
 			);
@@ -99,7 +119,7 @@ class MemberController extends CommonController {
 			$admin_db = D('Admin');
 			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
 			$data['department'] = $charger['area'];
-			
+
 			$id = $member_db->add($data);
 			if($id){
 				$this->success('添加成功');
