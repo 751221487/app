@@ -109,7 +109,7 @@ class IndexController extends CommonController {
 		$admin_db = D('Admin');
 		$area_db = D('Area');
 		$userid   = session('userid');
-		$userInfo = $admin_db->getUserInfo($userid);    //获取用户基本信息
+		$userInfo = $admin_db->where(array('userid'=>$userid))->find();    //获取用户基本信息
 
 		$admin_log = M('admin_log');
 		$loginList = $admin_log->where(array('userid'=>$userid))->order("time desc")->limit(5)->select();

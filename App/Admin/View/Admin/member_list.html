@@ -9,7 +9,26 @@
 		<input type="text" name="search[realname]" style="width:100px;padding:2px"/>
 		地区:
 		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[area]" style="width:200px;"/>
-
+		状态:
+		<select class="easyui-combobox" name="search[job]" id="job" style="width:200px;">
+			<option value=""></option>
+			<foreach name="jobList" item="job">
+				<option value="<{$job.id}>"><{$job.name}></option>
+			</foreach>
+		</select>
+		职位:
+		<select class="easyui-combobox" id="position" name="search[position]" style="width:200px;">
+			<option value=""></option>
+			<option value="超级管理员">超级管理员</option>
+			<option value="总经理">总经理</option>
+			<option value="副总经理">副总经理</option>
+			<option value="财务">财务</option>
+			<option value="业务发展经理">业务发展经理</option>
+			<option value="区域经理">区域经理</option>
+			<option value="总监">总监</option>
+			<option value="营业部经理">营业部经理</option>
+			<option value="理财顾问">理财顾问</option>
+		</select>
 		<a href="javascript:;" onclick="adminMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>
 	</if>
@@ -91,7 +110,7 @@ var adminMemberModule = {
 			title: '添加员工',
 			iconCls: 'icons-application-application_add',
 			width: 370,
-			height: 460,
+			height: 500,
 			cache: false,
 			href: '<{:U('Admin/memberAdd')}>',
 			modal: true,
@@ -148,7 +167,7 @@ var adminMemberModule = {
 			title: '编辑员工',
 			iconCls: 'icons-application-application_edit',
 			width: 370,
-			height: 460,
+			height: 500,
 			cache: false,
 			href: href,
 			modal: true,

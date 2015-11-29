@@ -19,7 +19,7 @@ class AdminModel extends Model{
 		//处理生日
 		$memberList = $member_db->where(array('user'=>$userid))->select();
 		for($i = 0; $i < count($memberList); $i++){
-			if(date('m-d', strtotime($memberList[$i]['birthday'])) == date('m-d', time())){
+			if(date('m-d', strtotime($memberList[$i]['birthday'])) == date('m-d', strtotime('+7 day'))){
 				$where = array(
 					'type' => 1,
 					'link' => $memberList[$i]['memberid'],
@@ -28,7 +28,7 @@ class AdminModel extends Model{
 					);
 				if(!$message_db->where($where)->find()){
 					$data['user'] = $userid;
-					$data['content'] = '客户'.$memberList[$i]['name'].'的生日到了';
+					$data['content'] = '客户'.$memberList[$i]['name'].'的生日就要到了';
 					$data['time'] = date('Y-m-d H:i:s', time());
 					$data['type'] = 1;
 					$data['link'] = $memberList[$i]['memberid'];
@@ -42,6 +42,7 @@ class AdminModel extends Model{
 			$now = time();
 			$create_time = strtotime($contractList[$i]['create_date']);
 			$month_diff = (date('Y') - date('Y', $create_time)) * 12 + (date('m') - date('m', $create_time));
+			$month_diff = $month_diff + 1;
 			$to_paid_finish = intval($month_diff / $contractList[$i]['income_cycle']);
 			if($to_paid_finish > $contractList[$i]['paid_finish'] && $now < strtotime($contractList[$i]['time_finish'])){
 				$where = array(

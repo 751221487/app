@@ -16,7 +16,11 @@
 					暂无未读消息
 				</if>
 			</div>
-			
+			<?php if($userInfo['password'] == md5(md5('123456').$userInfo['encrypt'])){ ?>
+			<div title="提示" collapsible="true" style="padding:8px;line-height:1.8">
+				<p style="color:red;font-size:20px;margin:0">您的密码为初始密码，请修改</p>
+			</div>
+			<?php } ?>
 		</div>
 		<div style="width:40%">
 			<div title="日历" collapsible="true" style="padding:8px;line-height:1.8;text-align:center;height:300px;">

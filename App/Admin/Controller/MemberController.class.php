@@ -71,7 +71,6 @@ class MemberController extends CommonController {
 					'toolbar' => '#member-member-datagrid-toolbar',
 				),
 				'fields' => array(
-					'单位'      => array('field'=>'corp','width'=>10,'sortable'=>true),
 					'来源'        => array('field'=>'origin','width'=>10,'sortable'=>true),
 					'姓名'        => array('field'=>'name','width'=>10),
 					'电话'    => array('field'=>'tel','width'=>10,'sortable'=>false),
@@ -100,7 +99,7 @@ class MemberController extends CommonController {
 			$admin_db = D('Admin');
 			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
 			$data['department'] = $charger['area'];
-
+			
 			$id = $member_db->add($data);
 			if($id){
 				$this->success('添加成功');

@@ -47,6 +47,14 @@
 			</td>
 		</tr>
 		<tr>
+			<td style="vertical-align:top">业务目标：</td>
+			<td>
+				<input type="text" class="easyui-numberbox" name="info[target]" style="width:200px;">万元
+				<br>
+				(留空则根据状态获取)
+			</td>
+		</tr>
+		<tr>
 			<td>权限：</td>
 			<td>
 				<select class="easyui-combobox" data-options="editable:false,panelHeight:'auto'" name="info[permission]" style="width:200px;">
@@ -57,7 +65,7 @@
 		</tr>
 		<tr>
 			<td>E-mail：</td>
-			<td><input class="easyui-validatebox" type="text" name="info[email]" data-options="required:true,validType:['email','length[3,40]','remote[\'<{:U('Admin/public_checkEmail')}>\',\'email\']']" style="width:200px" /></td>
+			<td><input class="easyui-validatebox" type="text" name="info[email]" style="width:200px" /></td>
 		</tr>
 		<tr>
 			<td>电话：</td>

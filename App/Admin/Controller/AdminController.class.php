@@ -141,46 +141,138 @@ class AdminController extends CommonController {
 			$admin_db = D('Admin');
 			$job_db = D('Job');
 			$area_db = D('Area');
-			$jobList = $job_db->select();
-			$areaList = $area_db->select();
 			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$areas = $area_db->getChild($admin['area']);
-			$where = array('area'=>array('in', $areas));
+			$where[] = "a.area in (".implode(',', $areas).")";
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
+					case 'job':
+					case 'position':
 					case 'realname':
 						$where[] = "`{$k}` like '%{$v}%'";
 						break;
 					case 'area':
-						$where['area'] = array('in', $area_db->getChild($v));
+						$where[] = "a.area in (".implode(',', $areas).")";
 						break;
 				}
 			}
-			$total = $admin_db->where($where)->count();
+			$where = implode(' and ', $where);
+
+			$Model = new \Think\Model();
+			$sql = "SELECT COUNT(*) as count FROM app2_admin a WHERE $where";
+			$total = $Model->query($sql);
+			$total = $total[0]['count'];
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $total ? $admin_db->where($where)->order($order)->limit($limit)->select() : array();
+			$sql = "SELECT * FROM 
+					(SELECT 
+						a.*, 
+						b.name as jobname, 
+						b.time as target_limit, 
+						c.name as areaname,
+						ifnull(SUM(d.money), 0) as contractmoney,
+						COUNT(d.id) as contractcount
+					FROM 
+						app2_job b, app2_area c, app2_contract d
+					RIGHT join
+						app2_admin a
+					ON
+						a.userid=d.user
+					WHERE 
+						$where 
+					AND 
+						(a.area=c.id OR a.area=0)
+					AND 
+						a.job=b.id
+					GROUP BY
+						a.userid
+					) res1
+					INNER JOIN 
+					(SELECT 
+						a.userid as userid2, 
+						ifnull(SUM(d.money), 0)- a.target as gap 
+					FROM 
+						app2_job b, app2_area c, app2_contract d
+					RIGHT join
+						app2_admin a
+					ON
+						a.userid=d.user
+					AND 
+						d.create_date >= a.status_change_time
+					WHERE 
+						$where 
+					AND 
+						(a.area=c.id OR a.area=0)
+					AND 
+						a.job=b.id
+					GROUP BY
+						a.userid
+					) res2 ON res1.userid = res2.userid2
+					ORDER BY 
+						$order 
+					LIMIT 
+						$limit";
+			$list = $total ? $Model->query($sql) : array();
 			if($admin['permission'] == 2){
 				$total = 1;
-				$list = $admin_db->where(array('userid'=>session('userid')))->order($order)->limit($limit)->select();
+				$sql = "SELECT * FROM 
+					(SELECT 
+						a.*, 
+						b.name as jobname, 
+						b.time as target_limit, 
+						c.name as areaname,
+						ifnull(SUM(d.money), 0) as contractmoney,
+						COUNT(d.id) as contractcount
+					FROM 
+						app2_job b, app2_area c, app2_contract d
+					RIGHT join
+						app2_admin a
+					ON
+						a.userid=d.user
+					WHERE 
+						$where 
+					AND
+						a.userid=".session('userid').
+					"AND 
+						(a.area=c.id OR a.area=0)
+					AND 
+						a.job=b.id
+					GROUP BY
+						a.userid
+					) res1
+					INNER JOIN 
+					(SELECT 
+						a.userid as userid2, 
+						ifnull(SUM(d.money), 0)- a.target as gap 
+					FROM 
+						app2_job b, app2_area c, app2_contract d
+					RIGHT join
+						app2_admin a
+					ON
+						a.userid=d.user
+					AND 
+						d.create_date >= a.status_change_time
+					WHERE 
+						$where 
+					AND
+						a.userid=".session('userid').
+					"AND 
+						(a.area=c.id OR a.area=0)
+					AND 
+						a.job=b.id
+					GROUP BY
+						a.userid
+					) res2 ON res1.userid = res2.userid2
+					ORDER BY 
+						$order 
+					LIMIT 
+						$limit";
+				$list = $Model->query($sql);
 			}
 			foreach($list as &$info){
-				$info['jobname'] = '-';
-				$info['target'] = '-';
-				$info['target_limit'] = '-';
-				for ($i=0; $i < count($jobList); $i++) { 
-					if($jobList[$i]['id'] == $info['job']){
-						$info['jobname'] = $jobList[$i]['name'];
-						$info['target'] = $jobList[$i]['target'];
-						$info['target_limit'] = $jobList[$i]['time'];
-					}
-				}
-				$info['areaname'] = '全国';
-				for ($i=0; $i < count($areaList); $i++) { 
-					if($areaList[$i]['id'] == $info['area']){
-						$info['areaname'] = $areaList[$i]['name'];
-					}
+				if($info['area'] == 0){
+					$info['areaname'] = '全国';
 				}
 				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
 			}
@@ -191,6 +283,7 @@ class AdminController extends CommonController {
 			$menu_db = D('Menu');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$admin_db = D('admin');
+			$job_db = D('job');
 			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$datagrid = array(
 				'options'     => array(
@@ -201,13 +294,18 @@ class AdminController extends CommonController {
 				'fields' => array(
 					'用户名'      => array('field'=>'username','width'=>10,'sortable'=>true),
 					'真实姓名'     => array('field'=>'realname','width'=>10,'sortable'=>true),
-					'职位'     => array('field'=>'position','width'=>15,'sortable'=>true),
-					'状态'    	 => array('field'=>'jobname','width'=>15),
-					'部门'		 => array('field'=>'areaname', 'width'=>15),
-					'入职时间'	 => array('field'=>'join_time', 'width'=>10),
+					'职位'     => array('field'=>'position','width'=>10,'sortable'=>true),
+					'状态'    	 => array('field'=>'jobname','width'=>10, 'sortable'=>true),
+					'部门'		 => array('field'=>'areaname', 'width'=>10, 'sortable'=>true),
+					'业务目标'	=> array('field'=>'target', 'width'=>10, 'sortable'=>true),
+					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true),
+					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
+					'业务差距'	=> array('field'=>'gap', 'width'=>12, 'sortable'=>true), 
+					'业务期限'	 => array('field'=>'target_time', 'width'=>12),
 					'管理操作'     => array('field'=>'userid','width'=>30,'formatter'=>'adminMemberModule.operate'),
 				)
 			);
+			$this->assign('jobList', $job_db->select());
 			$this->assign('admin', $admin);
 			$this->assign('datagrid', $datagrid);
 			$this->display('member_list');
@@ -235,12 +333,10 @@ class AdminController extends CommonController {
 			$info['contractMoney'] = $contract_db->where(array('user'=>$id))->getField('SUM(money)');
 		}
 		$info['jobname'] = '-';
-		$info['target'] = '-';
 		$info['target_limit'] = '-';
 		for ($i=0; $i < count($jobList); $i++) { 
 			if($jobList[$i]['id'] == $info['job']){
 				$info['jobname'] = $jobList[$i]['name'];
-				$info['target'] = $jobList[$i]['target'];
 				$info['target_limit'] = $jobList[$i]['time'];
 			}
 		}
@@ -267,6 +363,8 @@ class AdminController extends CommonController {
 				$this->error('用户名称已经存在');
 			}
 
+			$job_db = D('job');
+
 			$data['password'] = '123456';
 			$passwordinfo = password($data['password']);
 			$data['password'] = $passwordinfo['password'];
@@ -274,6 +372,12 @@ class AdminController extends CommonController {
 			$job_db = D('Job');
 			$job = $job_db->where(array('id'=>$data['job']))->find();
 			$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
+			if($data['target'] == ''){
+				$job = $job_db->where(array('id'=>$data['job']))->find();
+				$data['target'] = $job['target'];
+			}
+			$data['target'] = $data['target'] * 10000;
+			$data['status_change_time'] = date('Y-m-d', time());
 			$id = $admin_db->add($data);
 			if($id){
 				if($email) send_email($email['email'], $email['subject'], $email['content'], array('isHtml'=>true, 'charset'=>'GB2312'));
@@ -296,12 +400,20 @@ class AdminController extends CommonController {
 		$admin_db = D('Admin');
 		if(IS_POST){
 			$data = I('post.info');
+			$job_db = D('job');
+
 			$admin = $admin_db->where(array('userid'=>$id))->find();
 			if($data['job'] != $admin['job']){
-				$job_db = D('Job');
 				$job = $job_db->where(array('id'=>$data['job']))->find();
 				$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
+				$data['status_change_time'] = date('Y-m-d', time());
 			}
+			if($data['target'] == ''){
+				$job = $job_db->where(array('id'=>$data['job']))->find();
+				$data['target'] = $job['target'];
+			}
+			$data['target'] = $data['target'] * 10000;
+
 			$result = $admin_db->where(array('userid'=>$id))->save($data);
 			if($result){
 				$this->success('修改成功');
