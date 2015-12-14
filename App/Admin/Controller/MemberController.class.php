@@ -23,9 +23,13 @@ class MemberController extends CommonController {
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
+					case 'user':
+						$where[] = "a.user = '{$v}'";
+						break;
 					case 'name':
 					case 'tel':
-						$where[] = "`{$k}` like '%{$v}%'";
+					case 'idcard':
+						$where[] = "a.{$k} like '%{$v}%'";
 						break;
 					case 'begin':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
@@ -51,7 +55,7 @@ class MemberController extends CommonController {
 			}
 			$where = implode(' and ', $where);
 			$Model = new \Think\Model();
-			$sql = "SELECT COUNT(*) as count FROM app2_member a, app2_admin b WHERE $where";
+			$sql = "SELECT COUNT(*) as count FROM app2_member a left join app2_admin b ON a.user=b.userid WHERE $where";
 			$total = $Model->query($sql);
 			$total = $total[0]['count'];
 			$order = $sort.' '.$order;

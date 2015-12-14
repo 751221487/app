@@ -1,17 +1,36 @@
 <taglib name="Admin\TagLib\EasyUI" />
 
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
+<script>
+$(function(){
+	$('#charger').combobox({
+		valueField: 'id',
+		textField: 'text',
+		url: '<{:U('Admin/public_selectadmin')}>'
+	});
 
+	$('#search-key').change(function(){
+		$('#search-val').prop('name', 'search['+$(this).val()+']');
+	})
+})
+	
+</script>
 <div id="member-member-datagrid-toolbar" style="padding:1px;height:auto">
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
 		添加时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
 		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
-		客户名:
-		<input type="text" name="search[name]" style="width:100px;padding:2px"/>
-		电话:
-		<input type="text" name="search[tel]" style="width:100px;padding:2px"/>
+		负责人:
+		<input type="text" id="charger" class="easyui-combobox" name="search[user]">
 		地区:
-		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[department]" style="width:200px;"/>
+		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[department]" style="width:200px;"/><br><br>
+		搜索项:
+		<select id="search-key" style="width:100px;padding:2px">
+			<option value="name">姓名</option>
+			<option value="tel">电话</option>
+			<option value="idcard">身份证</option>
+		</select>
+		搜索值:
+		<input type="text" id="search-val" style="width:100px;padding:2px"/>
 		<a href="javascript:;" onclick="memberMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>
 	<div>
