@@ -727,7 +727,6 @@ class AdminController extends CommonController {
 			$this->assign('datagrid', $datagrid);
 			$this->display('job_list');
 		}
-		$this->display('job_list');
 	}
 
 

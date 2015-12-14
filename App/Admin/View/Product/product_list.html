@@ -1,0 +1,174 @@
+<taglib name="Admin\TagLib\EasyUI" />
+
+<easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
+
+<script type="text/javascript">
+var ProductproductModule = {
+	dialog:   '#globel-dialog-div',
+	datagrid: '#product_productlist_datagrid',
+	
+	//工具栏
+	toolbar: [
+		{text: '添加产品', iconCls: 'icons-table-table_add', handler: function(){ProductproductModule.add();}},
+		{text: '刷新', iconCls: 'icons-table-table_refresh', handler: function(){ProductproductModule.refresh();}},
+	],
+	
+
+	//进度格式化
+	progess: function(val, row){
+		return (row['money_finish'] / row['money_total'] * 100).toString().substr(0, 4) + '%';
+	},
+
+	//操作格式化
+	operate: function(val){
+		var btn = [];
+		btn.push('<a href="javascript:void(0);" onclick="ProductproductModule.edit('+val+')">编辑</a>');
+		btn.push('<a href="javascript:void(0);" onclick="ProductproductModule.delete('+val+')">删除</a>');
+		return btn.join(' | ');
+	},
+	
+	//刷新
+	refresh: function(){
+		$(this.datagrid).datagrid('reload');
+	},
+
+	
+	//添加产品
+	add: function(){
+		var that = this;
+		$(that.dialog).dialog({
+			title: '添加产品',
+			iconCls: 'icons-application-application_add',
+			width: 380,
+			height: 300,
+			cache: false,
+			href: '<{:U('Product/ProductAdd')}>',
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-other-tick',
+				handler: function(){
+					$(that.dialog).find('form').eq(0).form('submit', {
+						onSubmit: function(){
+							var isValid = $(this).form('validate');
+							if (!isValid) return false;
+							
+							$.messager.progress({text:'处理中，请稍候...'});
+							$.post('<{:U('Product/productAdd?dosubmit=1')}>', $(this).serialize(), function(res){
+								$.messager.progress('close');
+								
+								if(!res.status){
+									$.app.method.tip('提示信息', res.info, 'error');
+								}else{
+									$.app.method.tip('提示信息', res.info, 'info');
+									$(that.dialog).dialog('close');
+									that.refresh();
+								}
+							}, 'json');
+							
+							return false;
+						}
+					});
+				}
+			},{
+				text:'取消',
+				iconCls:'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	},
+	
+	//编辑产品
+	edit: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择产品', 'error');
+			return false;
+		}
+		var href = '<{:U('Product/productEdit')}>';
+		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+		
+		var that = this;
+		$(that.dialog).dialog({
+			title: '编辑产品',
+			iconCls: 'icons-application-application_edit',
+			width: 380,
+			height: 300,
+			cache: false,
+			href: href,
+			modal: true,
+			collapsible: false,
+			minimizable: false,
+			resizable: false,
+			maximizable: false,
+			buttons:[{
+				text:'确定',
+				iconCls:'icons-other-tick',
+				handler:function(){
+					$(that.dialog).find('form').eq(0).form('submit', {
+						onSubmit: function(){
+							var isValid = $(this).form('validate');
+							if (!isValid) return false;
+							
+							$.messager.progress({text:'处理中，请稍候...'});
+							var action = '<{:U('Product/productEdit', array('dosubmit'=>1))}>';
+							action += action.indexOf('?') != -1 ? '&id='+id : '?id='+id;
+							$.post(action, $(this).serialize(), function(res){
+								$.messager.progress('close');
+								
+								if(!res.status){
+									$.app.method.tip('提示信息', res.info, 'error');
+								}else{
+									$.app.method.tip('提示信息', res.info, 'info');
+									$(that.dialog).dialog('close');
+									that.refresh();
+								}
+							}, 'json');
+							
+							return false;
+						}
+					});
+				}
+			},{
+				text: '取消',
+				iconCls: 'icons-arrow-cross',
+				handler: function(){
+					$(that.dialog).dialog('close');
+				}
+			}]
+		});
+	},
+	
+	//删除产品
+	delete: function(id){
+		if(typeof(id) !== 'number'){
+			$.app.method.tip('提示信息', '未选择产品', 'error');
+			return false;
+		}
+		var that = this;
+		$.messager.confirm('提示信息', '确定要删除吗？', function(result){
+			if(!result) return false;
+			
+			$.messager.progress({text:'处理中，请稍候...'});
+			$.post('<{:U('Product/productDelete')}>', {id: id}, function(res){
+				$.messager.progress('close');
+				
+				if(!res.status){
+					$.app.method.tip('提示信息', res.info, 'error');
+				}else{
+					$.app.method.tip('提示信息', res.info, 'info');
+					that.refresh();
+				}
+			}, 'json');
+		});
+	},
+	
+
+
+};
+</script>

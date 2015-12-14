@@ -1,0 +1,30 @@
+<form>
+	<table cellspacing="6" width="100%">
+		<tr>
+			<td width="90">产品代码：</td>
+			<td><input class="easyui-validatebox" type="text" name="info[code]" value="<{$info.code}>" data-options="required:true" style="width:220px" /></td>
+		</tr>
+		<tr>
+			<td>产品名称：</td>
+			<td><input class="easyui-validatebox" type="text" name="info[name]" value="<{$info.name}>" data-options="required:true" style="width:220px" /></td>
+		</tr>
+		<tr>
+			<td>募集额度：</td>
+			<td>
+				<input class="easyui-validatebox" type="text" name="info[money_total]" value="<{$info.money_total}>" data-options="required:true" style="width:220px;">元
+			</td>
+		</tr>
+		<tr>
+			<td>已募集：</td>
+			<td>
+				<input class="easyui-validatebox" type="text" name="info[money_finish]" value="<{$info.money_finish}>" data-options="required:true" style="width:220px;">元
+			</td>
+		</tr>
+		<tr>
+			<td>客户方案：</td>
+			<td>
+				<textarea class="easyui-validatebox" name="info[remark]" style="width:200px"><{$info.remark}></textarea>
+			</td>
+		</tr>
+	</table>
+</form>
