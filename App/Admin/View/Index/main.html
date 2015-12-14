@@ -1,7 +1,7 @@
 <div class="easyui-panel" data-options="fit:true,title:'后台首页',border:false,onResize:function(){$('#index-main-portal').portal({border:false,fit:true});}">
 	<div id="index-main-portal">
 		<div style="width:60%">
-			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.8;height: 232px;font-size:22px">
+			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.6;height: 210px;font-size:20px">
 				您好，<{$userInfo.username}><br />
 				所属角色：<{$userInfo.position}> <br />
 				所属地区：<{$userInfo.areaname}> <br />
@@ -20,6 +20,40 @@
 			<div title="提示" collapsible="true" style="padding:8px;line-height:1.8">
 				<p style="color:red;font-size:20px;margin:0">您的密码为初始密码，请修改</p>
 			</div>
+			<?php } ?>
+			<div title="满期客户" collapsible="true" style="padding:8px;line-height:1.8">
+				本周满期: <{$contract_week_count}>笔，共<{$contract_week_money}>元，<a href="javascript:" id="contract-finish-week">查看详情</a><br>
+				下周满期: <{$contract_next_week_count}>笔，共<{$contract_next_week_money}>元，<a href="javascript:" id="contract-finish-next-week">查看详情</a><br>
+				本月满期: <{$contract_month_count}>笔，共<{$contract_month_money}>元，<a href="javascript:" id="contract-finish-month">查看详情</a>
+			</div>
+			<script>
+				$('#contract-finish-week').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&week=1', closable: true});
+				});
+				$('#contract-finish-next-week').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&nextweek=1', closable: true});
+				});
+				$('#contract-finish-month').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&month=1', closable: true});
+				});
+			</script>
+			<?php if($userInfo['position'] == '财务'){ ?>
+				<div title="应付客户" collapsible="true" style="padding:8px;line-height:1.8">
+					本周应付: <{$contract_pay_week_count}>笔，共<{$contract_pay_week_money}>元，<a href="javascript:" id="contract-pay-week">查看详情</a><br>
+					下周应付: <{$contract_pay_next_week_count}>笔，共<{$contract_pay_next_week_money}>元，<a href="javascript:" id="contract-pay-next-week">查看详情</a><br>
+					本月应付: <{$contract_pay_month_count}>笔，共<{$contract_pay_month_money}>元，<a href="javascript:" id="contract-pay-month">查看详情</a>
+				</div>
+				<script>
+				$('#contract-pay-week').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&week=1&pay=1', closable: true});
+				});
+				$('#contract-pay-next-week').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&nextweek=1&pay=1', closable: true});
+				});
+				$('#contract-pay-month').click(function(){
+					$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&month=1&pay=1', closable: true});
+				});
+			</script>
 			<?php } ?>
 		</div>
 		<div style="width:40%">

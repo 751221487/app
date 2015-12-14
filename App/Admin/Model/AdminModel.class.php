@@ -87,6 +87,13 @@ class AdminModel extends Model{
 		}
 
 		$this->where(array('userid'=>$r['userid']))->save(array('lastloginip'=>$ip,'lastlogintime'=>time()));
+
+		if(strtotime($r['target_time']) < time()){
+			$job_db = D('job');
+			$job = $job_db->where(array('id'=>$r['job']))->find();
+			$this->where(array('userid'=>$r['userid']))->save(array('target_time'=>date('Y-m-d', strtotime('+'.$job['time'].' day', time()))));
+		}
+
 		$this->handleMessage($r['userid']);
 		
 		session('userid', $r['userid']);

@@ -23,6 +23,27 @@ class ContractController extends CommonController {
 			if(I('get.memberid')){
 				$where[] = "a.customer = ".I('get.memberid');
 			}
+			if(I('get.week')){
+				if(I('get.pay')){
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -7)';
+				} else {
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 7 * 3600)."'";
+				}
+			}
+			if(I('get.nextweek')){
+				if(I('get.pay')){
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -14)';
+				} else {
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 14 * 3600)."'";
+				}
+			}
+			if(I('get.month')){
+				if(I('get.pay')){
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -30)';
+				} else {
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 30 * 3600)."'";
+				}
+			}
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
@@ -96,6 +117,7 @@ class ContractController extends CommonController {
 			$this->ajaxReturn($data);
 		}else{
 			$menu_db = D('Menu');
+			$area_db = D('area');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
@@ -105,6 +127,18 @@ class ContractController extends CommonController {
 			}
 			if(I('get.memberid')){
 				$cond['memberid'] = I('get.memberid');
+			}
+			if(I('get.week')){
+				$cond['week'] = 1;
+			}
+			if(I('get.nextweek')){
+				$cond['nextweek'] = 1;
+			}
+			if(I('get.month')){
+				$cond['month'] = 1;
+			}
+			if(I('get.pay')){
+				$cond['pay'] = 1;
 			}
 			$datagrid = array(
 				'options'     => array(

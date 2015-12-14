@@ -123,6 +123,58 @@ class IndexController extends CommonController {
 			$area = $area_db->where(array('id'=>$userInfo['area']))->find();
 			$userInfo['areaname'] = $area['name'];
 		}
+		$contract_db = D('Contract');
+		$cond1['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 7 * 3600));
+		$cond2['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 14 * 3600));
+		$cond3['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 30 * 3600));
+		if($userInfo['position'] == '理财顾问'){
+			$cond['user'] = $userInfo['userid'];
+		} else if($userInfo['position'] == '财务'){
+			$cond['create_user'] = $userInfo['userid'];
+		}else {
+			$adminList = $admin_db->where(array('area'=>array('in', $area_db->getChild($userInfo['area']))))->getField('userid', true);
+			$cond['user'] = array('in', implode(',', $adminList));
+		}
+
+		$contract_week_count = $contract_db->where(array_merge($cond1, $cond))->count();
+		$contract_week_money = $contract_db->where(array_merge($cond1, $cond))->sum('money');
+
+		$contract_next_week_count = $contract_db->where(array_merge($cond2, $cond))->count();
+		$contract_next_week_money = $contract_db->where(array_merge($cond2, $cond))->sum('money');
+		
+		$contract_month_count = $contract_db->where(array_merge($cond3, $cond))->count();
+		$contract_month_money = $contract_db->where(array_merge($cond3, $cond))->sum('money');
+		
+		if($userInfo['position'] == '财务'){
+			$cond_caiwu1[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -7) AND create_user='.$userInfo['userid'];
+			$cond_caiwu2[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -14) AND create_user='.$userInfo['userid'];
+			$cond_caiwu3[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -30) AND create_user='.$userInfo['userid'];
+			
+			$contract_pay_week_count = $contract_db->where($cond_caiwu1)->count();
+			$contract_pay_week_money = $contract_db->where($cond_caiwu1)->sum('money');
+			
+			$contract_pay_next_week_count = $contract_db->where($cond_caiwu2)->count();
+			$contract_pay_next_week_money = $contract_db->where($cond_caiwu2)->sum('money');
+			
+			$contract_pay_month_count = $contract_db->where($cond_caiwu3)->count();
+			$contract_pay_month_money = $contract_db->where($cond_caiwu3)->sum('money');
+		}
+
+		$this->assign('contract_week_count', $contract_week_count);
+		$this->assign('contract_week_money', $contract_week_money);
+		$this->assign('contract_next_week_count', $contract_next_week_count);
+		$this->assign('contract_next_week_money', $contract_next_week_money);
+		$this->assign('contract_month_count', $contract_month_count);
+		$this->assign('contract_month_money', $contract_month_money);
+
+		$this->assign('contract_pay_week_count', $contract_pay_week_count);
+		$this->assign('contract_pay_week_money', $contract_pay_week_money);
+		$this->assign('contract_pay_next_week_count', $contract_pay_next_week_count);
+		$this->assign('contract_pay_next_week_money', $contract_pay_next_week_money);
+		$this->assign('contract_pay_month_count', $contract_pay_month_count);
+		$this->assign('contract_pay_month_money', $contract_pay_month_money);
+
+
 		$this->assign('userInfo', $userInfo);
 		$this->assign('unread', $unreadMessage);
 		$this->display('main');
