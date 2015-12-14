@@ -1,7 +1,13 @@
 <taglib name="Admin\TagLib\EasyUI" />
 
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
-
+<script>
+	$(function(){
+		$('#admin-search-key').change(function(){
+			$('#admin-search-val').prop('name', 'search['+$(this).val()+']');
+		})
+	})
+</script>
 <div id="admin-memberlist-datagrid-toolbar" style="padding:1px;height:auto">
 	<if condition="$admin.permission eq 1">
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
@@ -29,6 +35,27 @@
 			<option value="营业部经理">营业部经理</option>
 			<option value="理财顾问">理财顾问</option>
 		</select>
+		<br><br>
+		入职时间:
+		<input class="easyui-datebox" name="search[joinbegin]" style="width:150px;padding:2px"/>
+		到
+		<input class="easyui-datebox" name="search[joinend]" style="width:150px;padding:2px"/>
+		<br><br>
+		离职时间:
+		<input class="easyui-datebox" name="search[leftbegin]" style="width:150px;padding:2px"/>
+		到
+		<input class="easyui-datebox" name="search[leftend]" style="width:150px;padding:2px"/>
+		<br><br>
+		搜索项:
+		<select id="admin-search-key" style="width:100px;padding:2px">
+			<option value=""></option>
+			<option value="realname">姓名</option>
+			<option value="username">工号</option>
+			<option value="tel">电话</option>
+			<option value="email">email</option>
+		</select>
+		搜索值:
+		<input type="text" id="admin-search-val" style="width:100px;padding:2px"/>
 		<a href="javascript:;" onclick="adminMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
 	</form>
 	</if>

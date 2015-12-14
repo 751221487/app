@@ -150,15 +150,49 @@ class AdminController extends CommonController {
 					case 'job':
 					case 'position':
 					case 'realname':
-						$where[] = "`{$k}` like '%{$v}%'";
+					case 'tel':
+					case 'username':
+					case 'eamil':
+						$where[] = "a.{$k} like '%{$v}%'";
 						break;
 					case 'area':
 						$where[] = "a.area in (".implode(',', $areas).")";
 						break;
+					case 'joinbegin':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['end'] && $search['end'] < $v) $v = $search['end'];
+						$where[] = "`join_time` >= '{$v}'";
+						break;
+					case 'joinend':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['begin'] && $search['begin'] > $v) $v = $search['begin'];
+						$where[] = "`join_time` <= '{$v}'";
+						break;
+					case 'leftbegin':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['end'] && $search['end'] < $v) $v = $search['end'];
+						$where[] = "`left_time` >= '{$v}'";
+						break;
+					case 'leftend':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['begin'] && $search['begin'] > $v) $v = $search['begin'];
+						$where[] = "`left_time` <= '{$v}'";
+						break;
 				}
 			}
 			$where = implode(' and ', $where);
-
 			$Model = new \Think\Model();
 			$sql = "SELECT COUNT(*) as count FROM app2_admin a WHERE $where";
 			$total = $Model->query($sql);
