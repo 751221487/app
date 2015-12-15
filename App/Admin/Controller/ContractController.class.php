@@ -56,7 +56,7 @@ class ContractController extends CommonController {
 						break;
 					case 'area':
 						$where[] = "b.area in (".implode(',', $area_db->getChild($search['area'])).")";
-					case 'begin':
+					case 'startbegin':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
 							unset($search[$k]);
 							continue;
@@ -64,13 +64,29 @@ class ContractController extends CommonController {
 						if($search['end'] && $search['end'] < $v) $v = $search['end'];
 						$where[] = "`create_date` >= '{$v}'";
 						break;
-					case 'end':
+					case 'startend':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
 							unset($search[$k]);
 							continue;
 						}
 						if($search['begin'] && $search['begin'] > $v) $v = $search['begin'];
 						$where[] = "`create_date` <= '{$v}'";
+						break;
+					case 'finishbegin':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['end'] && $search['end'] < $v) $v = $search['end'];
+						$where[] = "`time_finish` >= '{$v}'";
+						break;
+					case 'finishend':
+						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
+							unset($search[$k]);
+							continue;
+						}
+						if($search['begin'] && $search['begin'] > $v) $v = $search['begin'];
+						$where[] = "`time_finish` <= '{$v}'";
 						break;
 				}
 			}

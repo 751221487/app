@@ -24,16 +24,23 @@
 			textField: 'text',
 			url: '<{:U('Admin/public_selectadmin')}>'
 		});
+		$('#product').combobox({
+			valueField: 'id',
+			textField: 'text',
+			url: '<{:U('product/public_selectproduct')}>'
+		});
 	})
 </script>
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
 
 <div id="contract-contractlist-datagrid-toolbar" style="padding:1px;height:auto">
 	<form style="border-bottom:1px solid #ddd;margin-bottom:1px;padding:5px">
-		投入时间: <input name="search[begin]" class="easyui-datebox" style="width:100px">
-		至: <input name="search[end]" class="easyui-datebox" style="width:100px">
+		投入时间: <input name="search[startbegin]" class="easyui-datebox" style="width:100px">
+		至: <input name="search[startend]" class="easyui-datebox" style="width:100px"><br><br>
+		满期时间: <input name="search[finishbegin]" class="easyui-datebox" style="width:100px">
+		至: <input name="search[finishend]" class="easyui-datebox" style="width:100px"><br><br>
 		产品种类:
-		<input type="text" class="easyui-validatebox" name="search[product]">
+		<input type="text" id="product" class="easyui-combobox" name="search[product]">
 		负责人:
 		<input type="text" id="charger" class="easyui-combobox" name="search[user]">
 		客户:
