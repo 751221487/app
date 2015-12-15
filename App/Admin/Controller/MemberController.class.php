@@ -87,6 +87,12 @@ class MemberController extends CommonController {
 		}else{
 			$menu_db = D('Menu');
 			$currentpos = $menu_db->currentPos(I('get.menuid'));  //栏目位置
+			$setting_db = D('Setting');
+			$settingList = $setting_db->select();
+			$settings = array();
+			for($i = 0; $i < count($settingList); $i++){
+				$settings[$settingList[$i]['key']] = $settingList[$i]['value'];
+			}
 			$datagrid = array(
 				'options'     => array(
 					'title'   => $currentpos,
@@ -100,9 +106,12 @@ class MemberController extends CommonController {
 					'负责人'          => array('field'=>'charge','width'=>10),
 					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true, 'formatter'=>'memberMemberModule.contract'),
 					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
+					'积分'	 => array('field'=>'score', 'width'=>12, 'formatter'=>'adminMemberModule.score'),
 					'管理操作'      => array('field'=>'memberid','width'=>30,'formatter'=>'memberMemberModule.operate'),
 				)
 			);
+
+			$this->assign('setting', $settings);
 			$dict = dict('', 'Member');
 			$this->assign('dict', $dict);
 			$this->assign('datagrid', $datagrid);

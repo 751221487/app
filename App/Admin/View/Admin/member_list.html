@@ -91,6 +91,11 @@ var adminMemberModule = {
 	showContract: function(id){
 		$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&userid='+id, closable: true});
 	},
+
+	//积分格式化
+	score: function(val, row){
+		return row['contractmoney'] / <{$setting.rate}>;
+	},
 	
 	//操作字段格式化
 	operate: function(val){

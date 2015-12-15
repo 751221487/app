@@ -1,12 +1,27 @@
 <div class="easyui-panel" data-options="fit:true,title:'后台首页',border:false,onResize:function(){$('#index-main-portal').portal({border:false,fit:true});}">
 	<div id="index-main-portal">
 		<div style="width:60%">
-			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.6;height: 210px;font-size:20px">
+			<div title="我的个人信息" collapsible="true" style="padding:8px;line-height:1.5;height: 210px;font-size:18px">
 				您好，<{$userInfo.username}><br />
 				所属角色：<{$userInfo.position}> <br />
 				所属地区：<{$userInfo.areaname}> <br />
 				最后登录时间：<if condition="$userInfo['lastlogintime'] gt 0"><{$userInfo.lastlogintime|date='Y-m-d H:i:s',###}></if><br />
 				最后登录IP：<{$userInfo.lastloginip}> <br />
+				<?php if($userInfo['position'] == '超级管理员'){ ?>
+					合同总额兑换积分比例：<input type="number" id="rate" value="<{$setting.rate}>" style="width:40px" /> : 1
+				<?php } ?>
+				<script>
+					$('#rate').blur(function(){
+						$.post('<{:U('Index/changeRate')}>', {rate: $(this).val()}, function(res){
+							if(!res.status){
+								$.app.method.tip('提示信息', res.info, 'error');
+								$('#rate').val('<{$setting.rate}>');
+							}else{
+								$.app.method.tip('提示信息', res.info, 'info');
+							}
+						})
+					})
+				</script>
 			</div>
 
 			<div title="未读消息" collapsible="true" style="padding:8px;line-height:1.8">

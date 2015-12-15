@@ -79,6 +79,11 @@ var memberMemberModule = {
 		$('#pagetabs').tabs('add',{title: '合同列表', href: '<{:U('Contract/contractlist')}>?menuid=83&memberid='+id, closable: true});
 	},
 
+	//积分格式化
+	score: function(val, row){
+		return row['contractmoney'] / <{$setting.rate}>;
+	},
+
 	//详情
 	detail: function(id){
 		if(typeof(id) !== 'number'){

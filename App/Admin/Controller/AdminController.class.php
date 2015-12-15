@@ -319,6 +319,14 @@ class AdminController extends CommonController {
 			$admin_db = D('admin');
 			$job_db = D('job');
 			$admin = $admin_db->where(array('userid'=>session('userid')))->find();
+
+			$setting_db = D('Setting');
+			$settingList = $setting_db->select();
+			$settings = array();
+			for($i = 0; $i < count($settingList); $i++){
+				$settings[$settingList[$i]['key']] = $settingList[$i]['value'];
+			}
+
 			$datagrid = array(
 				'options'     => array(
 					'title'   => $currentpos,
@@ -336,9 +344,12 @@ class AdminController extends CommonController {
 					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
 					'业务差距'	=> array('field'=>'gap', 'width'=>12, 'sortable'=>true), 
 					'业务期限'	 => array('field'=>'target_time', 'width'=>12),
+					'积分'	 => array('field'=>'score', 'width'=>12, 'formatter'=>'adminMemberModule.score'),
 					'管理操作'     => array('field'=>'userid','width'=>30,'formatter'=>'adminMemberModule.operate'),
 				)
 			);
+			
+			$this->assign('setting', $settings);
 			$this->assign('jobList', $job_db->select());
 			$this->assign('admin', $admin);
 			$this->assign('datagrid', $datagrid);

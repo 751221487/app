@@ -117,6 +117,13 @@ class IndexController extends CommonController {
 		$message_db = D('Message');
 		$unreadMessage = $message_db->where(array('user'=>$userid, 'isread'=>0))->count();
 
+		$setting_db = D('Setting');
+		$settingList = $setting_db->select();
+		$settings = array();
+		for($i = 0; $i < count($settingList); $i++){
+			$settings[$settingList[$i]['key']] = $settingList[$i]['value'];
+		}
+
 		if($userInfo['area'] == 0){
 			$userInfo['areaname'] = '全国';
 		} else {
@@ -174,10 +181,22 @@ class IndexController extends CommonController {
 		$this->assign('contract_pay_month_count', $contract_pay_month_count);
 		$this->assign('contract_pay_month_money', $contract_pay_month_money);
 
-
+		$this->assign('setting', $settings);
 		$this->assign('userInfo', $userInfo);
 		$this->assign('unread', $unreadMessage);
 		$this->display('main');
+	}
+
+	//修改积分比例
+	public function changeRate(){
+		$rate = I('post.rate');
+		$setting_db = D('Setting');
+		if($rate < 0){
+			$this->error('数据更新失败');
+		} else {
+			$setting_db->where('key=rate')->save(array('value'=>$rate));
+			$this->success('数据更新成功');
+		}
 	}
 
 	/**
