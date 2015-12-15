@@ -373,6 +373,7 @@ class ContractController extends CommonController {
 			$end = I('post.end');
 			$area = I('post.area');
 			$area_db = D('Area');
+			$admin_db = D('Admin');
 			$contract_db = D("Contract");
 
 			$info = array();
@@ -399,7 +400,8 @@ class ContractController extends CommonController {
 
 			$info['pie']['moneyData'] = array();
 			for($i = 0; $i < count($areas); $i++){
-				$where['area'] = array('in', $area_db->getChild($areas[$i]['id']));
+				$adminList = $admin_db->where(array('area'=>array('in', $area_db->getChild($areas[$i]['id']))))->getField('userid', true);
+				$where['user'] = array('in', implode(',', $adminList));
 				$where['create_date'] = array(array('gt',$begin),array('lt',$end),'and'); 
 				$income = $contract_db->where($where)->getField('SUM(money)');
 				array_push($info['pie']['moneyData'], array('value'=>$income, 'name'=>$areas[$i]['name']));
