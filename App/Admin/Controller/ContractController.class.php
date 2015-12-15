@@ -89,16 +89,20 @@ class ContractController extends CommonController {
 			$order = $sort.' '.$order;
 			$sql = "SELECT 
 						a.*, 
-						b.realname as charge, 
+						b.realname as charge,
+						e.name as productname,
 						d.name as customername
 					FROM 
-						app2_contract a, app2_admin b, app2_area c, app2_member d
+						app2_contract a, app2_admin b 
+					LEFT JOIN 
+						app2_area c 
+					ON b.area = c.id, app2_member d, app2_product e
 					WHERE
 						a.user = b.userid
 					AND
 						a.customer = d.memberid
-					AND
-						b.area = c.id
+					AND 
+						a.product = e.id
 					AND
 						$where
 					ORDER BY 
@@ -148,7 +152,7 @@ class ContractController extends CommonController {
 				),
 				'fields' => array(
 					'合同编号'      => array('field'=>'code','width'=>10,'sortable'=>true),
-					'产品种类'        => array('field'=>'product','width'=>10,'sortable'=>true),
+					'产品种类'        => array('field'=>'productname','width'=>10,'sortable'=>true),
 					'客户'        => array('field'=>'customername','width'=>10, 'formatter'=>'contractContractModule.customer'),
 					'负责人'          => array('field'=>'charge','width'=>10,'sortable'=>true),
 					'投入时间' => array('field'=>'create_date','width'=>10,'sortable'=>true),
@@ -217,6 +221,8 @@ class ContractController extends CommonController {
 		$adminList = $admin_db->select();
 		$member_db = D('Member');
 		$memberList = $member_db->select();
+		$product_db = D('product');
+		$productList = $product_db->select();
 		for($i = 0; $i < count($adminList); $i++){
 			if($info['user'] == $adminList[$i]['userid']) {
 				$info['charge'] = $adminList[$i]['realname'];
@@ -229,6 +235,11 @@ class ContractController extends CommonController {
 		for($i = 0; $i < count($memberList); $i++){
 			if($info['customer'] == $memberList[$i]['memberid']){
 				$info['customername'] = $memberList[$i]['name'];
+			}
+		}
+		for($i = 0; $i < count($productList); $i++){
+			if($info['product'] == $productList[$i]['id']){
+				$info['productname'] = $productList[$i]['name'];
 			}
 		}
 		$now = time();

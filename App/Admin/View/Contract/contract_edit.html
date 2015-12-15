@@ -27,6 +27,15 @@
 			url: '<{:U('Member/public_selectcustomer')}>'
 		});
 
+		$('#product').combobox({
+			valueField: 'id',
+			textField: 'text',
+			url: '<{:U('Product/public_selectproduct')}>',
+			onLoadSuccess : function(){
+				$('#product').combobox('setValue', '<{$info.product}>');
+			}
+		});
+
 		$('#isfloat option').each(function(){
 			if($(this).val() == '<{$info.is_float}>'){
 				$(this).prop('selected', 'selected');
@@ -59,7 +68,7 @@
 			</td>
 			<td>产品种类：</td>
 			<td>
-				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[product]" value="<{$info.product}>">
+				<input type="text" class="easyui-validatebox" id="product" data-options="required:true" name="info[product]" value="<{$info.product}>">
 			</td>
 		</tr>
 		<tr>

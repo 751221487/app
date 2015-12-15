@@ -114,7 +114,7 @@ class ProductController extends CommonController {
 	*/
 	public function public_selectProduct(){
 		$product_db = D('product');
-		$productList = $product_db->where(array('department'=>array('in', $area_db->getChild($admin['area']))))->field(array('productid', 'name'))->select();
+		$productList = $product_db->field(array('id', 'name'))->select();
 		for($i = 0; $i < count($productList); $i++){
 			$productList[$i]['text'] = $productList[$i]['name'];
 		}
