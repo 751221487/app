@@ -9,14 +9,14 @@
 			}
 		})
 	<?php } ?>
-	$('#charger').combobox({
-			valueField: 'id',
-        	textField: 'text',
-			url : '<{:U('Admin/public_selectAdmin')}>',
-			onLoadSuccess : function(){
-				$('#charger').combobox('setValue', '<{$info.user}>');
-			}
-		});
+	$('#charger1').combobox({
+		valueField: 'id',
+    	textField: 'text',
+		url : '<{:U('Admin/public_selectAdmin')}>',
+		onLoadSuccess : function(){
+			$('#charger11').combobox('setValue', '<{$info.user}>');
+		}
+	});
 </script>
 <script>
 	$(function(){
@@ -91,7 +91,7 @@
 		<tr>
 			<td>负责人</td>
 			<td>
-				<input type="text" id="charger" class="easyui-combobox" name="info[user]">
+				<input type="text" id="charger1" class="easyui-combobox" name="info[user]">
 			</td>
 		</tr>
 		<tr>

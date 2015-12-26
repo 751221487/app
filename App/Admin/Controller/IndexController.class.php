@@ -194,7 +194,7 @@ class IndexController extends CommonController {
 		if($rate < 0){
 			$this->error('数据更新失败');
 		} else {
-			$setting_db->where('key=rate')->save(array('value'=>$rate));
+			$setting_db->where(array('key'=>'rate'))->save(array('value'=>$rate));
 			$this->success('数据更新成功');
 		}
 	}

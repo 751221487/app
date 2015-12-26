@@ -5,6 +5,15 @@
 			prov:"江苏",
 			city:"南京"
 		}); 
+		
+		$('#charger1').combobox({
+			valueField: 'id',
+	    	textField: 'text',
+			url : '<{:U('Admin/public_selectAdmin')}>',
+			onLoadSuccess : function(){
+				$('#charger1').combobox('setValue', '<{$currentAdmin.userid}>');
+			}
+		});
 	});
 </script>
 <style>
@@ -67,6 +76,12 @@
 			<td>联系电话：</td>
 			<td>
 				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[tel]">
+			</td>
+		</tr>
+		<tr>
+			<td>负责人</td>
+			<td>
+				<input type="text" id="charger1" class="easyui-combobox" name="info[user]">
 			</td>
 		</tr>
 		<tr>

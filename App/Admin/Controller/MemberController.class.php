@@ -93,6 +93,7 @@ class MemberController extends CommonController {
 			for($i = 0; $i < count($settingList); $i++){
 				$settings[$settingList[$i]['key']] = $settingList[$i]['value'];
 			}
+			
 			$datagrid = array(
 				'options'     => array(
 					'title'   => $currentpos,
@@ -106,11 +107,10 @@ class MemberController extends CommonController {
 					'负责人'          => array('field'=>'charge','width'=>10),
 					'合同总数'	=> array('field'=>'contractcount', 'width'=>10, 'sortable'=>true, 'formatter'=>'memberMemberModule.contract'),
 					'合同总金额'	=> array('field'=>'contractmoney', 'width'=>12, 'sortable'=>true),
-					'积分'	 => array('field'=>'score', 'width'=>12, 'formatter'=>'adminMemberModule.score'),
+					'积分'	 => array('field'=>'score', 'width'=>12, 'formatter'=>'memberMemberModule.score'),
 					'管理操作'      => array('field'=>'memberid','width'=>30,'formatter'=>'memberMemberModule.operate'),
 				)
 			);
-
 			$this->assign('setting', $settings);
 			$dict = dict('', 'Member');
 			$this->assign('dict', $dict);
@@ -140,9 +140,12 @@ class MemberController extends CommonController {
 				$this->error('添加失败');
 			}
 		}else{
+			$admin_db = D('admin');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$member_type_db = M('member_type');
 			$typelist = $member_type_db->where(array('disabled'=>'0'))->getField('typeid,typename', true);
 			$dict = dict('', 'Member');
+			$this->assign('currentAdmin', $currentAdmin);
 			$this->assign('dict', $dict);
 			$this->assign('typelist', $typelist);
 			$this->display('member_add');

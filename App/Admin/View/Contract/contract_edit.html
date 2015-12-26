@@ -27,7 +27,7 @@
 			url: '<{:U('Member/public_selectcustomer')}>'
 		});
 
-		$('#product').combobox({
+		$('#product1').combobox({
 			valueField: 'id',
 			textField: 'text',
 			url: '<{:U('Product/public_selectproduct')}>',
@@ -68,7 +68,7 @@
 			</td>
 			<td>产品种类：</td>
 			<td>
-				<input type="text" class="easyui-validatebox" id="product" data-options="required:true" name="info[product]" value="<{$info.product}>">
+				<input class="easyui-combobox" id="product1" data-options="required:true" name="info[product]">
 			</td>
 		</tr>
 		<tr>
