@@ -294,7 +294,7 @@ var contractContractModule = {
 			$.app.method.tip('提示信息', '未选择客户', 'error');
 			return false;
 		}
-		var href = '<{:U('Member/memberDetail')}>';
+		var href = '<{:U('Contract/contractDetail')}>';
 		href += href.indexOf('?') != -1 ? '&id='+id : '?id='+id;
 		var that = this;
 		$(that.dialog).dialog({
