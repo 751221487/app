@@ -354,7 +354,7 @@ class ContractController extends CommonController {
 	public function contractDelete($id){
 
 		$contract_db = M('contract');
-		$result = $contract_db->where(array('memberid'=>$id))->delete();
+		$result = $contract_db->where(array('id'=>$id))->delete();
 
 		if ($result){
 			$this->success('删除成功');
