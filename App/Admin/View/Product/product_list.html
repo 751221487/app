@@ -16,7 +16,7 @@ var ProductproductModule = {
 
 	//进度格式化
 	progess: function(val, row){
-		return (row['money_finish'] / row['money_total'] * 100).toString().substr(0, 4) + '%';
+		return (row['contractmoney'] / row['money_total'] * 100).toString().substr(0, 4) + '%';
 	},
 
 	//操作格式化

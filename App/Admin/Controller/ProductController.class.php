@@ -15,7 +15,20 @@ class ProductController extends CommonController {
 			$total = $product_db->count();
 			$order = $sort.' '.$order;
 			$limit = ($page - 1) * $rows . "," . $rows;
-			$list = $product_db->order($order)->limit($limit)->select();
+			$Model = new \Think\Model();
+			$sql = "SELECT a.*, COUNT(b.id) as contractcount, SUM(b.money) as contractmoney FROM 
+						app2_product a 
+					LEFT JOIN 
+						app2_contract b 
+					ON 
+						a.id=b.product
+					GROUP BY
+						a.id
+					ORDER BY 
+						$order 
+					LIMIT 
+						$limit";
+			$list = $Model->query($sql);
 			if(!$list) $list = array();
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
@@ -40,7 +53,8 @@ class ProductController extends CommonController {
 					'项目代号'  => array('field'=>'code','width'=>15,'sortable'=>true),
 					'项目名称'  => array('field'=>'name','width'=>15),
 					'募集额度'  => array('field'=>'money_total', 'width'=>15),
-					'已募集'  => array('field'=>'money_finish', 'width'=>15),
+					'已募集数量'  => array('field'=>'contractcount', 'width'=>15),
+					'已募集金额'  => array('field'=>'contractmoney', 'width'=>15),
 					'募集进度'  => array('field'=>'progess', 'width'=>15, 'formatter'=>'ProductproductModule.progess'),
 					'客户方案'  => array('field'=>'remark','width'=>20),
 					'操作'  => array('field'=>'id','width'=>20,'formatter'=>'ProductproductModule.operate'),
