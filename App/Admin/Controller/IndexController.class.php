@@ -131,9 +131,18 @@ class IndexController extends CommonController {
 			$userInfo['areaname'] = $area['name'];
 		}
 		$contract_db = D('Contract');
-		$cond1['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 7 * 3600));
-		$cond2['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 14 * 3600));
-		$cond3['time_finish'] = array('lt', date('Y-m-d', time() + 24 * 30 * 3600));
+		$cond1['time_finish'] = array(
+			array('lt', date('Y-m-d', time() + 24 * 7 * 3600)),
+			array('gt', date('Y-m-d', time())),
+			);
+		$cond2['time_finish'] = array(
+			array('lt', date('Y-m-d', time() + 24 * 14 * 3600)),
+			array('gt', date('Y-m-d', time())),
+			);
+		$cond3['time_finish'] = array(
+			array('lt', date('Y-m-d', time() + 24 * 30 * 3600)),
+			array('gt', date('Y-m-d', time())),
+			);
 		if($userInfo['position'] == '理财顾问'){
 			$cond['user'] = $userInfo['userid'];
 		} else if($userInfo['position'] == '财务'){
@@ -153,9 +162,9 @@ class IndexController extends CommonController {
 		$contract_month_money = $contract_db->where(array_merge($cond3, $cond))->sum('money');
 		
 		if($userInfo['position'] == '财务'){
-			$cond_caiwu1[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -7) AND create_user='.$userInfo['userid'];
-			$cond_caiwu2[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -14) AND create_user='.$userInfo['userid'];
-			$cond_caiwu3[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -30) AND create_user='.$userInfo['userid'];
+			$cond_caiwu1[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -7) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
+			$cond_caiwu2[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -14) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
+			$cond_caiwu3[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -30) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
 			
 			$contract_pay_week_count = $contract_db->where($cond_caiwu1)->count();
 			$contract_pay_week_money = $contract_db->where($cond_caiwu1)->sum('money');

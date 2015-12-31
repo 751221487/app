@@ -49,7 +49,6 @@ class AdminModel extends Model{
 					'type' => 2,
 					'link' => $contractList[$i]['id'],
 					'MONTH(time)' => date('m', time()),
-					'DAY(time)'=> date('d', time())
 					);
 				if(!$message_db->where($where)->find()){
 					$data['user'] = $userid;

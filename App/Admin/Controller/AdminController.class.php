@@ -208,17 +208,12 @@ class AdminController extends CommonController {
 						ifnull(SUM(d.money), 0) as contractmoney,
 						COUNT(d.id) as contractcount
 					FROM 
-						app2_job b, app2_area c, app2_contract d
-					RIGHT join
-						app2_admin a
-					ON
-						a.userid=d.user
+						app2_admin a 
+						LEFT join app2_job b ON a.job = b.id 
+						LEFT join app2_contract d ON a.userid = d.user
+						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
 						$where 
-					AND 
-						(a.area=c.id OR a.area=0)
-					AND 
-						a.job=b.id
 					GROUP BY
 						a.userid
 					) res1
@@ -259,19 +254,15 @@ class AdminController extends CommonController {
 						ifnull(SUM(d.money), 0) as contractmoney,
 						COUNT(d.id) as contractcount
 					FROM 
-						app2_job b, app2_area c, app2_contract d
-					RIGHT join
-						app2_admin a
-					ON
-						a.userid=d.user
+						app2_admin a 
+						LEFT join app2_job b ON a.job = b.id 
+						LEFT join app2_contract d ON a.userid = d.user
+						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
 						$where 
 					AND
 						a.userid=".session('userid').
-					"AND 
-						(a.area=c.id OR a.area=0)
-					AND 
-						a.job=b.id
+					"
 					GROUP BY
 						a.userid
 					) res1

@@ -25,23 +25,23 @@ class ContractController extends CommonController {
 			}
 			if(I('get.week')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -7)';
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -7) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
-					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 7 * 3600)."'";
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 7 * 3600)."' AND a.time_finish > NOW()";
 				}
 			}
 			if(I('get.nextweek')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -14)';
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -14) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
-					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 14 * 3600)."'";
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 14 * 3600)."' AND a.time_finish > NOW()";
 				}
 			}
 			if(I('get.month')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -30)';
+					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -30) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
-					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 30 * 3600)."'";
+					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 30 * 3600)."' AND a.time_finish > NOW()";
 				}
 			}
 			foreach ($search as $k=>$v){
