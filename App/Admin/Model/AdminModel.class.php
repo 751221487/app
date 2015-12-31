@@ -19,12 +19,11 @@ class AdminModel extends Model{
 		//处理生日
 		$memberList = $member_db->where(array('user'=>$userid))->select();
 		for($i = 0; $i < count($memberList); $i++){
-			if(date('m-d', strtotime($memberList[$i]['birthday'])) == date('m-d', strtotime('+7 day'))){
+			if(date('m-d', strtotime($memberList[$i]['birthday'])) >= date('m-d', strtotime('+7 day')) && date('m-d', strtotime($memberList[$i]['birthday'])) <= date('m-d')){
 				$where = array(
 					'type' => 1,
 					'link' => $memberList[$i]['memberid'],
 					'MONTH(time)' => date('m', time()),
-					'DAY(time)'=> date('d', time())
 					);
 				if(!$message_db->where($where)->find()){
 					$data['user'] = $userid;
