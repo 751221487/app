@@ -39,7 +39,7 @@ class AdminModel extends Model{
 		$contractList = $contract_db->where(array('create_user'=>$userid))->select();
 		for($i = 0; $i < count($contractList); $i++) {
 			$now = time();
-			$create_time = strtotime($contractList[$i]['create_date']);
+			$create_time = strtotime($contractList[$i]['arrive_date']);
 			$month_diff = (date('Y') - date('Y', $create_time)) * 12 + (date('m') - date('m', $create_time));
 			$month_diff = $month_diff + 1;
 			$to_paid_finish = intval($month_diff / $contractList[$i]['income_cycle']);

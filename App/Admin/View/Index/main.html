@@ -37,9 +37,9 @@
 			</div>
 			<?php } ?>
 			<div title="满期客户" collapsible="true" style="padding:8px;line-height:1.8">
-				本周满期: <{$contract_week_count}>笔，共<{$contract_week_money}>元，<a href="javascript:" id="contract-finish-week">查看详情</a><br>
-				下周满期: <{$contract_next_week_count}>笔，共<{$contract_next_week_money}>元，<a href="javascript:" id="contract-finish-next-week">查看详情</a><br>
-				本月满期: <{$contract_month_count}>笔，共<{$contract_month_money}>元，<a href="javascript:" id="contract-finish-month">查看详情</a>
+				本周满期: <{$contract_week_count}>笔<if condition="$contract_week_count neq 0">，共<{$contract_week_money}>元，<a href="javascript:" id="contract-finish-week">查看详情</a></if><br>
+				下周满期: <{$contract_next_week_count}>笔<if condition="$contract_next_week_count neq 0">，共<{$contract_next_week_money}>元，<a href="javascript:" id="contract-finish-next-week">查看详情</a></if><br>
+				本月满期: <{$contract_month_count}>笔<if condition="$contract_month_count neq 0">，共<{$contract_month_money}>元，<a href="javascript:" id="contract-finish-month">查看详情</a></if>
 			</div>
 			<script>
 				$('#contract-finish-week').click(function(){
@@ -54,9 +54,9 @@
 			</script>
 			<?php if($userInfo['position'] == '财务'){ ?>
 				<div title="应付客户" collapsible="true" style="padding:8px;line-height:1.8">
-					本周应付: <{$contract_pay_week_count}>笔，共<{$contract_pay_week_money}>元，<a href="javascript:" id="contract-pay-week">查看详情</a><br>
-					下周应付: <{$contract_pay_next_week_count}>笔，共<{$contract_pay_next_week_money}>元，<a href="javascript:" id="contract-pay-next-week">查看详情</a><br>
-					本月应付: <{$contract_pay_month_count}>笔，共<{$contract_pay_month_money}>元，<a href="javascript:" id="contract-pay-month">查看详情</a>
+					本周应付: <{$contract_pay_week_count}>笔<if condition="$contract_pay_week_count neq 0">，共<{$contract_pay_week_money}>元，<a href="javascript:" id="contract-pay-week">查看详情</a></if><br>
+					下周应付: <{$contract_pay_next_week_count}>笔<if condition="$contract_pay_next_week_count neq 0">，共<{$contract_pay_next_week_money}>元，<a href="javascript:" id="contract-pay-next-week">查看详情</a></if><br>
+					本月应付: <{$contract_pay_month_count}>笔<if condition="$contract_pay_month_count neq 0">，共<{$contract_pay_month_money}>元，<a href="javascript:" id="contract-pay-month">查看详情</a></if>
 				</div>
 				<script>
 				$('#contract-pay-week').click(function(){

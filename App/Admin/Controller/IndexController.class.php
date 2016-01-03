@@ -140,7 +140,7 @@ class IndexController extends CommonController {
 			array('gt', date('Y-m-d', time())),
 			);
 		$cond3['time_finish'] = array(
-			array('lt', date('Y-m-d', time() + 24 * 30 * 3600)),
+			array('like', '%'.date('Y-m', time()).'%'),
 			array('gt', date('Y-m-d', time())),
 			);
 		if($userInfo['position'] == '理财顾问'){
@@ -160,11 +160,29 @@ class IndexController extends CommonController {
 		
 		$contract_month_count = $contract_db->where(array_merge($cond3, $cond))->count();
 		$contract_month_money = $contract_db->where(array_merge($cond3, $cond))->sum('money');
-		
+
 		if($userInfo['position'] == '财务'){
-			$cond_caiwu1[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -7) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
-			$cond_caiwu2[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -14) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
-			$cond_caiwu3[] = 'create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -paid_finish*income_cycle MONTH), -30) AND time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) create_user='.$userInfo['userid'];
+			$cond_caiwu1[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH))
+							AND 
+								WEEK(arrive_date) = WEEK(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) 
+							AND
+								create_user='.$userInfo['userid'];
+			$cond_caiwu2[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								WEEK(arrive_date) = WEEK(ADDDATE(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH), -7))
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) 
+							AND
+								create_user='.$userInfo['userid'];
+			$cond_caiwu3[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH))
+							AND 
+								MONTH(arrive_date) = MONTH(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH) 
+							AND 
+								create_user='.$userInfo['userid'];
 			
 			$contract_pay_week_count = $contract_db->where($cond_caiwu1)->count();
 			$contract_pay_week_money = $contract_db->where($cond_caiwu1)->sum('money');

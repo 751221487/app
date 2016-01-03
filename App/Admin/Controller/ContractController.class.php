@@ -25,23 +25,35 @@ class ContractController extends CommonController {
 			}
 			if(I('get.week')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -7) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
+					$where[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH))
+							AND 
+								WEEK(arrive_date) = WEEK(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
 					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 7 * 3600)."' AND a.time_finish > NOW()";
 				}
 			}
 			if(I('get.nextweek')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -14) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
+					$where[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								WEEK(arrive_date) = WEEK(ADDDATE(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH), -7))
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
 					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 14 * 3600)."' AND a.time_finish > NOW()";
 				}
 			}
 			if(I('get.month')){
 				if(I('get.pay')){
-					$where[] = 'a.create_date < ADDDATE(ADDDATE(NOW(), INTERVAL -a.paid_finish*a.income_cycle MONTH), -30) AND a.time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
+					$where[] = 'YEAR(arrive_date) = YEAR(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH))
+							AND 
+								MONTH(arrive_date) = MONTH(ADDDATE(NOW(), INTERVAL -(paid_finish+1)*income_cycle MONTH)) 
+							AND 
+								time_finish > ADDDATE(NOW(), INTERVAL -1 MONTH)';
 				} else {
-					$where[] = "a.time_finish < '".date('Y-m-d', time() + 24 * 30 * 3600)."' AND a.time_finish > NOW()";
+					$where[] = "a.time_finish like '%".date('Y-m', time())."%' AND a.time_finish > NOW()";
 				}
 			}
 			foreach ($search as $k=>$v){
@@ -332,7 +344,7 @@ class ContractController extends CommonController {
 		$contract_db = D('contract');
 		$contract = $contract_db->where(array('id'=>$id))->find();
 		$now = time();
-		$create_time = strtotime($contract['create_date']);
+		$create_time = strtotime($contract['arrive_data']);
 		$month_diff = (date('Y') - date('Y', $create_time)) * 12 + (date('m') - date('m', $create_time));
 		$to_paid_finish = intval($month_diff / $contract['income_cycle']);
 		if($to_paid_finish <= $contract['paid_finish']){
