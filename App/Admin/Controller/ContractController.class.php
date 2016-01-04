@@ -121,17 +121,11 @@ class ContractController extends CommonController {
 						e.name as productname,
 						d.name as customername
 					FROM 
-						app2_contract a, app2_admin b 
-					LEFT JOIN 
-						app2_area c 
-					ON b.area = c.id, app2_member d, app2_product e
+						app2_contract a
+					LEFT JOIN (app2_admin b LEFT JOIN app2_area c ON b.area = c.id) ON a.user = b.userid
+					LEFT JOIN  app2_member d ON a.customer = d.memberid
+					LEFT JOIN app2_product e ON a.product = e.id
 					WHERE
-						a.user = b.userid
-					AND
-						a.customer = d.memberid
-					AND 
-						a.product = e.id
-					AND
 						$where
 					ORDER BY 
 						$order 
