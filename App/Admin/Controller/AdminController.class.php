@@ -719,8 +719,8 @@ class AdminController extends CommonController {
 					'toolbar' => 'adminJobModule.toolbar',
 				),
 				'fields' => array(
-					'职位名称'  => array('field'=>'name','width'=>15,'sortable'=>true),
-					'职位描述'  => array('field'=>'description','width'=>25),
+					'目标名称'  => array('field'=>'name','width'=>15,'sortable'=>true),
+					'目标描述'  => array('field'=>'description','width'=>25),
 					'业务目标'  => array('field'=>'target', 'width'=>25, 'formatter'=>'adminJobModule.target'),
 					'业务期限'  => array('field'=>'time', 'width'=>15, 'formatter'=>'adminJobModule.timeLimit'),
 					'管理操作'  => array('field'=>'id','width'=>20,'formatter'=>'adminJobModule.operate'),
