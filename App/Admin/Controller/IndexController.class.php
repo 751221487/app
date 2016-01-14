@@ -274,4 +274,148 @@ class IndexController extends CommonController {
 		$this->success('正常登录');
 	}
 
+	/*导入excel*/
+	public function uploadxls(){
+		$type = I('post.type');
+		$uploadType = I('post.upload');
+		import("Org.Util.PHPExcel");
+		import("Org.Util.PHPExcel.IOFactory.php");
+		$upload = new \Think\Upload();// 实例化上传类
+		$upload->maxSize   = 314572800 ;// 设置附件上传大小
+		$upload->exts      = array('xls');// 设置附件上传类型
+		$upload->rootPath  = './Public/upload/';
+		$info   =   $upload->uploadOne($_FILES[$type]);
+		if(!$info) {// 上传错误提示错误信息
+			$data['status'] = 0;
+			$data['error'] = $upload->getError();
+		}else{// 上传成功 获取上传文件信息
+			$data['status'] = 1;
+			$data['path'] = $info['savepath'];
+			$data['name'] = $info['savename'];
+			$inputFileType = 'Excel5';
+			$inputFileName = $data['path'].$data['name'];
+			$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+			$objPHPExcelReader = $objReader->load('Public/upload/'.$inputFileName);
+
+			$loadedSheetNames = $objPHPExcelReader->getSheetNames();
+
+			$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcelReader, 'CSV');
+
+			foreach($loadedSheetNames as $sheetIndex => $loadedSheetName) {
+				$objWriter->setSheetIndex($sheetIndex);
+				$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
+				switch ($uploadType) {
+					case 'stuff':
+						$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
+						break;
+
+					case 'edu':
+						$this->importEduData('Public/upload/'.$loadedSheetName.'.csv');
+						break;
+
+					case 'yue':
+						$this->importYueData('Public/upload/'.$loadedSheetName.'.csv');
+						break;
+
+					case 'identity':
+						$this->importIdData('Public/upload/'.$loadedSheetName.'.csv');
+						break;
+					
+					default:
+						break;
+				}
+			}
+		}
+		header("Content-Type:text/html");
+		$this->ajaxReturn($data);
+	}
+
+	public function testuploadxls(){
+		import("Org.Util.PHPExcel");
+		import("Org.Util.PHPExcel.IOFactory.php");
+		$inputFileType = 'Excel5';
+		$inputFileName = 'stuff.xls';
+		$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+		$objPHPExcelReader = $objReader->load('Public/upload/'.$inputFileName);
+
+		$loadedSheetNames = $objPHPExcelReader->getSheetNames();
+
+		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcelReader, 'CSV');
+
+		foreach($loadedSheetNames as $sheetIndex => $loadedSheetName) {
+			$objWriter->setSheetIndex($sheetIndex);
+			$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
+			$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
+		}
+	}
+
+	private function input_csv($handle) { 
+		$out = array(); 
+		$n = 0; 
+		while ($data = fgetcsv($handle, 10000)) { 
+			$num = count($data); 
+			for ($i = 0; $i < $num; $i++) { 
+				$out[$n][$i] = $data[$i]; 
+			} 
+			$n++; 
+		} 
+		return $out; 
+	} 
+
+	public function importStuffData($file){
+		$f = fopen($file, "r");
+		$result = $this->input_csv($f); //解析csv
+		$len_result = count($result); 
+		if($len_result == 0){ 
+			exit(); 
+		} 
+		$admin_db = D('admin');
+		$area_db = D('area');
+		$job_db = D('job');
+		for ($i = 1; $i < $len_result; $i++) { //循环获取各字段值
+			if($result[$i][0] != "") {
+				$username = $result[$i][0];
+				$position = $result[$i][1]; 
+				$_area = $result[$i][2];
+				$join_time = $result[$i][3];
+				$left_time = $result[$i][4];
+				$target =  $result[$i][5];
+				$_job = $result[$i][6];
+				$email = $result[$i][7];
+				$tel = $result[$i][8];
+				$truename = $result[$i][9];
+				$remark = $result[$i][10];
+				$area = $area_db->where("name='$_area'")->find();
+				$job = $job_db->where("name='$_job'")->find();
+				if(isset($area['id']) && isset($job['id']) && (!$admin_db->where(array('username'=>$username))->find())) {
+					$data['username'] = $username;
+					$data['password'] = md5('123456');
+					$data['position'] = $position;
+					$data['area'] = $area['id'];
+					if($target){
+						$data['job'] = $job['id'];
+						$data['target'] = $target;
+					} else {
+						$data['job'] = $job['id'];
+						$data['target'] = $job['target'];
+					}
+					$data['join_time'] = $join_time;
+					$data['left_time'] = $left_time;
+					$data['target_time'] = date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
+					$data['email'] = $email;
+					$data['tel'] = $tel;
+					if($position == '员工'){
+						$data['permission'] = 2;
+					} else {
+						$data['permission'] = 1;
+					}
+					$data['remark'] = $remark;
+					$data['realname'] = $truename;
+					print_r($data);
+					$admin_db->add($data); 	
+				}
+			}
+		} 
+	}
+
 }

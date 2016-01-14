@@ -407,7 +407,7 @@ class AdminController extends CommonController {
 			$data['encrypt'] = $passwordinfo['encrypt'];
 			$job_db = D('Job');
 			$job = $job_db->where(array('id'=>$data['job']))->find();
-			$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
+			$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
 			if($data['target'] == ''){
 				$job = $job_db->where(array('id'=>$data['job']))->find();
 				$data['target'] = $job['target'];
@@ -441,7 +441,7 @@ class AdminController extends CommonController {
 			$admin = $admin_db->where(array('userid'=>$id))->find();
 			if($data['job'] != $admin['job']){
 				$job = $job_db->where(array('id'=>$data['job']))->find();
-				$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' day', time()));
+				$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
 				$data['status_change_time'] = date('Y-m-d', time());
 			}
 			if($data['target'] == ''){
