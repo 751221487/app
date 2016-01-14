@@ -404,7 +404,7 @@ class IndexController extends CommonController {
 					$data['target_time'] = date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
 					$data['email'] = $email;
 					$data['tel'] = $tel;
-					if($position == '员工'){
+					if($position == '员工' || $position == '理财顾问'){
 						$data['permission'] = 2;
 					} else {
 						$data['permission'] = 1;
