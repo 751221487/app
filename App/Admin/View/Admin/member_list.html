@@ -1,4 +1,5 @@
 <taglib name="Admin\TagLib\EasyUI" />
+<script type="text/javascript" src="__PUBLIC__/static/js/ajaxFileUpload.js"></script>
 
 <easyui:datagrid options="datagrid.options" fields="datagrid.fields" />
 <script>
@@ -14,14 +15,14 @@
 		地区:
 		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[area]" style="width:200px;"/>
 		状态:
-		<select class="easyui-combobox" name="search[job]" id="job" style="width:200px;">
+		<select class="easyui-combobox" name="search[job]" id="job" style="width:120px;">
 			<option value=""></option>
 			<foreach name="jobList" item="job">
 				<option value="<{$job.id}>"><{$job.name}></option>
 			</foreach>
 		</select>
 		职位:
-		<select class="easyui-combobox" id="position" name="search[position]" style="width:200px;">
+		<select class="easyui-combobox" id="position" name="search[position]" style="width:120px;">
 			<option value=""></option>
 			<option value="超级管理员">超级管理员</option>
 					<option value="总经理">总经理</option>
@@ -35,17 +36,7 @@
 					<option value="理财顾问">理财顾问</option>
 					<option value="员工">员工</option>
 		</select>
-		<br><br>
-		入职时间:
-		<input class="easyui-datebox" name="search[joinbegin]" style="width:150px;padding:2px"/>
-		到
-		<input class="easyui-datebox" name="search[joinend]" style="width:150px;padding:2px"/>
-		<br><br>
-		离职时间:
-		<input class="easyui-datebox" name="search[leftbegin]" style="width:150px;padding:2px"/>
-		到
-		<input class="easyui-datebox" name="search[leftend]" style="width:150px;padding:2px"/>
-		<br><br>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		搜索项:
 		<select id="admin-search-key" style="width:100px;padding:2px">
 			<option value=""></option>
@@ -56,7 +47,21 @@
 		</select>
 		搜索值:
 		<input type="text" id="admin-search-val" style="width:100px;padding:2px"/>
+		<br><br>
+		入职时间:
+		<input class="easyui-datebox" name="search[joinbegin]" style="width:150px;padding:2px"/>
+		到
+		<input class="easyui-datebox" name="search[joinend]" style="width:150px;padding:2px"/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		离职时间:
+		<input class="easyui-datebox" name="search[leftbegin]" style="width:150px;padding:2px"/>
+		到
+		<input class="easyui-datebox" name="search[leftend]" style="width:150px;padding:2px"/>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<a href="javascript:;" onclick="adminMemberModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
+		<br><br>
+		<input type="file" name="stuffimport" id="stuffimport">
+		<a href="#" class="easyui-linkbutton" iconCls="icons-script-script_add" onclick="adminMemberModule.importStuff()">导入</a><br>
 	</form>
 	</if>
 	<div>
@@ -112,6 +117,30 @@ var adminMemberModule = {
 	//刷新列表
 	refresh: function(){
 		$(this.datagrid).datagrid('reload');
+	},
+
+	//导入员工
+	importStuff: function(){
+		if($('#stuffimport').val() == ''){
+			alert('请选择文件');
+			return false;
+		}
+		$.ajaxFileUpload({
+			url : '<{:U('Index/uploadxls')}>', //你处理上传文件的服务端
+			secureuri : false,
+			fileElementId : 'stuffimport',
+			dataType : 'jsonp',
+			data : {type : "stuffimport", upload : 'stuff'},
+			success : function(data, status){
+				data = JSON.parse(data);
+				if(data.status == 0){
+					$.app.method.tip('提示信息', '导入失败', 'error');
+				} else{
+					$.app.method.tip('提示信息', '导入成功, 共导入' + data['count'] + '条数据', 'info');
+					$('#data_dynamic').datagrid('reload');
+				}
+			}
+		});
 	},
 
 	detail: function(id){

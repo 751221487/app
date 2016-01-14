@@ -284,6 +284,7 @@ class IndexController extends CommonController {
 		$upload->maxSize   = 314572800 ;// 设置附件上传大小
 		$upload->exts      = array('xls');// 设置附件上传类型
 		$upload->rootPath  = './Public/upload/';
+
 		$info   =   $upload->uploadOne($_FILES[$type]);
 		if(!$info) {// 上传错误提示错误信息
 			$data['status'] = 0;
@@ -306,19 +307,7 @@ class IndexController extends CommonController {
 				$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
 				switch ($uploadType) {
 					case 'stuff':
-						$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
-						break;
-
-					case 'edu':
-						$this->importEduData('Public/upload/'.$loadedSheetName.'.csv');
-						break;
-
-					case 'yue':
-						$this->importYueData('Public/upload/'.$loadedSheetName.'.csv');
-						break;
-
-					case 'identity':
-						$this->importIdData('Public/upload/'.$loadedSheetName.'.csv');
+						$count = $this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
 						break;
 					
 					default:
@@ -326,28 +315,29 @@ class IndexController extends CommonController {
 				}
 			}
 		}
+		$data['count'] = $count;
 		header("Content-Type:text/html");
-		$this->ajaxReturn($data);
+		echo json_encode($data);
 	}
 
-	public function testuploadxls(){
-		import("Org.Util.PHPExcel");
-		import("Org.Util.PHPExcel.IOFactory.php");
-		$inputFileType = 'Excel5';
-		$inputFileName = 'stuff.xls';
-		$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-		$objPHPExcelReader = $objReader->load('Public/upload/'.$inputFileName);
+	// public function testuploadxls(){
+	// 	import("Org.Util.PHPExcel");
+	// 	import("Org.Util.PHPExcel.IOFactory.php");
+	// 	$inputFileType = 'Excel5';
+	// 	$inputFileName = 'stuff.xls';
+	// 	$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+	// 	$objPHPExcelReader = $objReader->load('Public/upload/'.$inputFileName);
 
-		$loadedSheetNames = $objPHPExcelReader->getSheetNames();
+	// 	$loadedSheetNames = $objPHPExcelReader->getSheetNames();
 
-		$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcelReader, 'CSV');
+	// 	$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcelReader, 'CSV');
 
-		foreach($loadedSheetNames as $sheetIndex => $loadedSheetName) {
-			$objWriter->setSheetIndex($sheetIndex);
-			$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
-			$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
-		}
-	}
+	// 	foreach($loadedSheetNames as $sheetIndex => $loadedSheetName) {
+	// 		$objWriter->setSheetIndex($sheetIndex);
+	// 		$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
+	// 		$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
+	// 	}
+	// }
 
 	private function input_csv($handle) { 
 		$out = array(); 
@@ -362,6 +352,9 @@ class IndexController extends CommonController {
 		return $out; 
 	} 
 
+	/*
+	 * import stuff data
+	*/
 	public function importStuffData($file){
 		$f = fopen($file, "r");
 		$result = $this->input_csv($f); //解析csv
@@ -372,6 +365,7 @@ class IndexController extends CommonController {
 		$admin_db = D('admin');
 		$area_db = D('area');
 		$job_db = D('job');
+		$count = 0;
 		for ($i = 1; $i < $len_result; $i++) { //循环获取各字段值
 			if($result[$i][0] != "") {
 				$username = $result[$i][0];
@@ -411,11 +405,12 @@ class IndexController extends CommonController {
 					}
 					$data['remark'] = $remark;
 					$data['realname'] = $truename;
-					print_r($data);
-					$admin_db->add($data); 	
+					$admin_db->add($data); 
+					$count++;
 				}
 			}
 		} 
+		return $count;
 	}
 
 }
