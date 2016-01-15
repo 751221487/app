@@ -159,7 +159,9 @@ class MemberController extends CommonController {
 		$member_db = M('member');
 		if(IS_POST){
 			$data = I('post.info');
-			$data['user'] = session('userid');
+			if(!$data['user']){
+				$data['user'] = session('userid');
+			}
 			$admin_db = D('Admin');
 			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
 			$data['department'] = $charger['area'];
