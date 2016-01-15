@@ -156,6 +156,7 @@ class AdminController extends CommonController {
 						$where[] = "a.{$k} like '%{$v}%'";
 						break;
 					case 'area':
+						$areas = $area_db->getChild($search['area']);
 						$where[] = "a.area in (".implode(',', $areas).")";
 						break;
 					case 'joinbegin':
