@@ -417,6 +417,7 @@ class ContractController extends CommonController {
 			$info['bar']['count'] = array();
 			$info['bar']['money'] = array();
 
+			unset($where);
 			$time = strtotime($begin);
 			while ($time < strtotime($end)) {
 				$where['area'] = array('in', $area_db->getChild($area['id']));
