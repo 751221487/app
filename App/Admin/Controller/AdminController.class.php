@@ -300,7 +300,7 @@ class AdminController extends CommonController {
 				if($info['area'] == 0){
 					$info['areaname'] = '全国';
 				}
-				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' day', strtotime($info['join_time'])));
+				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' month -1 day', strtotime($info['join_time'])));
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
