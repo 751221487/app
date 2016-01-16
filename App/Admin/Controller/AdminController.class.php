@@ -148,7 +148,11 @@ class AdminController extends CommonController {
 				if(!$v) continue;
 				switch ($k){
 					case 'job':
+						$where[] = "a.job = ".$search['job'];
+						break;
 					case 'position':
+						$where[] = "a.position = '".$search['position']."'";
+						break;
 					case 'realname':
 					case 'tel':
 					case 'username':

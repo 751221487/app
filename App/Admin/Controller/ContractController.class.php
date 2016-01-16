@@ -403,7 +403,7 @@ class ContractController extends CommonController {
 				array_push($info['pie']['countData'], array('value'=>$count, 'name'=>$areas[$i]['name']));
 			}
 
-
+			unset($where);
 			$info['pie']['moneyData'] = array();
 			for($i = 0; $i < count($areas); $i++){
 				$adminList = $admin_db->where(array('area'=>array('in', $area_db->getChild($areas[$i]['id']))))->getField('userid', true);

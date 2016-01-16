@@ -127,7 +127,9 @@ class MemberController extends CommonController {
 			$member_db = M('member');
 			$data = I('post.info');
 
-			$data['user'] = session('userid');
+			if(!$data['user']){
+				$data['user'] = session('userid');
+			}
 			$data['create_time'] = date("Y-m-d", time());
 			$admin_db = D('Admin');
 			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
