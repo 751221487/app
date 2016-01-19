@@ -31,6 +31,10 @@ class MemberController extends CommonController {
 					case 'idcard':
 						$where[] = "a.{$k} like '%{$v}%'";
 						break;
+					case 'area':
+						$areas = $area_db->getChild($search['area']);
+						$where[] = "b.area in (".implode(',', $areas).")";
+						break;
 					case 'begin':
 						if(!preg_match("/^\d{4}(-\d{2}){2}$/", $v)){
 							unset($search[$k]);
@@ -223,10 +227,10 @@ class MemberController extends CommonController {
 		$member_db = D('Member');
 		$admin = $admin_db->where(array('userid'=>session('userid')))->find();
 		$area_db = D('Area');
-		$memberList = $member_db->where(array('department'=>array('in', $area_db->getChild($admin['area']))))->field(array('memberid', 'name'))->select();
+		$memberList = $member_db->where(array('department'=>array('in', $area_db->getChild($admin['area']))))->field(array('memberid', 'name', 'idcard'))->select();
 		for($i = 0; $i < count($memberList); $i++){
 			$memberList[$i]['id'] = $memberList[$i]['memberid'];
-			$memberList[$i]['text'] = $memberList[$i]['name'];
+			$memberList[$i]['text'] = $memberList[$i]['name']."(".$memberList[$i]['idcard'].")";
 		}
 		$this->ajaxReturn($memberList);
 	}
