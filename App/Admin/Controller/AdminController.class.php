@@ -225,7 +225,7 @@ class AdminController extends CommonController {
 					INNER JOIN 
 					(SELECT 
 						a.userid as userid2, 
-						ifnull(SUM(d.money), 0) - a.target as gap 
+						ifnull(SUM(d.money), 0) - a.target*10000 as gap 
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
@@ -265,7 +265,7 @@ class AdminController extends CommonController {
 					INNER JOIN 
 					(SELECT 
 						a.userid as userid2, 
-						ifnull(SUM(d.money), 0)- a.target as gap 
+						ifnull(SUM(d.money), 0) - a.target*10000 as gap 
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
