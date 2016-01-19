@@ -225,21 +225,16 @@ class AdminController extends CommonController {
 					INNER JOIN 
 					(SELECT 
 						a.userid as userid2, 
-						ifnull(SUM(d.money), 0)- a.target as gap 
+						ifnull(SUM(d.money), 0) - a.target as gap 
 					FROM 
-						app2_job b, app2_area c, app2_contract d
-					RIGHT join
-						app2_admin a
-					ON
-						a.userid=d.user
-					AND 
-						d.create_date >= a.status_change_time
+						app2_admin a 
+						LEFT join app2_job b ON a.job = b.id 
+						LEFT join app2_contract d ON a.userid = d.user
+						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
+						d.create_date >= a.status_change_time
+					AND 
 						$where 
-					AND 
-						(a.area=c.id OR a.area=0)
-					AND 
-						a.job=b.id
 					GROUP BY
 						a.userid
 					) res2 ON res1.userid = res2.userid2
@@ -276,22 +271,17 @@ class AdminController extends CommonController {
 						a.userid as userid2, 
 						ifnull(SUM(d.money), 0)- a.target as gap 
 					FROM 
-						app2_job b, app2_area c, app2_contract d
-					RIGHT join
-						app2_admin a
-					ON
-						a.userid=d.user
-					AND 
-						d.create_date >= a.status_change_time
+						app2_admin a 
+						LEFT join app2_job b ON a.job = b.id 
+						LEFT join app2_contract d ON a.userid = d.user
+						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
+						d.create_date >= a.status_change_time
+					AND 
 						$where 
 					AND
 						a.userid=".session('userid').
-					"AND 
-						(a.area=c.id OR a.area=0)
-					AND 
-						a.job=b.id
-					GROUP BY
+					"GROUP BY
 						a.userid
 					) res2 ON res1.userid = res2.userid2
 					ORDER BY 
@@ -304,7 +294,7 @@ class AdminController extends CommonController {
 				if($info['area'] == 0){
 					$info['areaname'] = '全国';
 				}
-				$info['target_time'] =  date('Y-m-d', strtotime('+'.$info['target_limit'].' month -1 day', strtotime($info['join_time'])));
+				$info['target_time'] =  date('Y-m', strtotime('+'.$info['target_limit'].' month -1 day', strtotime($info['join_time'])));
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
