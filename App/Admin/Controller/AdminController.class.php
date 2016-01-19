@@ -229,7 +229,7 @@ class AdminController extends CommonController {
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
-						LEFT join app2_contract d ON (a.userid = d.user AND d.create_date >= a.status_change_time)
+						LEFT join app2_contract d ON (a.userid = d.user AND MONTH(d.create_date) = MONTH(NOW()) AND YEAR(d.create_date) = YEAR(NOW()))
 						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
 						$where 
@@ -254,7 +254,7 @@ class AdminController extends CommonController {
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
-						LEFT join app2_contract d ON (a.userid = d.user AND d.create_date >= a.status_change_time)
+						LEFT join app2_contract d ON (a.userid = d.user AND MONTH(d.create_date) = MONTH(NOW()) AND YEAR(d.create_date) = YEAR(NOW()))
 						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
 						a.userid=".session('userid').
@@ -290,7 +290,7 @@ class AdminController extends CommonController {
 				if($info['area'] == 0){
 					$info['areaname'] = '全国';
 				}
-				$info['target_time'] =  date('Y-m', strtotime('+'.$info['target_limit'].' month -1 day', strtotime($info['join_time'])));
+				$info['target_time'] = date('Y-m');
 			}
 			$data = array('total'=>$total, 'rows'=>$list);
 			$this->ajaxReturn($data);
@@ -364,9 +364,9 @@ class AdminController extends CommonController {
 		for ($i=0; $i < count($jobList); $i++) { 
 			if($jobList[$i]['id'] == $info['job']){
 				$info['jobname'] = $jobList[$i]['name'];
-				$info['target_limit'] = $jobList[$i]['time'];
 			}
 		}
+		$info['target_time'] = date('Y-m');
 		$info['areaname'] = '全国';
 		for ($i=0; $i < count($areaList); $i++) { 
 			if($areaList[$i]['id'] == $info['area']){
@@ -398,7 +398,7 @@ class AdminController extends CommonController {
 			$data['encrypt'] = $passwordinfo['encrypt'];
 			$job_db = D('Job');
 			$job = $job_db->where(array('id'=>$data['job']))->find();
-			$data['target_time'] =  date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
+			$data['target_time'] =  date('Y-m-d', strtotime('+'.($job['time']/30).' month', time()));
 			if($data['target'] == ''){
 				$job = $job_db->where(array('id'=>$data['job']))->find();
 				$data['target'] = $job['target'];

@@ -395,7 +395,7 @@ class IndexController extends CommonController {
 					}
 					$data['join_time'] = $join_time;
 					$data['left_time'] = $left_time;
-					$data['target_time'] = date('Y-m-d', strtotime('+'.$job['time'].' month', time()));
+					$data['target_time'] = date('Y-m-d', strtotime('+'.($job['time']/30).' month', time()));
 					$data['email'] = $email;
 					$data['tel'] = $tel;
 					if($position == '员工' || $position == '理财顾问'){
