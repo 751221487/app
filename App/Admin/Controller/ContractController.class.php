@@ -104,7 +104,7 @@ class ContractController extends CommonController {
 			}
 			$admin_db = D('Admin');
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
-			if($currentAdmin['position'] != '财务' && $currentAdmin['position'] != '超级管理员'){
+			if($currentAdmin['position'] != '财务' && $currentAdmin['permission'] == 2){
 				$where[] = "user=".session('userid');
 			}
 			$where = implode(' and ', $where);
@@ -436,7 +436,7 @@ class ContractController extends CommonController {
 			$this->ajaxReturn($info);
 		}
 		$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
-		if($currentAdmin['position'] == '财务' || $currentAdmin['position'] == '超级管理员'){
+		if($currentAdmin['position'] == '财务' || $currentAdmin['permission'] == 1){
 			$this->display('contract_statistic');
 		} else {
 			echo "您的权限不足";
