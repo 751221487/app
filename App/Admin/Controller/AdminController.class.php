@@ -229,11 +229,9 @@ class AdminController extends CommonController {
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
-						LEFT join app2_contract d ON a.userid = d.user
+						LEFT join app2_contract d ON (a.userid = d.user AND d.create_date >= a.status_change_time)
 						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
-						d.create_date >= a.status_change_time
-					AND 
 						$where 
 					GROUP BY
 						a.userid
@@ -256,11 +254,9 @@ class AdminController extends CommonController {
 					FROM 
 						app2_admin a 
 						LEFT join app2_job b ON a.job = b.id 
-						LEFT join app2_contract d ON a.userid = d.user
+						LEFT join app2_contract d ON (a.userid = d.user AND d.create_date >= a.status_change_time)
 						LEFT JOIN app2_area c ON a.area = c.id
 					WHERE 
-						$where 
-					AND
 						a.userid=".session('userid').
 					"
 					GROUP BY
