@@ -128,7 +128,7 @@ var adminMemberModule = {
 		$.ajaxFileUpload({
 			url : '<{:U('Index/uploadxls')}>', //你处理上传文件的服务端
 			secureuri : false,
-			fileElementId : 'stuffimport',
+			fileElementId : ['stuffimport'],
 			dataType : 'jsonp',
 			data : {type : "stuffimport", upload : 'stuff'},
 			success : function(data, status){

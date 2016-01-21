@@ -33,7 +33,7 @@
 			</td>
 			<td>身份证：</td>
 			<td>
-				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[idcard]">
+				<input type="text" class="easyui-validatebox" data-options="required:true,validType:['remote[\'<{:U('Member/public_checkId')}>\',\'name\']']" name="info[idcard]">
 			</td>
 		</tr>
 		<tr>

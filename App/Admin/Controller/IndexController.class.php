@@ -278,12 +278,13 @@ class IndexController extends CommonController {
 	public function uploadxls(){
 		$type = I('post.type');
 		$uploadType = I('post.upload');
-		import("Org.Util.PHPExcel");
-		import("Org.Util.PHPExcel.IOFactory.php");
+		
+
 		$upload = new \Think\Upload();// 实例化上传类
 		$upload->maxSize   = 314572800 ;// 设置附件上传大小
 		$upload->exts      = array('xls');// 设置附件上传类型
 		$upload->rootPath  = './Public/upload/';
+		$upload->saveName = array('uniqid','');
 
 		$info   =   $upload->uploadOne($_FILES[$type]);
 		if(!$info) {// 上传错误提示错误信息
@@ -291,6 +292,9 @@ class IndexController extends CommonController {
 			$data['error'] = $upload->getError();
 		}else{// 上传成功 获取上传文件信息
 			$data['status'] = 1;
+
+			import("Org.Util.PHPExcel");
+			import("Org.Util.PHPExcel.IOFactory.php");
 			$data['path'] = $info['savepath'];
 			$data['name'] = $info['savename'];
 			$inputFileType = 'Excel5';
@@ -320,24 +324,6 @@ class IndexController extends CommonController {
 		echo json_encode($data);
 	}
 
-	// public function testuploadxls(){
-	// 	import("Org.Util.PHPExcel");
-	// 	import("Org.Util.PHPExcel.IOFactory.php");
-	// 	$inputFileType = 'Excel5';
-	// 	$inputFileName = 'stuff.xls';
-	// 	$objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-	// 	$objPHPExcelReader = $objReader->load('Public/upload/'.$inputFileName);
-
-	// 	$loadedSheetNames = $objPHPExcelReader->getSheetNames();
-
-	// 	$objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcelReader, 'CSV');
-
-	// 	foreach($loadedSheetNames as $sheetIndex => $loadedSheetName) {
-	// 		$objWriter->setSheetIndex($sheetIndex);
-	// 		$objWriter->save('Public/upload/'.$loadedSheetName.'.csv');
-	// 		$this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
-	// 	}
-	// }
 
 	private function input_csv($handle) { 
 		$out = array(); 
@@ -395,7 +381,7 @@ class IndexController extends CommonController {
 					}
 					$data['join_time'] = $join_time;
 					$data['left_time'] = $left_time;
-					$data['target_time'] = date('Y-m-d', strtotime('+'.($job['time']/30).' month', time()));
+					$data['target_time'] = date('Y-m-d');
 					$data['email'] = $email;
 					$data['tel'] = $tel;
 					if($position == '员工' || $position == '理财顾问'){

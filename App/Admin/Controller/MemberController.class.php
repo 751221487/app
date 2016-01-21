@@ -235,4 +235,20 @@ class MemberController extends CommonController {
 		$this->ajaxReturn($memberList);
 	}
 
+	/**
+	 * 验证身份证重复
+	 */
+	public function public_checkId($name){
+		if (I('get.default') == $name) {
+			exit('true');
+		}
+		$member_db = D('Member');
+		$exists = $member_db->where(array('idcard'=>$name))->field('idcard')->find();
+		if ($exists) {
+			exit('false');
+		}else{
+			exit('true');
+		}
+	}
+
 }

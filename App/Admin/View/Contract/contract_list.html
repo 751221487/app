@@ -89,9 +89,7 @@ var contractContractModule = {
 
 	//客户格式化
 	customer: function(val, row){
-		var btn = [];
-		btn.push('<a href="javascript:;" onclick="contractContractModule.customerDetail('+row['customer']+')">'+row['customername']+'</a>');
-		return btn;
+		return row['customername'];
 	},
 
 	//搜索
