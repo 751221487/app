@@ -32,7 +32,7 @@
 			textField: 'text',
 			url: '<{:U('Product/public_selectproduct')}>',
 			onLoadSuccess : function(){
-				$('#product').combobox('setValue', '<{$info.product}>');
+				$('#product1').combobox('setValue', '<{$info.product}>');
 			}
 		});
 
@@ -84,7 +84,7 @@
 		<tr>
 			<td>收益率：</td>
 			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[income_rate]" value="<{$info.income_rate}>">％
+				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[income_rate]" value="<{$info.income_rate}>">％
 			</td>
 			<td>投资期限：</td>
 			<td>
@@ -94,7 +94,7 @@
 		<tr>
 			<td>每期收益：</td>
 			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[income]" value="<{$info.income}>">元
+				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[income]" value="<{$info.income}>">元
 			</td>
 			<td>收益支付周期：</td>
 			<td>
@@ -138,7 +138,7 @@
 			</td>
 			<td>总收益：</td>
 			<td>
-				<input type="text" class="easyui-numberbox" data-options="required:true" name="info[total_income]" value="<{$info.total_income}>">元
+				<input type="text" class="easyui-validatebox" data-options="required:true" name="info[total_income]" value="<{$info.total_income}>">元
 			</td>
 		</tr>
 		<tr>
