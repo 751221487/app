@@ -199,7 +199,7 @@ class ContractController extends CommonController {
 			$data = I('post.info');
 			$upload = new \Think\Upload();// 实例化上传类
 			$upload->maxSize   =     314572800 ;// 设置附件上传大小
-			$upload->exts      =     array('jpg', 'png', 'jpeg', 'gif', 'doc', 'docx', 'pdf');// 设置附件上传类型
+			$upload->exts      =     array('jpg', 'png', 'jpeg', 'gif', 'doc', 'docx', 'pdf', 'rar', 'zip');// 设置附件上传类型
 			$upload->rootPath  =     './Public/upload/'; // 设置附件上传根目录
 			$upload->saveName = array('uniqid','');
 			$info   =   $upload->upload($_FILES);
@@ -282,7 +282,7 @@ class ContractController extends CommonController {
 			$data = I('post.info');
 			$upload = new \Think\Upload();// 实例化上传类
 			$upload->maxSize   =     314572800 ;// 设置附件上传大小
-			$upload->exts      =     array('jpg', 'png', 'jpeg', 'gif', 'doc', 'docx', 'pdf');// 设置附件上传类型
+			$upload->exts      =     array('jpg', 'png', 'jpeg', 'gif', 'doc', 'docx', 'pdf', 'rar', 'zip');// 设置附件上传类型
 			$upload->rootPath  =     './Public/upload/'; // 设置附件上传根目录
 			$upload->saveName = array('uniqid','');
 			$info   =   $upload->upload($_FILES);
