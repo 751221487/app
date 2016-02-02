@@ -403,7 +403,7 @@ class AdminController extends CommonController {
 				$job = $job_db->where(array('id'=>$data['job']))->find();
 				$data['target'] = $job['target'];
 			}
-			$data['target'] = $data['target'] * 10000;
+			$data['target'] = $data['target'];
 			$data['status_change_time'] = date('Y-m-d', time());
 			$id = $admin_db->add($data);
 			if($id){
@@ -439,7 +439,7 @@ class AdminController extends CommonController {
 				$job = $job_db->where(array('id'=>$data['job']))->find();
 				$data['target'] = $job['target'];
 			}
-			$data['target'] = $data['target'] * 10000;
+			$data['target'] = $data['target'];
 
 			$result = $admin_db->where(array('userid'=>$id))->save($data);
 			if($result){
