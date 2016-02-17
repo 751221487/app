@@ -549,12 +549,13 @@ class AdminController extends CommonController {
 		$admin_db = D('Admin');
 		$menu_db = D('Menu');
 		if(IS_POST){
-			$data = $area_db->getTree();
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$data = $area_db->getTree($currentAdmin['area']);
 			$this->ajaxReturn($data);
 		}else{
 			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
 			$adminArea = $area_db->where(array('id'=>$currentAdmin['area']))->find();
-			if($adminArea['parentid']){
+			if($currentAdmin['position'] != '超级管理员'){
 				echo "<p>你无权访问该内容</p>";
 				exit();
 			}
