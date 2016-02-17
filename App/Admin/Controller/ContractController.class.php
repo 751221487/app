@@ -56,6 +56,9 @@ class ContractController extends CommonController {
 					$where[] = "a.time_finish like '%".date('Y-m', time())."%' AND a.time_finish > NOW()";
 				}
 			}
+			$admin_db = D('Admin');
+			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			$where[] = "b.area in (".implode(',', $area_db->getChild($currentAdmin['area'])).")";
 			foreach ($search as $k=>$v){
 				if(!$v) continue;
 				switch ($k){
@@ -102,8 +105,7 @@ class ContractController extends CommonController {
 						break;
 				}
 			}
-			$admin_db = D('Admin');
-			$currentAdmin = $admin_db->where(array('userid'=>session('userid')))->find();
+			
 			if($currentAdmin['position'] != '财务' && $currentAdmin['permission'] == 2){
 				$where[] = "user=".session('userid');
 			}
