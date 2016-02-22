@@ -313,6 +313,10 @@ class IndexController extends CommonController {
 					case 'stuff':
 						$count = $this->importStuffData('Public/upload/'.$loadedSheetName.'.csv');
 						break;
+
+					case 'contract':
+						$count = $this->importContractData('Public/upload/'.$loadedSheetName.'.csv');
+						break;
 					
 					default:
 						break;
@@ -394,6 +398,92 @@ class IndexController extends CommonController {
 					$admin_db->add($data); 
 					$count++;
 				}
+			}
+		} 
+		return $count;
+	}
+
+	/*
+	 * import contract data
+	*/
+	public function importContractData($file){
+		$f = fopen($file, "r");
+		$result = $this->input_csv($f); //解析csv
+		$len_result = count($result); 
+		if($len_result == 0){ 
+			exit(); 
+		} 
+		$admin_db = D('admin');
+		$area_db = D('area');
+		$member_db = D('member');
+		$product_db = D('product');
+		$contract_db = D('contract');
+
+		$count = 0;
+		for ($i = 1; $i < $len_result; $i++) { //循环获取各字段值
+			$code = $result[$i][0];
+			$_product = $result[$i][1]; 
+			$money = $result[$i][2];
+			$create_date = $result[$i][3];
+			$income_rate = $result[$i][4];
+			$time_limit =  $result[$i][5];
+			$income = $result[$i][6];
+			$income_cycle = $result[$i][7];
+			$time_finish = $result[$i][8];
+			$arrive_date = $result[$i][9];
+			$_customer = $result[$i][10];
+			$total_income = $result[$i][11];
+			$_username = $result[$i][12];
+			$create_user = $result[$i][13];
+			$bank = $result[$i][14];
+			$banknumber = $result[$i][15];
+			$emerge_person = $result[$i][16];
+			$emerge_tel = $result[$i][17];
+			$is_float = $result[$i][18] == '否' ? 0 : 1;
+			$float_income = $result[$i][19];
+			$remark = $result[$i][20];
+			$_user = $result[$i][21];
+
+			$product = $product_db->where("name='$_product'")->find();
+			$customer = $member_db->where("name='$_customer'")->find();
+			$user = $admin_db->where("username='$_user'")->find();
+
+			if(!isset($user['userid'])){
+				$userdata['username'] = $_user;
+				$userdata['password'] = md5('123456');
+				$userdata['position'] = 10;
+				$userdata['job'] = '员工';
+				$userdata['permission'] = 2;
+				$userdata['remark'] = '合同导入时添加';
+				$admin_db->add($userdata);
+			}
+
+			$user = $admin_db->where("username='$_user'")->find();
+
+			if(isset($product['id']) && isset($customer['memberid'])) {
+				$data['code'] = $code;
+				$data['product'] = $product['id'];
+				$data['money'] = $money;
+				$data['create_date'] = $create_date;
+				$data['income_rate'] = $income_rate;
+				$data['time_limit'] = $time_limit;
+				$data['income'] = $income;
+				$data['income_cycle'] = $income_cycle;
+				$data['time_finish'] = $time_finish;
+				$data['arrive_date'] = $arrive_date;
+				$data['customer'] = $customer['memberid'];
+				$data['total_income'] = $total_income;
+				$data['create_user'] = $create_user;
+				$data['bank'] = $bank;
+				$data['banknumber'] = $banknumber;
+				$data['emerge_person'] = $emerge_person;
+				$data['emerge_tel'] = $emerge_tel;
+				$data['is_float'] = $is_float;
+				$data['float_income'] = $float_income;
+				$data['remark'] = $remark;
+				$data['user'] = $user['userid'];
+				$contract_db->add($data); 
+				$count++;
 			}
 		} 
 		return $count;

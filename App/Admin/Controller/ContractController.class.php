@@ -180,6 +180,7 @@ class ContractController extends CommonController {
 					'客户'        => array('field'=>'customername','width'=>10, 'formatter'=>'contractContractModule.customer'),
 					'负责人'          => array('field'=>'charge','width'=>10,'sortable'=>true),
 					'投入时间' => array('field'=>'create_date','width'=>10,'sortable'=>true),
+					'到期时间' => array('field'=>'time_finish','width'=>10,'sortable'=>true),
 					'投入金额'          => array('field'=>'money','width'=>10,'sortable'=>true),
 					'投资期限'          => array('field'=>'time_limit','width'=>8, 'sortable'=>true, 'formatter'=>'contractContractModule.timeLimit'),
 					'合同状态'          => array('field'=>'status','width'=>10),
