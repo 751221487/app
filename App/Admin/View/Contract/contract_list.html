@@ -49,6 +49,11 @@
 		<input class="easyui-combotree" data-options="url:'<{:U('Admin/public_areaSelectTree')}>'" name="search[area]" style="width:200px;"/>
 
 		<a href="javascript:;" onclick="contractContractModule.search(this)" class="easyui-linkbutton" iconCls="icons-table-table">搜索</a>
+		<if condition="$admin.position eq '财务'">
+			<br><br>
+			<input type="file" name="contractimport" id="contractimport">
+			<a href="#" class="easyui-linkbutton" iconCls="icons-script-script_add" onclick="contractContractModule.importContract()">导入</a><br>
+		</if>
 	</form>
 	<div>
 		<if condition="$admin.position eq '财务'">
@@ -156,6 +161,32 @@ var contractContractModule = {
 					$(that.dialog).dialog('close');
 				}
 			}]
+		});
+	},
+
+	//导入合同
+	importContract: function(){
+		if($('#contractimport').val() == ''){
+			alert('请选择文件');
+			return false;
+		}
+		$.messager.progress({text:'处理中，请稍候...'});
+		$.ajaxFileUpload({
+			url : '<{:U('Index/uploadxls')}>', //你处理上传文件的服务端
+			secureuri : false,
+			fileElementId : ['contractimport'],
+			dataType : 'jsonp',
+			data : {type : "contractimport", upload : 'contract'},
+			success : function(data, status){
+				$.messager.progress('close');
+				data = JSON.parse(data);
+				if(data.status == 0){
+					$.app.method.tip('提示信息', '导入失败', 'error');
+				} else{
+					$.app.method.tip('提示信息', '导入成功, 共导入' + data['count'] + '条数据', 'info');
+					$('#data_dynamic').datagrid('reload');
+				}
+			}
 		});
 	},
 	</if>
