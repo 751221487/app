@@ -469,8 +469,12 @@ class IndexController extends CommonController {
 
 				$customer = $member_db->where("name='$_customer'")->find();
 
-				if(isset($product['id']) && (!$contract_db->where(array('code'=>$code))->find())) {
-					$data['code'] = $code;
+				if(isset($product['id'])) {
+					if(!$contract_db->where(array('code'=>$code))->find()){
+						$data['code'] = time();
+					} else {
+						$data['code'] = $code;
+					}
 					$data['product'] = $product['id'];
 					$data['money'] = $money;
 					$data['create_date'] = $create_date;
