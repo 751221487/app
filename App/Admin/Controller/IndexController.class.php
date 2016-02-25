@@ -503,4 +503,14 @@ class IndexController extends CommonController {
 		return $count;
 	}
 
+	public function syncContractCharger(){
+		$contract_db = D('contract');
+		$member_db = D('member');
+		$contract_list = $contract_db->where(array('user'=>0))->select();
+		for($i = 0; $i < count($contract_list); $i++){
+			$member = $member_db->where(array('memberid'=>$contract_list[$i]['customer']))->find();
+			$contract_db->where(array('id'=>$contract_list[$i]['id']))->save(array('user'=>$member['user']));
+		}
+	}
+
 }
