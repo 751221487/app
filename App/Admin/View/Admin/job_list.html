@@ -165,7 +165,7 @@ var adminJobModule = {
 			if(!result) return false;
 			
 			$.messager.progress({text:'处理中，请稍候...'});
-			$.post('<{:U('admin/roleDelete')}>', {id: id}, function(res){
+			$.post('<{:U('admin/jobDelete')}>', {id: id}, function(res){
 				$.messager.progress('close');
 				
 				if(!res.status){

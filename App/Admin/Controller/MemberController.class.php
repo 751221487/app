@@ -169,7 +169,7 @@ class MemberController extends CommonController {
 				$data['user'] = session('userid');
 			}
 			$admin_db = D('Admin');
-			$charger = $admin_db->where(array('userid'=>session('userid')))->find();
+			$charger = $admin_db->where(array('userid'=>$data['user']))->find();
 			$data['department'] = $charger['area'];
 			$result = $member_db->where(array('memberid'=>$id))->save($data);
 			if($result){
