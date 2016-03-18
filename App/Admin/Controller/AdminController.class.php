@@ -772,10 +772,8 @@ class AdminController extends CommonController {
 	 * 删除职位
 	 */
 	public function jobDelete($id) {
-		if($id == '1') $this->error('该职位不能被删除');
-
 		$admin_db = D('Admin');
-		$count = $admin_db->where(array('roleid'=>$id))->count();
+		$count = $admin_db->where(array('job'=>$id))->count();
 		if($count) $this->error("该职位下面仍有 <b>{$count}</b> 个用户");
 
 		$job_db = D('Job');
