@@ -369,6 +369,8 @@ class IndexController extends CommonController {
 				$tel = $result[$i][8];
 				$truename = $result[$i][9];
 				$remark = $result[$i][10];
+				$idcard = $result[$i][11];
+				$bankcard = $result[$i][12];
 				$area = $area_db->where("name='$_area'")->find();
 				$job = $job_db->where("name='$_job'")->find();
 				if(isset($area['id']) && isset($job['id']) && (!$admin_db->where(array('username'=>$username))->find())) {
@@ -395,6 +397,8 @@ class IndexController extends CommonController {
 					}
 					$data['remark'] = $remark;
 					$data['realname'] = $truename;
+					$data['idcard'] = $idcard;
+					$data['bankcard'] = $bankcard;
 					$admin_db->add($data); 
 					$count++;
 				}
